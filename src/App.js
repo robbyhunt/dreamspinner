@@ -12,7 +12,7 @@ function App() {
           Dreamspinner
         </p>
         <p className="Title" id="Tagline">
-          A Modern solo RPG and creative writing tool
+          A modern solo RPG and creative writing tool
         </p>
         <img src={logo} className="App-logo" alt="logo" />
 
