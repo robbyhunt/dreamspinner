@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "2ba2a54a1dc6879ad02a161adb2ef4d7",
+    "revision": "4c48075513f953527fd3a24b12f53818",
     "url": "/dreamspinner/index.html"
   },
   {
