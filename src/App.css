@@ -55,6 +55,7 @@
   font-size: calc(1px + 3vmin);
   text-transform: none;
   max-width: 550px;
+  margin-bottom: 30px;
  }
 
 .Title#Subtitle {
