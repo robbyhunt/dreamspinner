@@ -8,8 +8,11 @@ function App() {
     <div className="App">
       <Header />
       <div className="App-landing">
-      <p className="Title">
+        <p className="Title">
           Dreamspinner
+        </p>
+        <p className="Title" id="Tagline">
+          A Modern solo RPG and creative writing tool
         </p>
         <img src={logo} className="App-logo" alt="logo" />
 

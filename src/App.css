@@ -50,6 +50,13 @@
   font-size: calc(30px + 2vmin);
 }
 
+.Title#Tagline {
+  color: #e6e6e6;
+  font-size: calc(1px + 3vmin);
+  text-transform: none;
+  max-width: 550px;
+ }
+
 .Title#Subtitle {
   color: #00467f;
   font-size: calc(12px + 2vmin);
