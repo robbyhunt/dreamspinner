@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/dreamspinner/static/css/main.6d3afb03.chunk.css",
-    "main.js": "/dreamspinner/static/js/main.82713c06.chunk.js",
-    "main.js.map": "/dreamspinner/static/js/main.82713c06.chunk.js.map",
+    "main.css": "/dreamspinner/static/css/main.f62ecfcb.chunk.css",
+    "main.js": "/dreamspinner/static/js/main.9104874e.chunk.js",
+    "main.js.map": "/dreamspinner/static/js/main.9104874e.chunk.js.map",
     "runtime-main.js": "/dreamspinner/static/js/runtime-main.bd99eb66.js",
     "runtime-main.js.map": "/dreamspinner/static/js/runtime-main.bd99eb66.js.map",
     "static/js/2.4d0b1572.chunk.js": "/dreamspinner/static/js/2.4d0b1572.chunk.js",
     "static/js/2.4d0b1572.chunk.js.map": "/dreamspinner/static/js/2.4d0b1572.chunk.js.map",
     "index.html": "/dreamspinner/index.html",
-    "precache-manifest.6193c3fe54279050bc55ed826905c19b.js": "/dreamspinner/precache-manifest.6193c3fe54279050bc55ed826905c19b.js",
+    "precache-manifest.5df1a5ed94d7ca5422974ee8b38de0e9.js": "/dreamspinner/precache-manifest.5df1a5ed94d7ca5422974ee8b38de0e9.js",
     "service-worker.js": "/dreamspinner/service-worker.js",
-    "static/css/main.6d3afb03.chunk.css.map": "/dreamspinner/static/css/main.6d3afb03.chunk.css.map",
+    "static/css/main.f62ecfcb.chunk.css.map": "/dreamspinner/static/css/main.f62ecfcb.chunk.css.map",
     "static/js/2.4d0b1572.chunk.js.LICENSE.txt": "/dreamspinner/static/js/2.4d0b1572.chunk.js.LICENSE.txt",
     "static/media/dice.png": "/dreamspinner/static/media/dice.f5e24f74.png",
     "static/media/mandala.png": "/dreamspinner/static/media/mandala.bf28a43b.png"
@@ -18,7 +18,7 @@
   "entrypoints": [
     "static/js/runtime-main.bd99eb66.js",
     "static/js/2.4d0b1572.chunk.js",
-    "static/css/main.6d3afb03.chunk.css",
-    "static/js/main.82713c06.chunk.js"
+    "static/css/main.f62ecfcb.chunk.css",
+    "static/js/main.9104874e.chunk.js"
   ]
 }
