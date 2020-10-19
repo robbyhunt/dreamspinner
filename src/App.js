@@ -1,16 +1,22 @@
 import React from 'react';
 import logo from './img/mandala.png';
 import './App.css';
+import Header from './Components/Header'
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Dreamspinner - Coming Soon
+      <Header />
+      <div className="App-landing">
+      <p className="Title">
+          Dreamspinner
         </p>
-      </header>
+        <img src={logo} className="App-logo" alt="logo" />
+
+        <p className="Title" id="Subtitle">
+          Coming Soon
+        </p>
+      </div>
     </div>
   );
 }
