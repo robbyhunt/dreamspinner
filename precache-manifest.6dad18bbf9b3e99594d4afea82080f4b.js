@@ -1,23 +1,23 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "9560852a9603bd360afc6965f5aefc90",
+    "revision": "d391e887053858bebc2233cae3618017",
     "url": "/dreamspinner/index.html"
   },
   {
-    "revision": "9f685c5c90e1dc2223d4",
-    "url": "/dreamspinner/static/css/main.1cac9b2c.chunk.css"
+    "revision": "70fa4a279e7cb79d48eb",
+    "url": "/dreamspinner/static/css/main.5ecd60fb.chunk.css"
   },
   {
-    "revision": "4057725556c2005bd6cc",
-    "url": "/dreamspinner/static/js/2.4d0b1572.chunk.js"
+    "revision": "edc4e7a9a7a52394ce89",
+    "url": "/dreamspinner/static/js/2.4e9f5bbf.chunk.js"
   },
   {
-    "revision": "570d362d673dab785e62d2b8563e1118",
-    "url": "/dreamspinner/static/js/2.4d0b1572.chunk.js.LICENSE.txt"
+    "revision": "9b318b6fb13190fe82c0677e9264b3c7",
+    "url": "/dreamspinner/static/js/2.4e9f5bbf.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "9f685c5c90e1dc2223d4",
-    "url": "/dreamspinner/static/js/main.d584246a.chunk.js"
+    "revision": "70fa4a279e7cb79d48eb",
+    "url": "/dreamspinner/static/js/main.82e8849c.chunk.js"
   },
   {
     "revision": "1f98e015a6e9584c971c",
