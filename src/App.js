@@ -1,27 +1,40 @@
 import React from 'react';
-import logo from './img/mandala.png';
-import './App.css';
 import Header from './Components/Header'
+import Styled from "@emotion/styled";
+import Start from "./Components/Start"
+import Play from "./Components/Play"
 
-function App() {
-  return (
-    <div className="App">
-      <Header />
-      <div className="App-landing">
-        <p className="Title">
-          Dreamspinner
-        </p>
-        <p className="Title" id="Tagline">
-          A modern solo RPG and creative writing tool
-        </p>
-        <img src={logo} className="App-logo" alt="logo" />
+const Wrapper = Styled('div')`
+  text-align: center;
+  background-color: #ffffff;
+  font-family: 'Lato', sans-serif;
+  position: relative;
+`;
 
-        <p className="Title" id="Subtitle">
-          Coming Soon
-        </p>
-      </div>
-    </div>
-  );
+class App extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {startOpen: false};
+  }
+
+  render() {
+
+    const handleStart = () => {
+      this.setState(this.state = {startOpen: false})
+      console.log("test")
+    }
+
+    return (
+      <Wrapper>
+        <Header />
+        {this.state.startOpen ? (
+          <Start onClick={handleStart}/>
+        ) : (
+          <Play />
+        )}
+      </Wrapper>
+    );
+  }
 }
-
 export default App;
