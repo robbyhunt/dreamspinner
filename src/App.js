@@ -24,7 +24,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      startOpen: false, 
+      startOpen: true, 
       activeBackground: "http://www.transparenttextures.com/patterns/light-paper-fibers.png",
       activeGenre: "generic"
     };
@@ -34,7 +34,7 @@ class App extends React.Component {
 
     const handleStart = () => {
       DiceSound()
-      this.setState({startOpen: true})
+      this.setState({startOpen: false})
     }
 
     const handleBackgroundChange = (event) => {
