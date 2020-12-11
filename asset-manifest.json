@@ -1,25 +1,29 @@
 {
   "files": {
     "main.css": "/dreamspinner/static/css/main.194319bb.chunk.css",
-    "main.js": "/dreamspinner/static/js/main.3c8d7037.chunk.js",
-    "main.js.map": "/dreamspinner/static/js/main.3c8d7037.chunk.js.map",
+    "main.js": "/dreamspinner/static/js/main.315b8acb.chunk.js",
+    "main.js.map": "/dreamspinner/static/js/main.315b8acb.chunk.js.map",
     "runtime-main.js": "/dreamspinner/static/js/runtime-main.bd99eb66.js",
     "runtime-main.js.map": "/dreamspinner/static/js/runtime-main.bd99eb66.js.map",
-    "static/js/2.a7f37659.chunk.js": "/dreamspinner/static/js/2.a7f37659.chunk.js",
-    "static/js/2.a7f37659.chunk.js.map": "/dreamspinner/static/js/2.a7f37659.chunk.js.map",
+    "static/js/2.ed754950.chunk.js": "/dreamspinner/static/js/2.ed754950.chunk.js",
+    "static/js/2.ed754950.chunk.js.map": "/dreamspinner/static/js/2.ed754950.chunk.js.map",
     "index.html": "/dreamspinner/index.html",
-    "precache-manifest.6a548f7d45810813310b53f65a2f5bb3.js": "/dreamspinner/precache-manifest.6a548f7d45810813310b53f65a2f5bb3.js",
+    "precache-manifest.50683cc9d0525e1f33de588b6a62bf62.js": "/dreamspinner/precache-manifest.50683cc9d0525e1f33de588b6a62bf62.js",
     "service-worker.js": "/dreamspinner/service-worker.js",
     "static/css/main.194319bb.chunk.css.map": "/dreamspinner/static/css/main.194319bb.chunk.css.map",
-    "static/js/2.a7f37659.chunk.js.LICENSE.txt": "/dreamspinner/static/js/2.a7f37659.chunk.js.LICENSE.txt",
+    "static/js/2.ed754950.chunk.js.LICENSE.txt": "/dreamspinner/static/js/2.ed754950.chunk.js.LICENSE.txt",
     "static/media/dice.mp3": "/dreamspinner/static/media/dice.afd53a36.mp3",
     "static/media/dice.png": "/dreamspinner/static/media/dice.f5e24f74.png",
-    "static/media/mandala.png": "/dreamspinner/static/media/mandala.bf28a43b.png"
+    "static/media/fantasybg.jpg": "/dreamspinner/static/media/fantasybg.72ab290c.jpg",
+    "static/media/mandala.png": "/dreamspinner/static/media/mandala.bf28a43b.png",
+    "static/media/noirbg.jpg": "/dreamspinner/static/media/noirbg.9b8b7d25.jpg",
+    "static/media/scifibg.jpg": "/dreamspinner/static/media/scifibg.7665faf1.jpg",
+    "static/media/westernbg.jpg": "/dreamspinner/static/media/westernbg.d5b9e445.jpg"
   },
   "entrypoints": [
     "static/js/runtime-main.bd99eb66.js",
-    "static/js/2.a7f37659.chunk.js",
+    "static/js/2.ed754950.chunk.js",
     "static/css/main.194319bb.chunk.css",
-    "static/js/main.3c8d7037.chunk.js"
+    "static/js/main.315b8acb.chunk.js"
   ]
 }
