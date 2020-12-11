@@ -1,4 +1,4 @@
-## Current Demo
+## Demo
 
 ### http://robbyhunt.github.io/dreamspinner
 
