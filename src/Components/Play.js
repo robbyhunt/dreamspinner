@@ -6,11 +6,12 @@ import Undo from '../util/Undo';
 import ClearLog from '../util/ClearLog';
 import SubmitButton from '../util/SubmitButton';
 import Submit from '../util/Submit';
+import FantasyPlace from '../Generators/Fantasy/Place'
 
 const Wrapper = Styled('div')`
   width: 80%;
+  height: calc(100vh - 50px);
   margin: 0 auto;
-  height: calc(100vh - 90px);
   position: relative;
   display: flex;
   justify-content: center;
@@ -83,7 +84,6 @@ const Button = Styled('button')`
   border: none;
   border-radius: 2px;
   padding: 5px 10px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
 
   &:hover {
     background-color: #efefefef;
@@ -136,11 +136,16 @@ const Input = Styled('textarea')`
   }
 `;
 
-
 class Play extends React.Component {
   render() {
+
+    const {activeGenre} = this.props;
+
     return (
       <Wrapper>
+        
+          <Button onClick={FantasyPlace} style={{display: activeGenre === "fantasy" ? "block" : "none"}}>Place</Button>
+
           <Inner>
             <Log name="log" id="log" readOnly/>
 
