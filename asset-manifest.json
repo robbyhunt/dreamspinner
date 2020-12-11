@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/dreamspinner/static/css/main.5ecd60fb.chunk.css",
-    "main.js": "/dreamspinner/static/js/main.34e4149c.chunk.js",
-    "main.js.map": "/dreamspinner/static/js/main.34e4149c.chunk.js.map",
+    "main.js": "/dreamspinner/static/js/main.4d0de9b6.chunk.js",
+    "main.js.map": "/dreamspinner/static/js/main.4d0de9b6.chunk.js.map",
     "runtime-main.js": "/dreamspinner/static/js/runtime-main.bd99eb66.js",
     "runtime-main.js.map": "/dreamspinner/static/js/runtime-main.bd99eb66.js.map",
     "static/js/2.a7f37659.chunk.js": "/dreamspinner/static/js/2.a7f37659.chunk.js",
     "static/js/2.a7f37659.chunk.js.map": "/dreamspinner/static/js/2.a7f37659.chunk.js.map",
     "index.html": "/dreamspinner/index.html",
-    "precache-manifest.6fdee9efc426a7c0a1573a611f646ed7.js": "/dreamspinner/precache-manifest.6fdee9efc426a7c0a1573a611f646ed7.js",
+    "precache-manifest.7a8030f3a246288b9eae8b9321ad44e2.js": "/dreamspinner/precache-manifest.7a8030f3a246288b9eae8b9321ad44e2.js",
     "service-worker.js": "/dreamspinner/service-worker.js",
     "static/css/main.5ecd60fb.chunk.css.map": "/dreamspinner/static/css/main.5ecd60fb.chunk.css.map",
     "static/js/2.a7f37659.chunk.js.LICENSE.txt": "/dreamspinner/static/js/2.a7f37659.chunk.js.LICENSE.txt",
@@ -20,6 +20,6 @@
     "static/js/runtime-main.bd99eb66.js",
     "static/js/2.a7f37659.chunk.js",
     "static/css/main.5ecd60fb.chunk.css",
-    "static/js/main.34e4149c.chunk.js"
+    "static/js/main.4d0de9b6.chunk.js"
   ]
 }
