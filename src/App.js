@@ -4,6 +4,7 @@ import Styled from "@emotion/styled";
 import Start from "./Components/Start"
 import Play from "./Components/Play"
 import DiceSound from "./util/DiceSound"
+import WesternBG from "./img/westernbg.jpg"
 
 const Wrapper = Styled('div')`
   height: 100vh;
@@ -11,14 +12,18 @@ const Wrapper = Styled('div')`
   background-color: #ffffff;
   position: relative;
   background-color: #00467f;
-  background-image: url(http://www.transparenttextures.com/patterns/light-paper-fibers.png);
+  background-image: ${props => (`url(${props.activeBackground})`)};
+  background-size: cover;
 `;
 
-class App extends React.Component {
 
+class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {startOpen: true};
+    this.state = {
+      startOpen: true, 
+      activeBackground: WesternBG,
+    };
   }
 
   render() {
@@ -29,7 +34,7 @@ class App extends React.Component {
     }
 
     return (
-      <Wrapper>
+      <Wrapper activeBackground={this.state.activeBackground}>
         <Header />
         {this.state.startOpen ? (
           <Start onClick={handleStart}/>
