@@ -11,7 +11,6 @@ const Wrapper = Styled('div')`
   background-color: #ffffff;
   max-height: 50px;
   filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.5));
-  z-index: 2;
 `;
 
 const Img = Styled('img')`

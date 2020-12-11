@@ -1,28 +1,34 @@
 import React from 'react';
 import Styled from "@emotion/styled";
-import Generator from '../Generators/Generator';
+import Fate from '../Generators/Fate';
+import ComplexQuestion from '../Generators/ComplexQuestion';
+import Undo from '../util/Undo';
+import ClearLog from '../util/ClearLog';
+import SubmitButton from '../util/SubmitButton';
+import Submit from '../util/Submit';
 
 const Wrapper = Styled('div')`
-  background-color: #00467f;
-  background-image: url(http://www.transparenttextures.com/patterns/light-paper-fibers.png);
-  height: calc(100vh - 130px);
-  width: 100vw;
-  padding: 20px 0;
+  width: 100%;
+  height: calc(100vh - 90px);
+  position: relative;
+  display: flex;
+  justify-content: center;
+`;
+
+const Inner = Styled('div')`
+  width: 80%;
   position: relative;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  z-index: 1;
-
-  @media (min-width: 820px) {
-    padding: 90px 0;
-    height: calc(100vh - 270px);
-  }
+  justify-content: center;
 `;
+
 const ButtonWrapper = Styled('div')`
   display: flex;
   justify-content: space-between;
   flex-direction: column;
+  width: 100%;
+  flex-wrap: wrap;
 
   @media (min-width: 435px) {
     flex-direction: row;
@@ -31,25 +37,26 @@ const ButtonWrapper = Styled('div')`
 
 const GeneratorWrapper = Styled('div')`
   display: flex;
-  width: 81vw;
   justify-content: center;
   margin-bottom: 10px;
   justify-content: space-around;
 
   @media (min-width: 435px) {
-    width: 40.25vw;
     justify-content: flex-start;
     margin-bottom: 0;
   }
 `;
 
+const FateButtonWrapper = Styled('div')`
+  display: flex;
+  color: white;
+`;
+
 const LogButtonWrapper = Styled('div')`
   display: flex;
-  width: 81vw;
   justify-content: space-around;
 
   @media (min-width: 435px) {
-    width: 40.25vw;
     justify-content: flex-end;
   }
 `;
@@ -57,6 +64,19 @@ const LogButtonWrapper = Styled('div')`
 const Button = Styled('button')`
   cursor: pointer;
   margin-left: 0px;
+  background-color: #ffffff;
+  border: none;
+  border-radius: 2px;
+  padding: 5px 10px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+
+  &:hover {
+    background-color: #efefefef;
+  }
+
+  &:focus {
+    outline: none;
+  }
 
   @media (min-width: 435px) {
     margin-left: 10px;
@@ -69,6 +89,10 @@ const GenerateButton = Styled(Button)`
   margin-right: 0px;
   margin-left: 0;
 
+  &:hover {
+    background-color: #272727;
+  }
+
   @media (min-width: 435px) {
     margin-right: 10px;
     margin-left: 0;
@@ -76,8 +100,8 @@ const GenerateButton = Styled(Button)`
 `;
 
 const Log = Styled('textarea')`
-  width: calc(80vw - 10px);
-  height: 100%;
+  width: calc(100% - 20px);
+  height: 50vh;
   resize: none;
   padding: 10px;
   margin-bottom: 10px;
@@ -89,10 +113,15 @@ const Log = Styled('textarea')`
   &:focus {
     outline: none;
   }
+
+  @media (min-width: 435px) {
+    height: 70vh;
+  }
 `;
 
 const Input = Styled('textarea')`
-  width: 80vw;
+  width: calc(100% - 20px);
+  padding: 10px;
   height: 40px;
   resize: none;
   margin-top: 10px;
@@ -107,82 +136,34 @@ const Input = Styled('textarea')`
 
 
 class Play extends React.Component {
-
-  submit(event) {
-    if (event.key === "Enter" && event.shiftKey) {
-      let lineBreak = ""
-      const log = document.getElementById('log').value
-      const newString = document.getElementById('input').value.replace(/\n.*$/, '')
-
-      if (log !== "") {
-        lineBreak = '\n'
-      }
-
-      document.getElementById('log').value = log + lineBreak + newString;
-
-      document.getElementById('input').value = "";
-    }
-  }
-
-  submitButton() {
-    let lineBreak = ""
-    const log = document.getElementById('log').value
-    const newString = document.getElementById('input').value
-
-    if (log !== "") {
-      lineBreak = '\n'
-    }
-
-    document.getElementById('log').value = log + lineBreak + newString;
-
-    document.getElementById('input').value = "";
-  }
-
-  clear() {
-    document.getElementById('log').value = ""
-  }
-
-  undo() {
-    document.getElementById('log').value = document.getElementById('log').value.replace(/\n.*$/, '');
-  }
-
-  generateAction() {
-    let lineBreak = ""
-    if (document.getElementById('log').value !== "") {
-      lineBreak = '\n'
-    }
-
-    document.getElementById('log').value = document.getElementById('log').value + lineBreak + Generator("action");
-  }
-
-  generateDescription() {
-    let lineBreak = ""
-    if (document.getElementById('log').value !== "") {
-      lineBreak = '\n'
-    }
-
-    document.getElementById('log').value = document.getElementById('log').value + lineBreak + Generator("description");
-  }
-
   render() {
     return (
       <Wrapper>
-        <Log name="log" id="log" readOnly/>
+        <Inner>
+          <Log name="log" id="log" readOnly/>
 
-        <ButtonWrapper>
-          <GeneratorWrapper>
-            <GenerateButton id="cqa" onClick={this.generateAction}>CQ: Action</GenerateButton>
-            <GenerateButton id="cqd" onClick={this.generateDescription}>CQ: Description</GenerateButton>
-          </GeneratorWrapper>
+          <ButtonWrapper>
+            <GeneratorWrapper>
+              <GenerateButton id="cqa" onClick={ComplexQuestion}>CQ: Action</GenerateButton>
+              <GenerateButton id="cqd" onClick={ComplexQuestion}>CQ: Description</GenerateButton>
+            </GeneratorWrapper>
 
-          <LogButtonWrapper>
-            <Button id="submit" onClick={this.submitButton}>Submit</Button>
-            <Button id="undo" onClick={this.undo}>Undo</Button>
-            <Button id="clear" onClick={this.clear}>Clear Log</Button>
-          </LogButtonWrapper>
-        </ButtonWrapper>
+            <FateButtonWrapper>
+              Yes / No: 
+              <Button id="fateunlikely" onClick={Fate}>Unlikely</Button>
+              <Button id="fate5050" onClick={Fate}>50/50</Button>
+              <Button id="fatelikely" onClick={Fate}>Likely</Button>
+            </FateButtonWrapper>
 
-        <Input name="input" id="input" placeholder="Type something here and press Shift + Enter or click Submit..." rows={1} onKeyUp={this.submit}/>
+            <LogButtonWrapper>
+              <Button id="submit" onClick={SubmitButton}>Submit</Button>
+              <Button id="undo" onClick={Undo}>Undo</Button>
+              <Button id="clear" onClick={ClearLog}>Clear Log</Button>
+            </LogButtonWrapper>
+          </ButtonWrapper>
+
+          <Input name="input" id="input" placeholder="Type something here and press Shift + Enter or click Submit..." rows={1} onKeyUp={Submit}/>
+        </Inner>
       </Wrapper>
     );
   }
