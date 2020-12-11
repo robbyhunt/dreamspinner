@@ -21,7 +21,7 @@ function Generator(table) {
   }
   
   return (
-    " >" + first[Math.floor(Math.random() * first.length)] + " / " + second[Math.floor(Math.random() * second.length)]
+    " > " + first[Math.floor(Math.random() * first.length)] + " / " + second[Math.floor(Math.random() * second.length)]
   );
 }
 
