@@ -21,8 +21,7 @@ class App extends React.Component {
   render() {
 
     const handleStart = () => {
-      this.setState(this.state = {startOpen: false})
-      console.log("test")
+      this.setState({startOpen: false})
     }
 
     return (

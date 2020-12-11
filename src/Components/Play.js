@@ -12,6 +12,7 @@ const Wrapper = Styled('div')`
   display: flex;
   flex-direction: column;
   align-items: center;
+  z-index: 1;
 
   @media (min-width: 820px) {
     padding: 90px 0;
@@ -181,7 +182,7 @@ class Play extends React.Component {
           </LogButtonWrapper>
         </ButtonWrapper>
 
-        <Input name="input" id="input" placeholder="Type something here and press Shift + Enter or click Submit..." rows={1} onKeyUp={this.submit} onKeyUp={this.submit}/>
+        <Input name="input" id="input" placeholder="Type something here and press Shift + Enter or click Submit..." rows={1} onKeyUp={this.submit}/>
       </Wrapper>
     );
   }

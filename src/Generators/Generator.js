@@ -12,10 +12,10 @@ let second
 
 function Generator(table) {
 
-  if(table == "action") {
+  if(table === "action") {
     first = action1
     second = action2
-  } else if(table == "description") {
+  } else if(table === "description") {
     first = description1
     second = description2
   }
