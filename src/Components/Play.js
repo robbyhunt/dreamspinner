@@ -8,27 +8,36 @@ import SubmitButton from '../util/SubmitButton';
 import Submit from '../util/Submit';
 
 const Wrapper = Styled('div')`
-  width: 100%;
+  width: 80%;
+  margin: 0 auto;
   height: calc(100vh - 90px);
   position: relative;
   display: flex;
   justify-content: center;
+  align-items: center;
 `;
 
 const Inner = Styled('div')`
-  width: 80%;
-  position: relative;
+  width: 100%; 
+  max-width: 1500px; 
+  overflow: hidden;
+  border-radius: 20px;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
+  filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.4));
 `;
 
 const ButtonWrapper = Styled('div')`
   display: flex;
   justify-content: space-between;
   flex-direction: column;
-  width: 100%;
+  width: calc(100% - 20px);
   flex-wrap: wrap;
+  background-color: #00467f;
+  background-image: url("https://www.transparenttextures.com/patterns/black-linen-2.png");
+  padding: 10px;
 
   @media (min-width: 958px) {
     flex-direction: row;
@@ -90,13 +99,7 @@ const Button = Styled('button')`
 `;
 
 const GenerateButton = Styled(Button)`
-  background-color: #000000;
-  color: #ffffff;
   margin-left: 0;
-
-  &:hover {
-    background-color: #272727;
-  }
 
   @media (min-width: 958px) {
     margin-right: 10px;
@@ -109,9 +112,6 @@ const Log = Styled('textarea')`
   height: 50vh;
   resize: none;
   padding: 10px;
-  margin-bottom: 10px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   font-size: 18px;
   line-height: 30px;
 
@@ -119,7 +119,7 @@ const Log = Styled('textarea')`
     outline: none;
   }
 
-  @media (min-width: 435px) {
+  @media (min-width: 958px) {
     height: 70vh;
   }
 `;
@@ -129,9 +129,6 @@ const Input = Styled('textarea')`
   padding: 10px;
   height: 40px;
   resize: none;
-  margin-top: 10px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   font-size: 16px;
 
   &:focus {
@@ -144,31 +141,31 @@ class Play extends React.Component {
   render() {
     return (
       <Wrapper>
-        <Inner>
-          <Log name="log" id="log" readOnly/>
+          <Inner>
+            <Log name="log" id="log" readOnly/>
 
-          <ButtonWrapper>
-            <GeneratorWrapper>
-              <GenerateButton id="cqa" onClick={ComplexQuestion}>CQ: Action</GenerateButton>
-              <GenerateButton id="cqd" onClick={ComplexQuestion}>CQ: Description</GenerateButton>
-            </GeneratorWrapper>
+            <ButtonWrapper>
+              <GeneratorWrapper>
+                <GenerateButton id="cqa" onClick={ComplexQuestion}>CQ: Action</GenerateButton>
+                <GenerateButton id="cqd" onClick={ComplexQuestion}>CQ: Description</GenerateButton>
+              </GeneratorWrapper>
 
-            <FateButtonWrapper>
-              Yes / No: 
-              <Button id="fateunlikely" onClick={Fate}>Unlikely</Button>
-              <Button id="fate5050" onClick={Fate}>50/50</Button>
-              <Button id="fatelikely" onClick={Fate}>Likely</Button>
-            </FateButtonWrapper>
+              <FateButtonWrapper>
+                Yes / No: 
+                <Button id="fateunlikely" onClick={Fate}>Unlikely</Button>
+                <Button id="fate5050" onClick={Fate}>50/50</Button>
+                <Button id="fatelikely" onClick={Fate}>Likely</Button>
+              </FateButtonWrapper>
 
-            <LogButtonWrapper>
-              <Button id="submit" onClick={SubmitButton}>Submit</Button>
-              <Button id="undo" onClick={Undo}>Undo</Button>
-              <Button id="clear" onClick={ClearLog}>Clear Log</Button>
-            </LogButtonWrapper>
-          </ButtonWrapper>
+              <LogButtonWrapper>
+                <Button id="submit" onClick={SubmitButton}>Submit</Button>
+                <Button id="undo" onClick={Undo}>Undo</Button>
+                <Button id="clear" onClick={ClearLog}>Clear Log</Button>
+              </LogButtonWrapper>
+            </ButtonWrapper>
 
-          <Input name="input" id="input" placeholder="Type something here and press Shift + Enter or click Submit..." rows={1} onKeyUp={Submit}/>
-        </Inner>
+            <Input name="input" id="input" placeholder="Type something here and press Shift + Enter or click Submit..." rows={1} onKeyUp={Submit}/>
+          </Inner>
       </Wrapper>
     );
   }

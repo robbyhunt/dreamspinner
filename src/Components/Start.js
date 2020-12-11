@@ -43,26 +43,46 @@ const Tagline = Styled(Title)`
   }
 `;
 
-const Subtitle = Styled(Title)`
+const Button = Styled("button")`
   color: #00467f;
+  padding: 5px 20px;
   font-size: calc(12px + 2vmin);
   cursor: pointer;
+  background-color: rgba(230, 230, 230, 1);
+  border-radius: 3px;
+  border: none;
+  margin-top: 20px;
+  text-transform: uppercase;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  transition: 800ms;
+  filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.3));
+  letter-spacing: 5px;
 
   &:hover {
+    filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.5));
     font-size: calc(15px + 2vmin);
+    color: #00a8e3;
+    background-color: rgba(255, 255, 255, 1);
   }
 `;
 
 const Logo = Styled('img')`
   height: 30vmin;
   min-height: 275px;
-  pointer-events: none;
+  cursor: pointer;
   -webkit-user-select: none;
   -ms-user-select: none;
   user-select: none;
   filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.5));
-  margin-bottom: 20px;
   animation: spin infinite 50s linear;
+  transition: 500ms;
+
+  &:hover {
+    height: 31vmin;
+    filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.5));
+  }
 
   @keyframes spin {
     0% {
@@ -83,10 +103,10 @@ function Start({onClick}) {
       <Tagline>
         A modern solo RPG and creative writing tool
       </Tagline>
-      <Logo src={logo} alt="logo" />
-      <Subtitle onClick={onClick}>
-        Start
-      </Subtitle>
+      <Logo src={logo} alt="logo" onClick={onClick}/>
+      <Button onClick={onClick}>
+        Play
+      </Button>
     </Inner>
   );
 }

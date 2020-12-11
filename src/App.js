@@ -3,12 +3,12 @@ import Header from './Components/Header'
 import Styled from "@emotion/styled";
 import Start from "./Components/Start"
 import Play from "./Components/Play"
+import DiceSound from "./util/DiceSound"
 
 const Wrapper = Styled('div')`
   height: 100vh;
   text-align: center;
   background-color: #ffffff;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   position: relative;
   background-color: #00467f;
   background-image: url(http://www.transparenttextures.com/patterns/light-paper-fibers.png);
@@ -24,6 +24,7 @@ class App extends React.Component {
   render() {
 
     const handleStart = () => {
+      DiceSound()
       this.setState({startOpen: false})
     }
 

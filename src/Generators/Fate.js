@@ -14,7 +14,7 @@ function Fate(event) {
 
   const yesNo = (Math.floor(Math.random() * 10) + 1) + modifier > 5 ? "Yes" : "No";
 
-  const andBut = (Math.floor(Math.random() * 10) + 1) > 7 ? ((Math.floor(Math.random() * 10) + 1) > 5 ? ", but" : ", and") : "";
+  const andBut = (Math.floor(Math.random() * 10) + 1) > 7 ? ((Math.floor(Math.random() * 10) + 1) > 5 ? ", but..." : ", and...") : "";
 
   const result = ` > ${yesNo + andBut}`
 
