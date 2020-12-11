@@ -16,7 +16,7 @@ function Fate(event) {
 
   const andBut = (Math.floor(Math.random() * 10) + 1) > 7 ? ((Math.floor(Math.random() * 10) + 1) > 5 ? ", but" : ", and") : "";
 
-  const result = yesNo + andBut
+  const result = ` > ${yesNo + andBut}`
 
   DiceSound()
 
