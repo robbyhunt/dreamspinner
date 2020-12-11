@@ -21,29 +21,57 @@ const Wrapper = Styled('div')`
 const ButtonWrapper = Styled('div')`
   display: flex;
   justify-content: space-between;
+  flex-direction: column;
+
+  @media (min-width: 435px) {
+    flex-direction: row;
+  }
 `;
 
 const GeneratorWrapper = Styled('div')`
   display: flex;
-  width: 40.25vw;
+  width: 81vw;
+  justify-content: center;
+  margin-bottom: 10px;
+  justify-content: space-around;
+
+  @media (min-width: 435px) {
+    width: 40.25vw;
+    justify-content: flex-start;
+    margin-bottom: 0;
+  }
 `;
 
 const LogButtonWrapper = Styled('div')`
   display: flex;
-  width: 40.25vw;
-  justify-content: flex-end;
+  width: 81vw;
+  justify-content: space-around;
+
+  @media (min-width: 435px) {
+    width: 40.25vw;
+    justify-content: flex-end;
+  }
 `;
 
 const Button = Styled('button')`
   cursor: pointer;
-  margin-left: 10px;
+  margin-left: 0px;
+
+  @media (min-width: 435px) {
+    margin-left: 10px;
+  }
 `;
 
 const GenerateButton = Styled(Button)`
   background-color: #000000;
   color: #ffffff;
-  margin-left: 0px;
-  margin-right: 10px;
+  margin-right: 0px;
+  margin-left: 0;
+
+  @media (min-width: 435px) {
+    margin-right: 10px;
+    margin-left: 0;
+  }
 `;
 
 const Log = Styled('textarea')`
