@@ -33,7 +33,7 @@ function Header({startOpen, onClick}) {
     <Wrapper startOpen={startOpen}>
       <Img src={logo} alt="logo" startOpen={startOpen}/>
       <div style={{display: startOpen ? "none" : "block"}}>
-        Background:{" "}
+        Genre:{" "}
         <BackgroundButton id="generic" onClick={onClick}>Generic</BackgroundButton>
         <BackgroundButton id="fantasy" onClick={onClick}>Fantasy</BackgroundButton>
         <BackgroundButton id="western" onClick={onClick}>Western</BackgroundButton>
