@@ -30,7 +30,7 @@ const ButtonWrapper = Styled('div')`
   width: 100%;
   flex-wrap: wrap;
 
-  @media (min-width: 435px) {
+  @media (min-width: 958px) {
     flex-direction: row;
   }
 `;
@@ -41,8 +41,7 @@ const GeneratorWrapper = Styled('div')`
   margin-bottom: 10px;
   justify-content: space-around;
 
-  @media (min-width: 435px) {
-    justify-content: flex-start;
+  @media (min-width: 958px) {
     margin-bottom: 0;
   }
 `;
@@ -50,13 +49,20 @@ const GeneratorWrapper = Styled('div')`
 const FateButtonWrapper = Styled('div')`
   display: flex;
   color: white;
+  align-items: center;
+  margin-bottom: 10px;
+  justify-content: space-around;
+
+  @media (min-width: 958px) {
+    margin-bottom: 0;
+  }
 `;
 
 const LogButtonWrapper = Styled('div')`
   display: flex;
   justify-content: space-around;
 
-  @media (min-width: 435px) {
+  @media (min-width: 958px) {
     justify-content: flex-end;
   }
 `;
@@ -78,7 +84,7 @@ const Button = Styled('button')`
     outline: none;
   }
 
-  @media (min-width: 435px) {
+  @media (min-width: 958px) {
     margin-left: 10px;
   }
 `;
@@ -86,14 +92,13 @@ const Button = Styled('button')`
 const GenerateButton = Styled(Button)`
   background-color: #000000;
   color: #ffffff;
-  margin-right: 0px;
   margin-left: 0;
 
   &:hover {
     background-color: #272727;
   }
 
-  @media (min-width: 435px) {
+  @media (min-width: 958px) {
     margin-right: 10px;
     margin-left: 0;
   }
