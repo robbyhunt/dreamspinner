@@ -1,12 +1,17 @@
-function AddToLog(newString) {  
+function AddToLog(newString) {
+  
+  const log = document.getElementById('log')
 
   let lineBreak = ""
 
-  if (document.getElementById('log').value !== "") {
+  if (log.value !== "") {
     lineBreak = '\n'
   }
 
-  document.getElementById('log').value = document.getElementById('log').value + lineBreak + newString;
+  document.getElementById('log').value = log.value + lineBreak + newString;
+
+  log.scrollTop = log.scrollHeight;
 }
+
 
 export default AddToLog;
