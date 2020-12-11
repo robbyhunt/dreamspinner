@@ -34,7 +34,7 @@ class App extends React.Component {
 
     const handleStart = () => {
       DiceSound()
-      this.setState({startOpen: false})
+      this.setState({startOpen: true})
     }
 
     const handleBackgroundChange = (event) => {
