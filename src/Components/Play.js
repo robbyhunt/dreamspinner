@@ -138,11 +138,14 @@ const Input = Styled('textarea')`
 
 class Play extends React.Component {
   render() {
+
+    const {activeGenre} = this.props;
+
     return (
       <Wrapper>
           <Inner>
             <ButtonWrapper>
-              <Button id="fantasy-place" onClick={Place}>Place</Button>
+              <Button id={`${activeGenre}-place`} onClick={Place}>Place (Only works for fantasy atm)</Button>
             </ButtonWrapper>
 
             <Log name="log" id="log" readOnly/>
