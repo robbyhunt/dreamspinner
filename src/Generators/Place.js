@@ -5,12 +5,21 @@ const fantasy = {1: ["haunted", "cursed", "dark", "musty old", "ruined", "unfini
 
 function Place(event) {
 
-  let type
-  if (event.target.id === "fantasy-place") {
-    type = fantasy
+  let genre
+  if (event.target.id === "fantasy") {
+    genre = fantasy
   }
 
-  const result = ` > ${type[1][Math.floor(Math.random() * type[1].length)]} ${type[2][Math.floor(Math.random() * type[2].length)]}`
+  const place = genre[1][Math.floor(Math.random() * genre[1].length)]
+
+  let pre
+  if (place.charAt(0) === "a" || place.charAt(0) === "e" || place.charAt(0) === "i" || place.charAt(0) === "o" || place.charAt(0) === "u") {
+    pre = "An"
+  } else {
+    pre = "A"
+  }
+
+  const result = ` > ${pre} ${place} ${genre[2][Math.floor(Math.random() * genre[2].length)]}`
 
   DiceSound()
   

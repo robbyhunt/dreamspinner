@@ -8,6 +8,7 @@ import FantasyBG from "./img/fantasybg.jpg"
 import ScifiBG from "./img/scifibg.jpg"
 import NoirBG from "./img/noirbg.jpg"
 import Settings from "./Components/Settings"
+import Notes from "./Components/Notes"
 
 const Wrapper = Styled('div')`
   height: 100vh;
@@ -25,10 +26,11 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      startOpen: true, 
+      startOpen: false, 
       activeBackground: "http://www.transparenttextures.com/patterns/light-paper-fibers.png",
       activeGenre: "generic",
-      settingsOpen: false
+      settingsOpen: false,
+      notesOpen: false
     };
   }
 
@@ -41,6 +43,10 @@ class App extends React.Component {
 
     const handleOpenSettings = () => {
       this.setState({settingsOpen: !this.state.settingsOpen})
+    }
+
+    const handleOpenNotes = () => {
+      this.setState({notesOpen: !this.state.notesOpen})
     }
 
     const handleGenre = (event) => {
@@ -69,10 +75,8 @@ class App extends React.Component {
           <>
           <Play activeGenre={this.state.activeGenre}/>
           <Settings settingsOpen={this.state.settingsOpen} openSettings={handleOpenSettings} handleGenre={handleGenre}/>
+          <Notes notesOpen={this.state.notesOpen} openNotes={handleOpenNotes}/>
           </>
-        )}
-
-
         )}
       </Wrapper>
     );

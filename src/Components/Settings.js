@@ -17,13 +17,13 @@ const Wrapper = Styled('div')`
   -webkit-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  cursor: pointer;
   color: #ffffff;
 `;
 
 const Title = Styled('p')`
   margin: 4px 0 10px;
   letter-spacing: 5px;
+  cursor: pointer;
 `;
 
 const Category = Styled('p')`
@@ -61,8 +61,8 @@ const Button = Styled("button")`
 function Settings({startOpen, settingsOpen, openSettings, handleGenre}) {
 
   return (
-    <Wrapper startOpen={startOpen} onClick={openSettings} settingsOpen={settingsOpen}>
-      <Title>SETTINGS</Title>
+    <Wrapper startOpen={startOpen} settingsOpen={settingsOpen}>
+      <Title onClick={openSettings}>SETTINGS</Title>
       <Category>Genre:</Category>
       <ButtonWrapper>
         <Button id="generic" onClick={handleGenre}>Generic</Button>

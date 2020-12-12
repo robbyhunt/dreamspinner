@@ -7,6 +7,7 @@ import ClearLog from '../util/ClearLog';
 import SubmitButton from '../util/SubmitButton';
 import Submit from '../util/Submit';
 import Place from '../Generators/Place'
+import Npc from '../Generators/Npc'
 
 const Wrapper = Styled('div')`
   width: 80%;
@@ -39,6 +40,10 @@ const ButtonWrapper = Styled('div')`
   background-color: #00467f;
   background-image: url("https://www.transparenttextures.com/patterns/black-linen-2.png");
   padding: 10px;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
 
   @media (min-width: 958px) {
     flex-direction: row;
@@ -145,7 +150,8 @@ class Play extends React.Component {
       <Wrapper>
           <Inner>
             <ButtonWrapper>
-              <Button id={`${activeGenre}-place`} onClick={Place}>Place (Only works for fantasy atm)</Button>
+              <Button id={`${activeGenre}`} onClick={Place}>Place (Only works for fantasy atm)</Button>
+              <Button id={`${activeGenre}`} onClick={Npc}>Character (Only works for fantasy atm)</Button>
             </ButtonWrapper>
 
             <Log name="log" id="log" readOnly/>
