@@ -150,7 +150,7 @@ class Play extends React.Component {
       <Wrapper>
           <Inner>
             <ButtonWrapper>
-              <Button id={`${activeGenre}`} onClick={Place}>Place (Only works for fantasy atm)</Button>
+              <Button id={`${activeGenre}`} onClick={Place} style={{marginLeft: "0"}}>Place (Only works for fantasy atm)</Button>
               <Button id={`${activeGenre}`} onClick={Npc}>Character (Only works for fantasy atm)</Button>
             </ButtonWrapper>
 
