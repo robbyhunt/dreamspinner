@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "c617f055cd6ddb5697ae7c84a2825eec",
+    "revision": "413ff41f901dc224b1c5a5a6f51c53b6",
     "url": "/dreamspinner/index.html"
   },
   {
-    "revision": "26f42ea8724b787b1bf7",
+    "revision": "9071322e136268ed3b08",
     "url": "/dreamspinner/static/css/main.194319bb.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/dreamspinner/static/js/2.bc46bfe5.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "26f42ea8724b787b1bf7",
-    "url": "/dreamspinner/static/js/main.3b06c34b.chunk.js"
+    "revision": "9071322e136268ed3b08",
+    "url": "/dreamspinner/static/js/main.06798002.chunk.js"
   },
   {
     "revision": "1f98e015a6e9584c971c",
