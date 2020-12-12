@@ -21,7 +21,7 @@ function Fate(event) {
   DiceSound()
 
     return (
-      AddToLog(result)
+      AddToLog() + AddToLog(result)
     );
 }
 

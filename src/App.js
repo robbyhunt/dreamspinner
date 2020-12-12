@@ -1,5 +1,4 @@
 import React from 'react';
-import Header from './Components/Header'
 import Styled from "@emotion/styled";
 import Start from "./Components/Start"
 import Play from "./Components/Play"
@@ -8,6 +7,7 @@ import WesternBG from "./img/westernbg.jpg"
 import FantasyBG from "./img/fantasybg.jpg"
 import ScifiBG from "./img/scifibg.jpg"
 import NoirBG from "./img/noirbg.jpg"
+import Settings from "./Components/Settings"
 
 const Wrapper = Styled('div')`
   height: 100vh;
@@ -18,6 +18,7 @@ const Wrapper = Styled('div')`
   background-image: ${props => `url(${props.activeBackground})`};
   background-size: ${props => props.activeBackground === "http://www.transparenttextures.com/patterns/light-paper-fibers.png" ? "initial" : "cover"};
   background-position: center;
+  overflow: hidden;
 `;
 
 class App extends React.Component {
@@ -26,7 +27,8 @@ class App extends React.Component {
     this.state = {
       startOpen: true, 
       activeBackground: "http://www.transparenttextures.com/patterns/light-paper-fibers.png",
-      activeGenre: "generic"
+      activeGenre: "generic",
+      settingsOpen: false
     };
   }
 
@@ -37,7 +39,11 @@ class App extends React.Component {
       this.setState({startOpen: false})
     }
 
-    const handleBackgroundChange = (event) => {
+    const handleOpenSettings = () => {
+      this.setState({settingsOpen: !this.state.settingsOpen})
+    }
+
+    const handleGenre = (event) => {
       let newBg
       if (event.target.id === "fantasy") {
         newBg = FantasyBG;
@@ -57,11 +63,16 @@ class App extends React.Component {
 
     return (
       <Wrapper activeBackground={this.state.activeBackground}>
-        <Header startOpen={this.state.startOpen} onClick={handleBackgroundChange} />
         {this.state.startOpen ? (
           <Start onClick={handleStart}/>
         ) : (
+          <>
           <Play activeGenre={this.state.activeGenre}/>
+          <Settings settingsOpen={this.state.settingsOpen} openSettings={handleOpenSettings} handleGenre={handleGenre}/>
+          </>
+        )}
+
+
         )}
       </Wrapper>
     );

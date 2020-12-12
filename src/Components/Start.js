@@ -5,7 +5,7 @@ import Styled from "@emotion/styled";
 const Inner = Styled('div')`
   background-color: #0079a3;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%2300467f' fill-opacity='0.26'%3E%3Cpath d='M0 38.59l2.83-2.83 1.41 1.41L1.41 40H0v-1.41zM0 1.4l2.83 2.83 1.41-1.41L1.41 0H0v1.41zM38.59 40l-2.83-2.83 1.41-1.41L40 38.59V40h-1.41zM40 1.41l-2.83 2.83-1.41-1.41L38.59 0H40v1.41zM20 18.6l2.83-2.83 1.41 1.41L21.41 20l2.83 2.83-1.41 1.41L20 21.41l-2.83 2.83-1.41-1.41L18.59 20l-2.83-2.83 1.41-1.41L20 18.59z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-  min-height: calc(100vh - 90px);
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -15,7 +15,7 @@ const Inner = Styled('div')`
 `;
 
 const Title = Styled('div')`
-  color: #00a8e3;
+  color: #ffffff;
   filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5));
   transition: 800ms;
   -webkit-user-select: none;
@@ -44,11 +44,11 @@ const Tagline = Styled(Title)`
 `;
 
 const Button = Styled("button")`
-  color: #00467f;
+  color: #00a8e3;
   padding: 5px 20px;
   font-size: calc(12px + 2vmin);
   cursor: pointer;
-  background-color: rgba(230, 230, 230, 1);
+  background-color: #ffffff;
   border-radius: 3px;
   border: none;
   margin-top: 20px;
@@ -63,8 +63,7 @@ const Button = Styled("button")`
   &:hover {
     filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.5));
     font-size: calc(15px + 2vmin);
-    color: #00a8e3;
-    background-color: rgba(255, 255, 255, 1);
+    color: #00467f;
   }
 `;
 

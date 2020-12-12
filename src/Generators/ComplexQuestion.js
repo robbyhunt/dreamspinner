@@ -19,7 +19,7 @@ function ComplexQuestion(event) {
   DiceSound()
   
   return (
-    AddToLog(result)
+    AddToLog() + AddToLog(result)
   );
 }
 
