@@ -1,23 +1,23 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "b315f4caded967f68d914d419eab4791",
+    "revision": "1bbb973021f3329a743d722b8cdddf02",
     "url": "/dreamspinner/index.html"
   },
   {
-    "revision": "af67b84a98057bea1d24",
+    "revision": "f28d6f85cd953080facf",
     "url": "/dreamspinner/static/css/main.194319bb.chunk.css"
   },
   {
-    "revision": "a485d325267312a9c711",
-    "url": "/dreamspinner/static/js/2.ed754950.chunk.js"
+    "revision": "22275eeda49bc036acc2",
+    "url": "/dreamspinner/static/js/2.bc46bfe5.chunk.js"
   },
   {
     "revision": "9b318b6fb13190fe82c0677e9264b3c7",
-    "url": "/dreamspinner/static/js/2.ed754950.chunk.js.LICENSE.txt"
+    "url": "/dreamspinner/static/js/2.bc46bfe5.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "af67b84a98057bea1d24",
-    "url": "/dreamspinner/static/js/main.df84e77a.chunk.js"
+    "revision": "f28d6f85cd953080facf",
+    "url": "/dreamspinner/static/js/main.e4a80412.chunk.js"
   },
   {
     "revision": "1f98e015a6e9584c971c",
@@ -26,10 +26,6 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "afd53a36809c8a4c660490a950f60cc5",
     "url": "/dreamspinner/static/media/dice.afd53a36.mp3"
-  },
-  {
-    "revision": "f5e24f74357d8b460c02b81109cfdd05",
-    "url": "/dreamspinner/static/media/dice.f5e24f74.png"
   },
   {
     "revision": "72ab290cf7e11f43ba5484fb10aa0ddf",
