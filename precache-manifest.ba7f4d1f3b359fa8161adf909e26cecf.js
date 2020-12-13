@@ -1,27 +1,31 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "413ff41f901dc224b1c5a5a6f51c53b6",
+    "revision": "b96103d52c60a043ff6704eb1674f3d0",
     "url": "/dreamspinner/index.html"
   },
   {
-    "revision": "9071322e136268ed3b08",
+    "revision": "5f886cca725d5b5df231",
     "url": "/dreamspinner/static/css/main.194319bb.chunk.css"
   },
   {
-    "revision": "22275eeda49bc036acc2",
-    "url": "/dreamspinner/static/js/2.bc46bfe5.chunk.js"
+    "revision": "5968385d55bf1d80077b",
+    "url": "/dreamspinner/static/js/2.8d718cb9.chunk.js"
   },
   {
     "revision": "9b318b6fb13190fe82c0677e9264b3c7",
-    "url": "/dreamspinner/static/js/2.bc46bfe5.chunk.js.LICENSE.txt"
+    "url": "/dreamspinner/static/js/2.8d718cb9.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "9071322e136268ed3b08",
-    "url": "/dreamspinner/static/js/main.06798002.chunk.js"
+    "revision": "5f886cca725d5b5df231",
+    "url": "/dreamspinner/static/js/main.c9d4ffc4.chunk.js"
   },
   {
     "revision": "1f98e015a6e9584c971c",
     "url": "/dreamspinner/static/js/runtime-main.bd99eb66.js"
+  },
+  {
+    "revision": "9fec1af4c2824b05e1ec1c242485cc61",
+    "url": "/dreamspinner/static/media/apocalypticbg.9fec1af4.jpg"
   },
   {
     "revision": "afd53a36809c8a4c660490a950f60cc5",
