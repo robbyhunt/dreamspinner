@@ -54,9 +54,10 @@ const ButtonWrapper = Styled('div')`
 
 const GeneratorWrapper = Styled('div')`
   display: flex;
-  justify-content: center;
   margin-bottom: 10px;
   justify-content: space-around;
+  color: white;
+  align-items: center;
 
   @media (min-width: 958px) {
     margin-bottom: 0;
@@ -118,12 +119,6 @@ const Button = Styled('button')`
 `;
 
 const GenerateButton = Styled(Button)`
-  margin-left: 0;
-
-  @media (min-width: 958px) {
-    margin-right: 10px;
-    margin-left: 0;
-  }
 `;
 
 const Log = Styled('textarea')`
@@ -173,8 +168,9 @@ class Play extends React.Component {
 
             <ButtonWrapper>
               <GeneratorWrapper>
-                <GenerateButton id="cqa" onClick={ComplexQuestion}>CQ: Action</GenerateButton>
-                <GenerateButton id="cqd" onClick={ComplexQuestion}>CQ: Description</GenerateButton>
+                Complex Question:
+                <GenerateButton id="cqa" onClick={ComplexQuestion}>Action</GenerateButton>
+                <GenerateButton id="cqd" onClick={ComplexQuestion}>Description</GenerateButton>
               </GeneratorWrapper>
 
               <FateButtonWrapper>

@@ -13,7 +13,7 @@ function Item(event) {
     items = apocalyptic
   }
 
-  const itemResult = items[Math.floor(Math.random() * items.length)].toLowerCase()
+  const itemResult = items[Math.floor(Math.random() * items.length)].replace(/ *\([^)]*\) */g, "")
 
   const result = ` > ${itemResult}`
 
