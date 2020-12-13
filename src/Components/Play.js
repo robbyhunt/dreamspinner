@@ -8,6 +8,8 @@ import SubmitButton from '../util/SubmitButton';
 import Submit from '../util/Submit';
 import Place from '../Generators/Place'
 import Npc from '../Generators/Npc'
+import Item from '../Generators/Item'
+import RollDice from '../util/DiceRoll';
 
 const Wrapper = Styled('div')`
   width: 80%;
@@ -62,6 +64,18 @@ const GeneratorWrapper = Styled('div')`
 `;
 
 const FateButtonWrapper = Styled('div')`
+  display: flex;
+  color: white;
+  align-items: center;
+  margin-bottom: 10px;
+  justify-content: space-around;
+
+  @media (min-width: 958px) {
+    margin-bottom: 0;
+  }
+`;
+
+const DiceButtonWrapper = Styled('div')`
   display: flex;
   color: white;
   align-items: center;
@@ -151,6 +165,7 @@ class Play extends React.Component {
           <Inner>
             <ButtonWrapper>
               <Button id={`${activeGenre}`} onClick={Place} style={{marginLeft: "0"}}>Place (Only works for fantasy atm)</Button>
+              <Button id={`${activeGenre}`} onClick={Item}>Item (Only works for apocalyptic atm)</Button>
               <Button id={`${activeGenre}`} onClick={Npc}>Character (Only works for fantasy atm)</Button>
             </ButtonWrapper>
 
@@ -168,6 +183,16 @@ class Play extends React.Component {
                 <Button id="fate5050" onClick={Fate}>50/50</Button>
                 <Button id="fatelikely" onClick={Fate}>Likely</Button>
               </FateButtonWrapper>
+
+              <DiceButtonWrapper>
+                Dice:
+                <Button id="d4" onClick={RollDice}>d4</Button>
+                <Button id="d6" onClick={RollDice}>d6</Button>
+                <Button id="d8" onClick={RollDice}>d8</Button>
+                <Button id="d10" onClick={RollDice}>d10</Button>
+                <Button id="d12" onClick={RollDice}>d12</Button>
+                <Button id="d20" onClick={RollDice}>d20</Button>
+              </DiceButtonWrapper>
 
               <LogButtonWrapper>
                 <Button id="submit" onClick={SubmitButton}>Submit</Button>

@@ -3,7 +3,7 @@ import Styled from "@emotion/styled";
 
 const Wrapper = Styled('div')`
   width: 150px;
-  height: ${props => props.settingsOpen ? "235px" : "35px"};
+  height: ${props => props.settingsOpen ? "255px" : "35px"};
   background-color: #00467f;
   background-image: url("https://www.transparenttextures.com/patterns/black-linen-2.png");
   position: absolute;
@@ -70,6 +70,7 @@ function Settings({startOpen, settingsOpen, openSettings, handleGenre}) {
         <Button id="western" onClick={handleGenre}>Western</Button>
         <Button id="scifi" onClick={handleGenre}>Sci-Fi</Button>
         <Button id="noir" onClick={handleGenre}>Noir</Button>
+        <Button id="apocalyptic" onClick={handleGenre}>Apocalyptic</Button>
       </ButtonWrapper>
     </Wrapper>
   );

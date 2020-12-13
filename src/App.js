@@ -7,6 +7,7 @@ import WesternBG from "./img/westernbg.jpg"
 import FantasyBG from "./img/fantasybg.jpg"
 import ScifiBG from "./img/scifibg.jpg"
 import NoirBG from "./img/noirbg.jpg"
+import ApocalypticBG from "./img/apocalypticbg.jpg"
 import Settings from "./Components/Settings"
 import Notes from "./Components/Notes"
 
@@ -61,6 +62,8 @@ class App extends React.Component {
         newBg = NoirBG;
       } else if (event.target.id === "generic") {
         newBg = "http://www.transparenttextures.com/patterns/light-paper-fibers.png"
+      } else if (event.target.id === "apocalyptic") {
+        newBg = ApocalypticBG
       }
 
       this.setState({activeGenre: event.target.id})
