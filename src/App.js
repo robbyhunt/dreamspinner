@@ -10,6 +10,7 @@ import NoirBG from "./img/noirbg.jpg"
 import ApocalypticBG from "./img/apocalypticbg.jpg"
 import Settings from "./Components/Settings"
 import Notes from "./Components/Notes"
+import SaveButtons from "./Components/SaveButtons"
 
 const Wrapper = Styled('div')`
   height: 100vh;
@@ -27,7 +28,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      startOpen: true, 
+      startOpen: false, 
       activeBackground: "http://www.transparenttextures.com/patterns/light-paper-fibers.png",
       activeGenre: "generic",
       settingsOpen: false,
@@ -76,6 +77,7 @@ class App extends React.Component {
           <Start onClick={handleStart}/>
         ) : (
           <>
+          <SaveButtons />
           <Play activeGenre={this.state.activeGenre}/>
           <Settings settingsOpen={this.state.settingsOpen} openSettings={handleOpenSettings} handleGenre={handleGenre}/>
           <Notes notesOpen={this.state.notesOpen} openNotes={handleOpenNotes}/>
