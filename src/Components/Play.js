@@ -126,7 +126,7 @@ const Log = Styled('textarea')`
   height: 50vh;
   resize: none;
   padding: 10px;
-  font-size: 18px;
+  font-size: 24px;
   line-height: 30px;
 
   &:focus {
@@ -143,7 +143,7 @@ const Input = Styled('textarea')`
   padding: 10px;
   height: 40px;
   resize: none;
-  font-size: 16px;
+  font-size: 20px;
 
   &:focus {
     outline: none;
