@@ -188,6 +188,7 @@ class Play extends React.Component {
                 <Button id="d10" onClick={RollDice}>d10</Button>
                 <Button id="d12" onClick={RollDice}>d12</Button>
                 <Button id="d20" onClick={RollDice}>d20</Button>
+                <Button id="d100" onClick={RollDice}>d100</Button>
               </DiceButtonWrapper>
 
               <LogButtonWrapper>
