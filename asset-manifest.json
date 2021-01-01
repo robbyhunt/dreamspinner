@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/dreamspinner/static/css/main.194319bb.chunk.css",
-    "main.js": "/dreamspinner/static/js/main.eba17396.chunk.js",
-    "main.js.map": "/dreamspinner/static/js/main.eba17396.chunk.js.map",
+    "main.css": "/dreamspinner/static/css/main.09b3f5aa.chunk.css",
+    "main.js": "/dreamspinner/static/js/main.1f7fdc56.chunk.js",
+    "main.js.map": "/dreamspinner/static/js/main.1f7fdc56.chunk.js.map",
     "runtime-main.js": "/dreamspinner/static/js/runtime-main.bd99eb66.js",
     "runtime-main.js.map": "/dreamspinner/static/js/runtime-main.bd99eb66.js.map",
     "static/js/2.8d718cb9.chunk.js": "/dreamspinner/static/js/2.8d718cb9.chunk.js",
     "static/js/2.8d718cb9.chunk.js.map": "/dreamspinner/static/js/2.8d718cb9.chunk.js.map",
     "index.html": "/dreamspinner/index.html",
-    "precache-manifest.51afd97fa5d999bd8a08cbe7c8d5cfd2.js": "/dreamspinner/precache-manifest.51afd97fa5d999bd8a08cbe7c8d5cfd2.js",
+    "precache-manifest.3a099823116ad174f8a8abf3f1262f19.js": "/dreamspinner/precache-manifest.3a099823116ad174f8a8abf3f1262f19.js",
     "service-worker.js": "/dreamspinner/service-worker.js",
-    "static/css/main.194319bb.chunk.css.map": "/dreamspinner/static/css/main.194319bb.chunk.css.map",
+    "static/css/main.09b3f5aa.chunk.css.map": "/dreamspinner/static/css/main.09b3f5aa.chunk.css.map",
     "static/js/2.8d718cb9.chunk.js.LICENSE.txt": "/dreamspinner/static/js/2.8d718cb9.chunk.js.LICENSE.txt",
     "static/media/apocalypticbg.jpg": "/dreamspinner/static/media/apocalypticbg.9fec1af4.jpg",
     "static/media/dice.mp3": "/dreamspinner/static/media/dice.afd53a36.mp3",
@@ -23,7 +23,7 @@
   "entrypoints": [
     "static/js/runtime-main.bd99eb66.js",
     "static/js/2.8d718cb9.chunk.js",
-    "static/css/main.194319bb.chunk.css",
-    "static/js/main.eba17396.chunk.js"
+    "static/css/main.09b3f5aa.chunk.css",
+    "static/js/main.1f7fdc56.chunk.js"
   ]
 }
