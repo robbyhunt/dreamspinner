@@ -3,15 +3,17 @@ import Styled from "@emotion/styled";
 
 const Wrapper = Styled('div')`
   width: ${props => props.notesOpen ? "50%" : "150px"};
-  height: ${props => props.notesOpen ? "380px" : "35px"};
+  max-width: 400px;
+  height: ${props => props.notesOpen ? "50%" : "35px"};
+  max-height: 800px;
   background-color: #00467f;
   background-image: url("https://www.transparenttextures.com/patterns/black-linen-2.png");
   position: absolute;
   border-radius: 8px;
   bottom: -10px;
-  left: 25px;
-  z-index: 10;
-  transition: ease-in-out	400ms;
+  left: ${props => props.position};
+  z-index: ${props => props.notesOpen ? "11" : "10"};
+  transition: height ease-in-out 300ms, width ease-in-out 300ms 200ms;
   filter: ${props => props.notesOpen ? "drop-shadow(0 0 20px rgba(0, 0, 0, 0.4))" : "none"};
   padding: 0 10px;
   -webkit-user-select: none;
@@ -40,12 +42,12 @@ const NotesArea = Styled('textarea')`
   }
 `;
 
-function Notes({startOpen, notesOpen, openNotes}) {
+function Notes({startOpen, notesOpen, openNotes, position="25px", title}) {
 
   return (
-    <Wrapper startOpen={startOpen} notesOpen={notesOpen}>
-      <Title onClick={openNotes}>NOTES</Title>
-      <NotesArea name="notesarea" id="notesarea"/>
+    <Wrapper startOpen={startOpen} notesOpen={notesOpen} position={position}>
+      <Title onClick={openNotes}>{title.toUpperCase()}</Title>
+      <NotesArea name={title} id={title} />
     </Wrapper>
   );
 }

@@ -1,28 +1,62 @@
 import AddToLog from "../util/AddToLog";
 import DiceSound from "../util/DiceSound"
+import Event from "./Event"
 
 function Fate(event) {  
-
-  let modifier;
-  if (event.target.id === "fateunlikely") {
-    modifier = -2
-  } else if (event.target.id === "fatelikely") {
-    modifier = 2
-  } else {
-    modifier = 0
+  let amountOfDice = 2;
+  if (event.target.id === "fateunlikely" || event.target.id === "fatelikely") {
+    amountOfDice = 3
   }
 
-  const yesNo = (Math.floor(Math.random() * 10) + 1) + modifier > 5 ? "Yes" : "No";
+  let diceResults = []
+  for (let i = 0; i < amountOfDice; i++) {
+    diceResults.push(Math.floor(Math.random() * 6) + 1);
+  }
 
-  const andBut = (Math.floor(Math.random() * 10) + 1) > 7 ? ((Math.floor(Math.random() * 10) + 1) > 5 ? ", but..." : ", and...") : "";
+  let droppedDice = diceResults[0]
+  let diceToDrop;
+  if (event.target.id === "fatelikely") {
+    diceToDrop = 1
+    for (let i = 1; i < diceResults.length; i++) {
+      if(droppedDice > diceResults[i]) 
+      {
+        droppedDice = diceResults[i];
+        diceToDrop = i
+      }
+    }
+    diceResults.splice(diceToDrop, 1)
+  } else if (event.target.id === "fateunlikely") {
+    diceToDrop = 1
+    for (let i = 1; i < diceResults.length; i++) {
+      if(droppedDice < diceResults[i]) 
+      {
+        droppedDice = diceResults[i];
+        diceToDrop = i
+      }
+    }
+    diceResults.splice(diceToDrop, 1)
+  }
+
+  const yesNo = diceResults[0] + diceResults[1] > 6 ? "Yes" : "No"
+
+  let dice1EvenOdd = diceResults[0] % 2 === 0 ? "Even" : "Odd";
+  let dice2EvenOdd = diceResults[1] % 2 === 0 ? "Even" : "Odd";
+
+  const andBut = dice1EvenOdd === "Even" && dice2EvenOdd === "Even" ? ", and..." : dice1EvenOdd === "Odd" && dice2EvenOdd === "Odd" ? ", but..." : ""
 
   const result = ` > ${yesNo + andBut}`
 
   DiceSound()
 
+  if (diceResults[0] === diceResults[1]) {
+    return (
+      AddToLog() + AddToLog(result) + AddToLog(Event(diceResults))
+    );
+  } else {
     return (
       AddToLog() + AddToLog(result)
     );
+  }
 }
 
 export default Fate;

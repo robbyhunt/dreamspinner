@@ -32,7 +32,9 @@ class App extends React.Component {
       activeBackground: "http://www.transparenttextures.com/patterns/light-paper-fibers.png",
       activeGenre: "generic",
       settingsOpen: false,
-      notesOpen: false
+      notesOpen: false,
+      threadsOpen: false,
+      npcsOpen: false,
     };
   }
 
@@ -45,10 +47,30 @@ class App extends React.Component {
 
     const handleOpenSettings = () => {
       this.setState({settingsOpen: !this.state.settingsOpen})
+      this.setState({notesOpen: false})
+      this.setState({threadsOpen: false})
+      this.setState({npcsOpen: false})
     }
 
     const handleOpenNotes = () => {
       this.setState({notesOpen: !this.state.notesOpen})
+      this.setState({settingsOpen: false})
+      this.setState({threadsOpen: false})
+      this.setState({npcsOpen: false})
+    }
+
+    const handleOpenThreads = () => {
+      this.setState({threadsOpen: !this.state.threadsOpen})
+      this.setState({settingsOpen: false})
+      this.setState({notesOpen: false})
+      this.setState({npcsOpen: false})
+    }
+
+    const handleOpenNPCs = () => {
+      this.setState({npcsOpen: !this.state.npcsOpen})
+      this.setState({settingsOpen: false})
+      this.setState({notesOpen: false})
+      this.setState({threadsOpen: false})
     }
 
     const handleGenre = (event) => {
@@ -77,10 +99,27 @@ class App extends React.Component {
           <Start onClick={handleStart}/>
         ) : (
           <>
-          <SaveButtons />
-          <Play activeGenre={this.state.activeGenre}/>
-          <Settings settingsOpen={this.state.settingsOpen} openSettings={handleOpenSettings} handleGenre={handleGenre}/>
-          <Notes notesOpen={this.state.notesOpen} openNotes={handleOpenNotes}/>
+            <SaveButtons />
+            <Play activeGenre={this.state.activeGenre}/>
+            <Settings settingsOpen={this.state.settingsOpen} openSettings={handleOpenSettings} handleGenre={handleGenre}/>
+            <Notes
+              notesOpen={this.state.notesOpen}
+              openNotes={handleOpenNotes}
+              position="25px"
+              title="notes"
+            />
+            <Notes
+              notesOpen={this.state.threadsOpen}
+              openNotes={handleOpenThreads}
+              position="225px"
+              title="threads"
+            />
+            <Notes
+              notesOpen={this.state.npcsOpen}
+              openNotes={handleOpenNPCs}
+              position="425px"
+              title="npcs"
+            />
           </>
         )}
       </Wrapper>

@@ -19,6 +19,7 @@ const Wrapper = Styled('div')`
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 10;
 `;
 
 const Inner = Styled('div')`
@@ -82,18 +83,36 @@ const DiceButtonWrapper = Styled('div')`
   align-items: center;
   margin-bottom: 10px;
   justify-content: space-around;
+  margin-top: 0;
 
   @media (min-width: 958px) {
     margin-bottom: 0;
+    margin-top: 15px;
+  }
+
+  @media (min-width: 1249px) {
+    margin-top: 0;
   }
 `;
 
 const LogButtonWrapper = Styled('div')`
   display: flex;
   justify-content: space-around;
+  margin-top: 0;
+  margin-left: 0;
 
   @media (min-width: 958px) {
     justify-content: flex-end;
+    margin-top: 15px;
+  }
+
+  @media (min-width: 1249px) {
+    margin-left: calc(100% - 226px);
+  }
+
+  @media (min-width: 1531px) {
+    margin-top: 0;
+    margin-left: 0;
   }
 `;
 
@@ -144,6 +163,14 @@ const Input = Styled('textarea')`
   height: 40px;
   resize: none;
   font-size: 20px;
+
+  @media (min-width: 958px) {
+    height: 80px;
+  }
+
+  @media (min-width: 1531px) {
+    height: 140px;
+  }
 
   &:focus {
     outline: none;
