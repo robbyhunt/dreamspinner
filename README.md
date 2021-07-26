@@ -1,5 +1,3 @@
-## Demo
-
 ### https://dreamspinner.netlify.app/
 
 ## Available Scripts
