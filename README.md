@@ -1,6 +1,6 @@
 ## Demo
 
-### http://robbyhunt.github.io/dreamspinner
+### https://dreamspinner.netlify.app/
 
 ## Available Scripts
 
