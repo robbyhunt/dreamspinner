@@ -48,7 +48,6 @@ class App extends React.Component {
       if (this.state.username !== "") {
         accountInfo = await axios.post('/.netlify/functions/createUser', {username: this.state.username})
         this.setState({user: accountInfo.data})
-        console.log(this.state.user)
       }
       DiceSound()
       this.setState({startOpen: false})

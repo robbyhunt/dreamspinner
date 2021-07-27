@@ -5,8 +5,6 @@ exports.handler = async (event, context) => {
 
   let body = JSON.parse(event.body)
 
-  console.log(body.user)
-
   await service.updateRecord("Users", body.user.id, body.user)
 
   return {
