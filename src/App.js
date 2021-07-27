@@ -58,7 +58,6 @@ class App extends React.Component {
         this.setState({isLoggedIn: true})
         this.setState({user: user})
         this.setState({token: user.token.access_token})
-        console.log("wewp")
         // eslint-disable-next-line no-undef
         netlifyIdentity.close();
       }
@@ -68,6 +67,8 @@ class App extends React.Component {
         this.setState({isLoggedIn: false})
         this.setState({user: undefined})
         this.setState({token: ""})
+        // eslint-disable-next-line no-undef
+        netlifyIdentity.close();
       }
     )
   }
@@ -149,6 +150,7 @@ class App extends React.Component {
             <SaveButtons
               user={this.state.user}
               handleSetUser={handleSetUser}
+              token={this.state.token}
             />
             <Play activeGenre={this.state.activeGenre}/>
             <Settings

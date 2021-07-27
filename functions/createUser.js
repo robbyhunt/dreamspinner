@@ -1,15 +1,11 @@
 const FaunaService = require('@brianmmdev/faunaservice')
 
 exports.handler = async (event, context) => {
-  let user = context.clientContext.user
-  
   const service = new FaunaService('fnAEPGZSdPACDMat_S81eDVpe4S-45dirV-yZK-2')
-
-  let body = JSON.parse(event.body)
 
   let users = await service.listRecords('Users')
   for (let i = 0; i < users.length; i++) {
-    if (users[i].username === body.username) {
+    if (users[i].subId === context.clientContext.user.sub) {
       return {
         statusCode: 200,
         headers: {
@@ -24,9 +20,9 @@ exports.handler = async (event, context) => {
 
   let createdAccount = await service.createRecord("Users",
     {
-      username: user.email,
-      subId: user.sub,
-      name: user.user_metadata.full_name,
+      username: context.clientContext.user.email,
+      subId: context.clientContext.user.sub,
+      name: context.clientContext.user.user_metadata.full_name,
       type: "paid",
       saves: [
         {},

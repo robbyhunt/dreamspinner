@@ -43,7 +43,7 @@ const Save = (event, user, handleSetUser, token) => {
     threads: document.getElementById('threads').value, 
   }
   handleSetUser(newUserObject)
-  axios.post('/.netlify/functions/saveGame', {user: user})
+  axios.post('/.netlify/functions/saveGame', {user: user}, {headers: {"Authorization": `Bearer ${token}`}})
 }
 
 const Load = async (event, user) => {
