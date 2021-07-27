@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Styled from "@emotion/styled";
 import Fate from '../Generators/Fate';
 import ComplexQuestion from '../Generators/ComplexQuestion';
@@ -112,7 +112,7 @@ const LogButtonWrapper = Styled('div')`
   }
 
   @media (min-width: 1110px) {
-    margin-left: calc(100% - 226px);
+    margin-left: calc(100% - 280px);
   }
 
   @media (min-width: 1531px) {
@@ -214,58 +214,61 @@ const Input = Styled('textarea')`
   }
 `;
 
-class Play extends React.Component {
-  render() {
+const Play = ({activeGenre}) => {
+  const [isEditActive, setIsEditActive] = useState(false)
 
-    const {activeGenre} = this.props;
-
-    return (
-      <Wrapper>
-          <Inner>
-            <ButtonWrapper>
-              <Button id={`${activeGenre}`} onClick={Place} style={{marginLeft: "0"}}>Place (Only works for fantasy atm)</Button>
-              <Button id={`${activeGenre}`} onClick={Item}>Item (Only works for apocalyptic atm)</Button>
-              <Button id={`${activeGenre}`} onClick={Npc}>Character (Only works for fantasy atm)</Button>
-            </ButtonWrapper>
-
-            <Log name="log" id="log" readOnly/>
-
-            <ButtonWrapper>
-              <GeneratorWrapper>
-                Complex Question:
-                <GenerateButton id="cqa" onClick={ComplexQuestion}>Action</GenerateButton>
-                <GenerateButton id="cqd" onClick={ComplexQuestion}>Description</GenerateButton>
-              </GeneratorWrapper>
-
-              <FateButtonWrapper>
-                Yes / No: 
-                <Button id="fateunlikely" onClick={Fate}>Unlikely</Button>
-                <Button id="fate5050" onClick={Fate}>50/50</Button>
-                <Button id="fatelikely" onClick={Fate}>Likely</Button>
-              </FateButtonWrapper>
-
-              <DiceButtonWrapper>
-                Dice:
-                <Button id="d4" onClick={RollDice}>d4</Button>
-                <Button id="d6" onClick={RollDice}>d6</Button>
-                <Button id="d8" onClick={RollDice}>d8</Button>
-                <Button id="d10" onClick={RollDice}>d10</Button>
-                <Button id="d12" onClick={RollDice}>d12</Button>
-                <Button id="d20" onClick={RollDice}>d20</Button>
-                <Button id="d100" onClick={RollDice}>d100</Button>
-              </DiceButtonWrapper>
-
-              <LogButtonWrapper>
-                <Button id="submit" onClick={SubmitButton}>Submit</Button>
-                <Button id="undo" onClick={Undo}>Undo</Button>
-                <Button id="clear" onClick={ClearLog}>Clear Log</Button>
-              </LogButtonWrapper>
-            </ButtonWrapper>
-
-            <Input name="input" id="input" placeholder="Type something here and press Shift + Enter or click Submit..." rows={1} onKeyUp={Submit}/>
-          </Inner>
-      </Wrapper>
-    );
+  const handleClickLog = () => {
+    setIsEditActive(!isEditActive)
   }
+
+  return (
+    <Wrapper>
+        <Inner>
+          <ButtonWrapper>
+            <Button id={`${activeGenre}`} onClick={Place} style={{marginLeft: "0"}}>Place (Only works for fantasy atm)</Button>
+            <Button id={`${activeGenre}`} onClick={Item}>Item (Only works for apocalyptic atm)</Button>
+            <Button id={`${activeGenre}`} onClick={Npc}>Character (Only works for fantasy atm)</Button>
+          </ButtonWrapper>
+
+          <Log name="log" id="log" readOnly={!isEditActive} />
+
+          <ButtonWrapper>
+            <GeneratorWrapper>
+              Complex Question:
+              <GenerateButton id="cqa" onClick={ComplexQuestion}>Action</GenerateButton>
+              <GenerateButton id="cqd" onClick={ComplexQuestion}>Description</GenerateButton>
+            </GeneratorWrapper>
+
+            <FateButtonWrapper>
+              Yes / No: 
+              <Button id="fateunlikely" onClick={Fate}>Unlikely</Button>
+              <Button id="fate5050" onClick={Fate}>50/50</Button>
+              <Button id="fatelikely" onClick={Fate}>Likely</Button>
+            </FateButtonWrapper>
+
+            <DiceButtonWrapper>
+              Dice:
+              <Button id="d4" onClick={RollDice}>d4</Button>
+              <Button id="d6" onClick={RollDice}>d6</Button>
+              <Button id="d8" onClick={RollDice}>d8</Button>
+              <Button id="d10" onClick={RollDice}>d10</Button>
+              <Button id="d12" onClick={RollDice}>d12</Button>
+              <Button id="d20" onClick={RollDice}>d20</Button>
+              <Button id="d100" onClick={RollDice}>d100</Button>
+            </DiceButtonWrapper>
+
+            <LogButtonWrapper>
+              <Button id="submit" onClick={SubmitButton}>Submit</Button>
+              <Button id="undo" onClick={Undo}>Undo</Button>
+              <Button id="edit" onClick={handleClickLog}>{isEditActive ? "Confirm" : "Edit"}</Button>
+              <Button id="clear" onClick={ClearLog}>Clear Log</Button>
+            </LogButtonWrapper>
+          </ButtonWrapper>
+
+          <Input name="input" id="input" placeholder="Type something here and press Shift + Enter or click Submit..." rows={1} onKeyUp={Submit}/>
+        </Inner>
+    </Wrapper>
+  );
 }
+
 export default Play;
