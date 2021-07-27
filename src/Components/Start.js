@@ -93,7 +93,7 @@ const Logo = Styled('img')`
   }
 `;
 
-function Start({onClick, setUsername}) {
+function Start({onClick, setUsername, isLoggedIn}) {
   return (
     <Inner>
       <Title>
@@ -103,10 +103,13 @@ function Start({onClick, setUsername}) {
         A modern solo RPG and creative writing tool
       </Tagline>
       <Logo src={logo} alt="logo"/>
-      <input placeholder="Enter a username, or click Play to continue as a guest" onChange={event => setUsername(event.currentTarget.value)}/>
-      <Button onClick={onClick}>
-        Play
-      </Button>
+      {/* <input placeholder="Enter a username, or click Play to continue as a guest" onChange={event => setUsername(event.currentTarget.value)}/> */}
+      <div data-netlify-identity-button />
+      {isLoggedIn && (
+        <Button onClick={onClick}>
+          Play
+        </Button>
+      )}
     </Inner>
   );
 }

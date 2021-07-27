@@ -37,8 +37,18 @@ class App extends React.Component {
       threadsOpen: false,
       npcsOpen: false,
       username: "",
-      user: undefined
+      user: undefined,
+      isLoggedIn: false,
     };
+  }
+
+  componentDidMount() {
+    // eslint-disable-next-line no-undef
+    netlifyIdentity.on('init', user => {
+      if (user) {
+        this.setState({isLoggedIn: true})
+      }
+    })
   }
 
   render() {
@@ -115,6 +125,7 @@ class App extends React.Component {
           <Start
             onClick={handleStart}
             setUsername={handleSetUsername}
+            loggedIn={this.state.loggedIn}
           />
         ) : (
           <>
