@@ -12,8 +12,8 @@ import Item from '../Generators/Item'
 import RollDice from '../util/DiceRoll';
 
 const Wrapper = Styled('div')`
-  width: 80%;
-  height: 100vh;
+  width: 90%;
+  height: 100%;
   margin: 0 auto;
   position: relative;
   display: flex;
@@ -32,6 +32,11 @@ const Inner = Styled('div')`
   justify-content: center;
   align-items: center;
   filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.4));
+  margin-top: 40px;
+
+  @media (min-width: 457px) {
+    margin-top: 0px;
+  }
 `;
 
 const ButtonWrapper = Styled('div')`
@@ -90,7 +95,7 @@ const DiceButtonWrapper = Styled('div')`
     margin-top: 15px;
   }
 
-  @media (min-width: 1249px) {
+  @media (min-width: 1110px) {
     margin-top: 0;
   }
 `;
@@ -106,7 +111,7 @@ const LogButtonWrapper = Styled('div')`
     margin-top: 15px;
   }
 
-  @media (min-width: 1249px) {
+  @media (min-width: 1110px) {
     margin-left: calc(100% - 226px);
   }
 
@@ -142,7 +147,7 @@ const GenerateButton = Styled(Button)`
 
 const Log = Styled('textarea')`
   width: calc(100% - 20px);
-  height: 50vh;
+  height: 40vh;
   resize: none;
   padding: 10px;
   font-size: 24px;
@@ -153,23 +158,27 @@ const Log = Styled('textarea')`
   }
 
   @media (min-width: 958px) {
-    height: 70vh;
+    height: 50vh;
+  }
+
+  @media (min-width: 1249px) {
+    height: 55vh;
+  }
+
+  @media (min-width: 1531px) {
+    height: 60vh;
   }
 `;
 
 const Input = Styled('textarea')`
   width: calc(100% - 20px);
   padding: 10px;
-  height: 40px;
+  height: 60px;
   resize: none;
   font-size: 20px;
 
-  @media (min-width: 958px) {
-    height: 80px;
-  }
-
   @media (min-width: 1531px) {
-    height: 140px;
+    height: 100px;
   }
 
   &:focus {
