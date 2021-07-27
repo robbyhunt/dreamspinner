@@ -141,26 +141,28 @@ const SaveButtons = ({ user, handleSetUser, token }) => {
         )}
         <Button disabled={user === undefined} id="save" slot={1} onClick={() => setSaveLoadOpen(true)}>Save/Load</Button>
       </Wrapper>
-      <SaveLoad style={{opacity: saveLoadOpen ? "1" : "0", pointerEvents: saveLoadOpen ? "auto" : "none"}}>
-        <Inner style={{opacity: saveLoadOpen ? "1" : "0", pointerEvents: saveLoadOpen ? "auto" : "none"}}>
-          <Close onClick={() => setSaveLoadOpen(false)}>Close</Close>
-          <Title>Save & Load Games</Title>
+      {user && (
+        <SaveLoad style={{opacity: saveLoadOpen ? "1" : "0", pointerEvents: saveLoadOpen ? "auto" : "none"}}>
+          <Inner style={{opacity: saveLoadOpen ? "1" : "0", pointerEvents: saveLoadOpen ? "auto" : "none"}}>
+            <Close onClick={() => setSaveLoadOpen(false)}>Close</Close>
+            <Title>Save & Load Games</Title>
 
-          {user && user.saves.map((item, index) => (
-            <SaveCard>
-              <span style={{fontSize: 16}}>{item.title ? item.title.length > 40 ? item.title.slice(0, 38) + "..." : item.title : item.log ? "Untitled Game" : "Empty Slot"}</span>
-              <SaveCardInner>
-                <span>{`Slot ${index + 1}`}</span>
-                <SlotWrapper>
-                  <Button id="save" slot={index + 1} onClick={e => Save(e, user, handleSetUser, token)}>Save</Button>
-                  <Button disabled={item.log === undefined} id="load" slot={index + 1} onClick={e => Load(e, user)} >Load</Button>
-                </SlotWrapper>
-              </SaveCardInner>
-            </SaveCard>
-          ))}
+            {user.saves.map((item, index) => (
+              <SaveCard>
+                <span style={{fontSize: 16}}>{item.title ? item.title.length > 40 ? item.title.slice(0, 38) + "..." : item.title : item.log ? "Untitled Game" : "Empty Slot"}</span>
+                <SaveCardInner>
+                  <span>{`Slot ${index + 1}`}</span>
+                  <SlotWrapper>
+                    <Button id="save" slot={index + 1} onClick={e => Save(e, user, handleSetUser, token)}>Save</Button>
+                    <Button disabled={item.log === undefined} id="load" slot={index + 1} onClick={e => Load(e, user)} >Load</Button>
+                  </SlotWrapper>
+                </SaveCardInner>
+              </SaveCard>
+            ))}
 
-        </Inner>
-      </SaveLoad>
+          </Inner>
+        </SaveLoad>
+      )}
     </>
   );
 }
