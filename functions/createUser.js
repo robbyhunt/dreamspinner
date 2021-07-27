@@ -1,6 +1,8 @@
 const FaunaService = require('@brianmmdev/faunaservice')
 
 exports.handler = async (event, context) => {
+  let user = context.clientContext.user
+  
   const service = new FaunaService('fnAEPGZSdPACDMat_S81eDVpe4S-45dirV-yZK-2')
 
   let body = JSON.parse(event.body)
@@ -22,7 +24,9 @@ exports.handler = async (event, context) => {
 
   let createdAccount = await service.createRecord("Users",
     {
-      username: body.username,
+      username: user.email,
+      subId: user.sub,
+      name: user.user_metadata.full_name,
       type: "paid",
       saves: [
         {},

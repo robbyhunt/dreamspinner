@@ -34,7 +34,7 @@ const Button = Styled('button')`
   }
 `;
 
-const Save = (event, user, handleSetUser) => {
+const Save = (event, user, handleSetUser, token) => {
   let newUserObject = user
   newUserObject.saves[event.target.slot - 1] = {
     log: document.getElementById('log').value,
@@ -55,14 +55,14 @@ const Load = async (event, user) => {
   document.getElementById('log').scrollTop = document.getElementById('log').scrollHeight;
 }
 
-function SaveButtons({ user, handleSetUser }) {
+function SaveButtons({ user, handleSetUser, token }) {
   return (
     <Wrapper>
-      <Button disabled={user === undefined} id="save" slot={1} onClick={e => Save(e, user, handleSetUser)}>Save 1</Button>
+      <Button disabled={user === undefined} id="save" slot={1} onClick={e => Save(e, user, handleSetUser, token)}>Save 1</Button>
       <Button disabled={user === undefined || !user.saves[0].log} id="load" slot={1} onClick={e => Load(e, user)} style={{marginRight: 20}}>Load 1</Button>
-      <Button disabled={user === undefined} id="save" slot={2} onClick={e => Save(e, user, handleSetUser)}>Save 2</Button>
+      <Button disabled={user === undefined} id="save" slot={2} onClick={e => Save(e, user, handleSetUser, token)}>Save 2</Button>
       <Button disabled={user === undefined || !user.saves[1].log} id="load" slot={2} onClick={e => Load(e, user)} style={{marginRight: 20}}>Load 2</Button>
-      <Button disabled={user === undefined} id="save" slot={3} onClick={e => Save(e, user, handleSetUser)}>Save 3</Button>
+      <Button disabled={user === undefined} id="save" slot={3} onClick={e => Save(e, user, handleSetUser, token)}>Save 3</Button>
       <Button disabled={user === undefined || !user.saves[2].log} id="load" slot={3} onClick={e => Load(e, user)}>Load 3</Button>
     </Wrapper>
   );

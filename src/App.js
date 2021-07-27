@@ -29,7 +29,8 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      startOpen: true, 
+      startOpen: true,
+      isLoading: false,
       activeBackground: "http://www.transparenttextures.com/patterns/light-paper-fibers.png",
       activeGenre: "generic",
       settingsOpen: false,
@@ -38,34 +39,50 @@ class App extends React.Component {
       npcsOpen: false,
       user: undefined,
       isLoggedIn: false,
+      token: "",
     };
   }
 
   componentDidMount() {
     // eslint-disable-next-line no-undef
+    netlifyIdentity.on('init', user => {
+      if (user) {
+        this.setState({isLoggedIn: true})
+        this.setState({user: user})
+        this.setState({token: user.token.access_token})
+      }
+    })
+    // eslint-disable-next-line no-undef
     netlifyIdentity.on('login', user => {
       if (user) {
         this.setState({isLoggedIn: true})
         this.setState({user: user})
+        this.setState({token: user.token.access_token})
+        console.log("wewp")
+        // eslint-disable-next-line no-undef
+        netlifyIdentity.close();
       }
     })
     // eslint-disable-next-line no-undef
     netlifyIdentity.on('logout', () => {
         this.setState({isLoggedIn: false})
         this.setState({user: undefined})
+        this.setState({token: ""})
       }
     )
   }
 
   render() {
     const handleStart = async () => {
+      this.setState({isLoading: true})
       let accountInfo;
       if (this.state.isLoggedIn) {
-        accountInfo = await axios.post('/.netlify/functions/createUser', {username: this.state.user.email})
+        accountInfo = await axios.post('/.netlify/functions/createUser', {}, {headers: {"Authorization": `Bearer ${this.state.token}`}})
         this.setState({user: accountInfo.data})
       }
       DiceSound()
       this.setState({startOpen: false})
+      this.setState({isLoading: false})
     }
 
     const handleSetUser = (value) => {
@@ -73,28 +90,27 @@ class App extends React.Component {
     }
 
     const handleOpenSettings = () => {
+      closeAllPopups()
       this.setState({settingsOpen: !this.state.settingsOpen})
-      this.setState({notesOpen: false})
-      this.setState({threadsOpen: false})
-      this.setState({npcsOpen: false})
     }
 
     const handleOpenNotes = () => {
+      closeAllPopups()
       this.setState({notesOpen: !this.state.notesOpen})
-      this.setState({settingsOpen: false})
-      this.setState({threadsOpen: false})
-      this.setState({npcsOpen: false})
     }
 
     const handleOpenThreads = () => {
+      closeAllPopups()
       this.setState({threadsOpen: !this.state.threadsOpen})
-      this.setState({settingsOpen: false})
-      this.setState({notesOpen: false})
-      this.setState({npcsOpen: false})
     }
 
     const handleOpenNPCs = () => {
+      closeAllPopups()
       this.setState({npcsOpen: !this.state.npcsOpen})
+    }
+    
+    const closeAllPopups = () => {
+      this.setState({npcsOpen: false})
       this.setState({settingsOpen: false})
       this.setState({notesOpen: false})
       this.setState({threadsOpen: false})
@@ -126,12 +142,20 @@ class App extends React.Component {
           <Start
             onClick={handleStart}
             isLoggedIn={this.state.isLoggedIn}
+            isLoading={this.state.isLoading}
           />
         ) : (
           <>
-            <SaveButtons user={this.state.user} handleSetUser={handleSetUser}/>
+            <SaveButtons
+              user={this.state.user}
+              handleSetUser={handleSetUser}
+            />
             <Play activeGenre={this.state.activeGenre}/>
-            <Settings settingsOpen={this.state.settingsOpen} openSettings={handleOpenSettings} handleGenre={handleGenre}/>
+            <Settings
+              settingsOpen={this.state.settingsOpen}
+              openSettings={handleOpenSettings}
+              handleGenre={handleGenre}
+            />
             <Notes
               notesOpen={this.state.notesOpen}
               openNotes={handleOpenNotes}

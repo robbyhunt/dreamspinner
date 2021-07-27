@@ -103,7 +103,7 @@ const Logo = Styled('img')`
   }
 `;
 
-function Start({onClick, isLoggedIn}) {
+function Start({onClick, isLoggedIn, isLoading}) {
   return (
     <Inner>
       <Title>
@@ -113,16 +113,16 @@ function Start({onClick, isLoggedIn}) {
         A modern solo RPG and creative writing tool
       </Tagline>
       <Logo src={logo} alt="logo"/>
-      <Button data-netlify-identity-button></Button>
       {isLoggedIn ? (
         <Button onClick={onClick}>
-          Play
+          {isLoading ? "Loading..." : "Play"}
         </Button>
       ) : (
         <Button onClick={onClick}>
-          Play as guest
+        {isLoading ? "Loading..." : "Play as guest"}
         </Button>
       )}
+      <Button data-netlify-identity-button></Button>
     </Inner>
   );
 }
