@@ -153,6 +153,20 @@ const Log = Styled('textarea')`
   font-size: 24px;
   line-height: 30px;
 
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+ 
+  ::-webkit-scrollbar-track {
+    background-color: #ffffff; 
+    border-radius: 10px;
+  }
+ 
+  ::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #376d99;
+  }
+
   &:focus {
     outline: none;
   }
@@ -176,6 +190,20 @@ const Input = Styled('textarea')`
   height: 60px;
   resize: none;
   font-size: 20px;
+
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+ 
+  ::-webkit-scrollbar-track {
+    background-color: #ffffff; 
+    border-radius: 10px;
+  }
+ 
+  ::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #376d99;
+  }
 
   @media (min-width: 1531px) {
     height: 100px;
