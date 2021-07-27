@@ -23,7 +23,7 @@ exports.handler = async (event, context) => {
       username: context.clientContext.user.email,
       subId: context.clientContext.user.sub,
       name: context.clientContext.user.user_metadata.full_name,
-      type: "paid",
+      type: "free",
       saves: [
         {},
         {},
