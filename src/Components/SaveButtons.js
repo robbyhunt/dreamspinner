@@ -129,8 +129,16 @@ const SaveButtons = ({ user, handleSetUser, token }) => {
   return (
     <>
       <Wrapper>
-        Game Name: 
-        <input id="title" defaultValue="Untitled Game" style={{margin: "0 10px 0 5px"}}/>
+        {user ? (
+          <>
+            Game Name: 
+            <input id="title" defaultValue="Untitled Game" style={{margin: "0 10px 0 5px"}}/>
+          </>
+        ) : (
+          <>
+            {`Sign in to save  `}
+          </>
+        )}
         <Button disabled={user === undefined} id="save" slot={1} onClick={() => setSaveLoadOpen(true)}>Save/Load</Button>
       </Wrapper>
       <SaveLoad style={{opacity: saveLoadOpen ? "1" : "0", pointerEvents: saveLoadOpen ? "auto" : "none"}}>
@@ -138,7 +146,7 @@ const SaveButtons = ({ user, handleSetUser, token }) => {
           <Close onClick={() => setSaveLoadOpen(false)}>Close</Close>
           <Title>Save & Load Games</Title>
 
-          {user.saves.map((item, index) => (
+          {user && user.saves.map((item, index) => (
             <SaveCard>
               <span style={{fontSize: 16}}>{item.title ? item.title.length > 40 ? item.title.slice(0, 38) + "..." : item.title : item.log ? "Untitled Game" : "Empty Slot"}</span>
               <SaveCardInner>
