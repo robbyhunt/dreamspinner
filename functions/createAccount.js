@@ -14,14 +14,14 @@ exports.handler = async function(event, context, callback) {
     .collection(collection);
     const body = JSON.parse(event.body)
 
-    // try {
-    //   // check if account already exists
-    //   await users.get(body.username)
-    //   return {
-    //     statusCode: 200,
-    //     body: JSON.stringify("Account already exists")
-    //   }
-    // } catch (error) {
+    try {
+      // check if account already exists
+      await users.get(body.username)
+      return {
+        statusCode: 200,
+        body: JSON.stringify("Account already exists")
+      }
+    } catch (error) {
       try {      
         // if account doesn't exist then clreate it
         await users.create(body.username, {
@@ -43,6 +43,6 @@ exports.handler = async function(event, context, callback) {
         body: JSON.stringify(error),
       }
     }
-    // }
+    }
 }
 
