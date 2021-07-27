@@ -64,6 +64,16 @@ const Button = Styled("button")`
     filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.5));
     font-size: calc(15px + 2vmin);
     color: #00467f;
+
+    & > a {
+      color: #00467f;
+    }
+  }
+
+  & > a {
+    color: #00a8e3;
+    text-decoration: none;
+    transition: color 800ms;
   }
 `;
 
@@ -93,7 +103,7 @@ const Logo = Styled('img')`
   }
 `;
 
-function Start({onClick, setUsername, isLoggedIn}) {
+function Start({onClick, isLoggedIn}) {
   return (
     <Inner>
       <Title>
@@ -103,11 +113,14 @@ function Start({onClick, setUsername, isLoggedIn}) {
         A modern solo RPG and creative writing tool
       </Tagline>
       <Logo src={logo} alt="logo"/>
-      {/* <input placeholder="Enter a username, or click Play to continue as a guest" onChange={event => setUsername(event.currentTarget.value)}/> */}
-      <div data-netlify-identity-button />
-      {isLoggedIn && (
+      <Button data-netlify-identity-button></Button>
+      {isLoggedIn ? (
         <Button onClick={onClick}>
           Play
+        </Button>
+      ) : (
+        <Button onClick={onClick}>
+          Play as guest
         </Button>
       )}
     </Inner>

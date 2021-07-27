@@ -36,7 +36,6 @@ class App extends React.Component {
       notesOpen: false,
       threadsOpen: false,
       npcsOpen: false,
-      username: "",
       user: undefined,
       isLoggedIn: false,
     };
@@ -44,27 +43,29 @@ class App extends React.Component {
 
   componentDidMount() {
     // eslint-disable-next-line no-undef
-    netlifyIdentity.on('init', user => {
+    netlifyIdentity.on('login', user => {
       if (user) {
         this.setState({isLoggedIn: true})
+        this.setState({user: user})
       }
     })
+    // eslint-disable-next-line no-undef
+    netlifyIdentity.on('logout', () => {
+        this.setState({isLoggedIn: false})
+        this.setState({user: undefined})
+      }
+    )
   }
 
   render() {
-
     const handleStart = async () => {
       let accountInfo;
-      if (this.state.username !== "") {
-        accountInfo = await axios.post('/.netlify/functions/createUser', {username: this.state.username})
+      if (this.state.isLoggedIn) {
+        accountInfo = await axios.post('/.netlify/functions/createUser', {username: this.state.user.email})
         this.setState({user: accountInfo.data})
       }
       DiceSound()
       this.setState({startOpen: false})
-    }
-
-    const handleSetUsername = (value) => {
-      this.setState({username: value})
     }
 
     const handleSetUser = (value) => {
@@ -124,8 +125,7 @@ class App extends React.Component {
         {this.state.startOpen ? (
           <Start
             onClick={handleStart}
-            setUsername={handleSetUsername}
-            loggedIn={this.state.loggedIn}
+            isLoggedIn={this.state.isLoggedIn}
           />
         ) : (
           <>
