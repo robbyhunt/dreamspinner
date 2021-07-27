@@ -1,5 +1,6 @@
 import React from 'react';
 import Styled from "@emotion/styled";
+import axios from "axios"
 
 const Wrapper = Styled('div')`
   position: absolute;
@@ -33,30 +34,40 @@ const Button = Styled('button')`
   }
 `;
 
-const Save = (event) => {
-  localStorage.setItem(`${event.target.slot}.log`, document.getElementById('log').value)
-  localStorage.setItem(`${event.target.slot}.notes`, document.getElementById('notes').value)
-  localStorage.setItem(`${event.target.slot}.threads`, document.getElementById('threads').value)
-  localStorage.setItem(`${event.target.slot}.npcs`, document.getElementById('npcs').value)
+const Save = (event, username) => {
+  axios.post('/.netlify/functions/saveGame', {
+    username: username,
+    slot: event.target.slot,
+    data: {
+      log: document.getElementById('log').value,
+      notes: document.getElementById('notes').value,
+      npcs: document.getElementById('npcs').value,
+      threads: document.getElementById('threads').value,  
+    }
+  })
 }
 
-const Load = (event) => {
-  document.getElementById('log').value = localStorage.getItem(`${event.target.slot}.log`)
-  document.getElementById('notes').value = localStorage.getItem(`${event.target.slot}.notes`)
-  document.getElementById('threads').value = localStorage.getItem(`${event.target.slot}.threads`)
-  document.getElementById('npcs').value = localStorage.getItem(`${event.target.slot}.npcs`)
+const Load = async (event, username) => {
+  const gameData = await axios.post('/.netlify/functions/loadGame', {
+    username: username,
+    slot: event.target.slot
+  })
+  document.getElementById('log').value = gameData.data.log
+  document.getElementById('notes').value = gameData.data.notes
+  document.getElementById('threads').value = gameData.data.threads
+  document.getElementById('npcs').value = gameData.data.npcs
   document.getElementById('log').scrollTop = document.getElementById('log').scrollHeight;
 }
 
-function SaveButtons() {
+function SaveButtons({ username }) {
   return (
     <Wrapper>
-      <Button id="save" slot={1} onClick={Save}>Save 1</Button>
-      <Button id="load" slot={1} onClick={Load} style={{marginRight: 20}}>Load 1</Button>
-      <Button id="save" slot={2} onClick={Save}>Save 2</Button>
-      <Button id="load" slot={2} onClick={Load} style={{marginRight: 20}}>Load 2</Button>
-      <Button id="save" slot={3} onClick={Save}>Save 3</Button>
-      <Button id="load" slot={3} onClick={Load}>Load 3</Button>
+      <Button disabled={username === ""} id="save" slot={1} onClick={e => Save(e, username)}>Save 1</Button>
+      <Button disabled={username === ""} id="load" slot={1} onClick={e => Load(e, username)} style={{marginRight: 20}}>Load 1</Button>
+      <Button disabled={username === ""} id="save" slot={2} onClick={e => Save(e, username)}>Save 2</Button>
+      <Button disabled={username === ""} id="load" slot={2} onClick={e => Load(e, username)} style={{marginRight: 20}}>Load 2</Button>
+      <Button disabled={username === ""} id="save" slot={3} onClick={e => Save(e, username)}>Save 3</Button>
+      <Button disabled={username === ""} id="load" slot={3} onClick={e => Load(e, username)}>Load 3</Button>
     </Wrapper>
   );
 }

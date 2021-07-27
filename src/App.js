@@ -11,6 +11,7 @@ import ApocalypticBG from "./img/apocalypticbg.jpg"
 import Settings from "./Components/Settings"
 import Notes from "./Components/Notes"
 import SaveButtons from "./Components/SaveButtons"
+import axios from "axios"
 
 const Wrapper = Styled('div')`
   height: 100vh;
@@ -35,6 +36,7 @@ class App extends React.Component {
       notesOpen: false,
       threadsOpen: false,
       npcsOpen: false,
+      username: "",
     };
   }
 
@@ -42,7 +44,14 @@ class App extends React.Component {
 
     const handleStart = () => {
       DiceSound()
+      if (this.state.username !== "") {
+        axios.post('/.netlify/functions/createAccount', {username: this.state.username})
+      }
       this.setState({startOpen: false})
+    }
+
+    const handleSetUsername = (value) => {
+      this.setState({username: value})
     }
 
     const handleOpenSettings = () => {
@@ -96,10 +105,13 @@ class App extends React.Component {
     return (
       <Wrapper activeBackground={this.state.activeBackground}>
         {this.state.startOpen ? (
-          <Start onClick={handleStart}/>
+          <Start
+            onClick={handleStart}
+            setUsername={handleSetUsername}
+          />
         ) : (
           <>
-            <SaveButtons />
+            <SaveButtons username={this.state.username}/>
             <Play activeGenre={this.state.activeGenre}/>
             <Settings settingsOpen={this.state.settingsOpen} openSettings={handleOpenSettings} handleGenre={handleGenre}/>
             <Notes

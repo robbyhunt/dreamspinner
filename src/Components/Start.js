@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import logo from '../img/mandala.png';
 import Styled from "@emotion/styled";
+import axios from "axios"
 
 const Inner = Styled('div')`
   background-color: #0079a3;
@@ -70,13 +71,13 @@ const Button = Styled("button")`
 const Logo = Styled('img')`
   height: 30vmin;
   min-height: 275px;
-  cursor: pointer;
   -webkit-user-select: none;
   -ms-user-select: none;
   user-select: none;
   filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.5));
   animation: spin infinite 50s linear;
   transition: 500ms;
+  margin-bottom: 25px;
 
   &:hover {
     height: 31vmin;
@@ -93,7 +94,16 @@ const Logo = Styled('img')`
   }
 `;
 
-function Start({onClick}) {
+function Start({onClick, setUsername}) {
+
+  const fetchData = async () => {
+    axios.get('/.netlify/functions/getData').then(result => console.log(result.data))
+  }
+
+  useEffect(() => {
+    fetchData()
+  }, [])
+
   return (
     <Inner>
       <Title>
@@ -102,7 +112,8 @@ function Start({onClick}) {
       <Tagline>
         A modern solo RPG and creative writing tool
       </Tagline>
-      <Logo src={logo} alt="logo" onClick={onClick}/>
+      <Logo src={logo} alt="logo"/>
+      <input placeholder="Enter a username, or click Play to continue as a guest" onChange={event => setUsername(event.currentTarget.value)}/>
       <Button onClick={onClick}>
         Play
       </Button>
