@@ -37,21 +37,29 @@ class App extends React.Component {
       threadsOpen: false,
       npcsOpen: false,
       username: "",
+      user: undefined
     };
   }
 
   render() {
 
-    const handleStart = () => {
-      DiceSound()
+    const handleStart = async () => {
+      let accountInfo;
       if (this.state.username !== "") {
-        axios.post('/.netlify/functions/createAccount', {username: this.state.username})
+        accountInfo = await axios.post('/.netlify/functions/createUser', {username: this.state.username})
+        this.setState({user: accountInfo.data})
+        console.log(this.state.user)
       }
+      DiceSound()
       this.setState({startOpen: false})
     }
 
     const handleSetUsername = (value) => {
       this.setState({username: value})
+    }
+
+    const handleSetUser = (value) => {
+      this.setState({user: value})
     }
 
     const handleOpenSettings = () => {
@@ -111,7 +119,7 @@ class App extends React.Component {
           />
         ) : (
           <>
-            <SaveButtons username={this.state.username}/>
+            <SaveButtons user={this.state.user} handleSetUser={handleSetUser}/>
             <Play activeGenre={this.state.activeGenre}/>
             <Settings settingsOpen={this.state.settingsOpen} openSettings={handleOpenSettings} handleGenre={handleGenre}/>
             <Notes

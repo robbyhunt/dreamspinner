@@ -1,30 +1,19 @@
-const { createClient } = require("@astrajs/collections");
+const FaunaService = require('@brianmmdev/faunaservice')
 
-const collection = 'testSaves'
+exports.handler = async (event, context) => {
+  const service = new FaunaService('fnAEPGZSdPACDMat_S81eDVpe4S-45dirV-yZK-2')
 
-exports.handler = async function(event, context, callback) {
-  const astraClient = await createClient({
-    astraDatabaseId: process.env.ASTRA_DB_ID,
-    astraDatabaseRegion: process.env.ASTRA_DB_REGION,
-    applicationToken: process.env.ASTRA_DB_APPLICATION_TOKEN,
-  });
+  let body = JSON.parse(event.body)
 
-  const users = astraClient
-    .namespace(process.env.ASTRA_DB_KEYSPACE)
-    .collection(collection);
-    const body = JSON.parse(event.body)
+  console.log(body.user)
 
-    try {      
-      await users.replace(`${body.username}/saves/slot${body.slot}`, body.data);
-    return {
-      statusCode: 200,
-    }
-  } catch (error) {
-    console.log(error)
-    return {
-      statusCode: 500,
-      body: JSON.stringify(error),
+  await service.updateRecord("Users", body.user.id, body.user)
+
+  return {
+    statusCode: 200,
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Headers": "Authorization, Content-Type"
     }
   }
 }
-

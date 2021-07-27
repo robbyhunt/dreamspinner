@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import logo from '../img/mandala.png';
 import Styled from "@emotion/styled";
-import axios from "axios"
 
 const Inner = Styled('div')`
   background-color: #0079a3;
@@ -95,15 +94,6 @@ const Logo = Styled('img')`
 `;
 
 function Start({onClick, setUsername}) {
-
-  const fetchData = async () => {
-    axios.get('/.netlify/functions/getData').then(result => console.log(result.data))
-  }
-
-  useEffect(() => {
-    fetchData()
-  }, [])
-
   return (
     <Inner>
       <Title>
