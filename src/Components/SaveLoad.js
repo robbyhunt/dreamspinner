@@ -135,6 +135,15 @@ const SaveLoad = ({ user, handleSetUser }) => {
     setSaveLoadOpen(false)
   }
 
+  const newGame = () => {
+    document.getElementById('title').value = "Untitled Game"
+    document.getElementById('log').value = ""
+    document.getElementById('notes').value = ""
+    document.getElementById('threads').value = ""
+    document.getElementById('npcs').value = ""
+    document.getElementById('input').value = ""
+  }
+
   return (
     <>
       <SaveButtonContainer>
@@ -148,7 +157,8 @@ const SaveLoad = ({ user, handleSetUser }) => {
             {`Sign in to save  `}
           </>
         )}
-        <Button disabled={user === undefined} id="save" slot={1} onClick={() => setSaveLoadOpen(true)}>Save/Load</Button>
+        <Button disabled={user === undefined} onClick={() => setSaveLoadOpen(true)} style={{marginRight: 5}}>Save/Load</Button>
+        <Button onClick={newGame}>New Game</Button>
       </SaveButtonContainer>
 
       {user && (

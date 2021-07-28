@@ -150,7 +150,7 @@ const Log = Styled('textarea')`
   height: 40vh;
   resize: none;
   padding: 10px;
-  font-size: 24px;
+  font-size: 22px;
   line-height: 30px;
 
   ::-webkit-scrollbar {
