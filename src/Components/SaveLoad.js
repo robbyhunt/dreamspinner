@@ -1,3 +1,5 @@
+/*global netlifyIdentity*/
+
 import React, {useState} from 'react';
 import Styled from "@emotion/styled";
 import axios from "axios"
@@ -113,9 +115,7 @@ const SaveLoad = ({ user, handleSetUser }) => {
     }
     handleSetUser(newUserObject)
 
-    // eslint-disable-next-line no-undef
     netlifyIdentity.refresh().then(
-      // eslint-disable-next-line no-undef
       axios.post('/.netlify/functions/saveGame', {user: user}, {headers: {"Authorization": `Bearer ${netlifyIdentity.currentUser().token.access_token}`}})
     )
   }

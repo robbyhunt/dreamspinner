@@ -1,3 +1,5 @@
+/*global netlifyIdentity*/
+
 import React from 'react';
 import Styled from "@emotion/styled";
 import Start from "./Components/Start"
@@ -43,7 +45,6 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    // eslint-disable-next-line no-undef
     netlifyIdentity.on('init', user => {
       if (user) {
         console.log(user)
@@ -52,21 +53,17 @@ class App extends React.Component {
         )
       }
     })
-    // eslint-disable-next-line no-undef
     netlifyIdentity.on('login', user => {
       if (user) {
         user.jwt().then(
           this.setState({isLoggedIn: true}),
-          // eslint-disable-next-line no-undef
           netlifyIdentity.close()
         )
       }
     })
-    // eslint-disable-next-line no-undef
     netlifyIdentity.on('logout', () => {
         this.setState({user: undefined})
         this.setState({isLoggedIn: false})
-        // eslint-disable-next-line no-undef
         netlifyIdentity.close();
       }
     )
@@ -76,14 +73,10 @@ class App extends React.Component {
     const handleStart = async () => {
       this.setState({isLoading: true})
       let accountInfo;
-      // eslint-disable-next-line no-undef
       if (netlifyIdentity.currentUser()) {
-        // eslint-disable-next-line no-undef
         netlifyIdentity.refresh().then(
-          // eslint-disable-next-line no-undef
           accountInfo = await axios.post('/.netlify/functions/createUser', {}, {headers: {"Authorization": `Bearer ${netlifyIdentity.currentUser().token.access_token}`}}),
           this.setState({user: accountInfo.data}),
-          // eslint-disable-next-line no-undef
           console.log(netlifyIdentity.currentUser())
         )
       }
