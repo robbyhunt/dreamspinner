@@ -116,7 +116,7 @@ const SaveLoad = ({ user, handleSetUser }) => {
     handleSetUser(newUserObject)
 
     let token
-    await netlifyIdentity.refresh(true).then(returnedToken => {
+    await netlifyIdentity.refresh().then(returnedToken => {
       token = returnedToken
     })
 

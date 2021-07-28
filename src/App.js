@@ -47,11 +47,11 @@ class App extends React.Component {
   componentDidMount() {
     netlifyIdentity.on('init', user => {
       if (user) {
-        user.jwt(true).then(this.setState({isLoggedIn: true}))
+        user.jwt().then(this.setState({isLoggedIn: true}))
       }
     })
     netlifyIdentity.on('login', user => {
-      user.jwt(true).then(() => {
+      user.jwt().then(() => {
         this.setState({isLoggedIn: true})
         netlifyIdentity.close()
       })
@@ -70,7 +70,7 @@ class App extends React.Component {
       let accountInfo;
       if (this.state.isLoggedIn) {
         let token
-        await netlifyIdentity.refresh(true).then(returnedToken => {
+        await netlifyIdentity.refresh().then(returnedToken => {
           token = returnedToken
         })
 
