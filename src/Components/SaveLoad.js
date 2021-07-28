@@ -99,10 +99,10 @@ const Close = Styled('p')`
 `;
 
 
-const SaveLoad = ({ user, handleSetUser, netlifyUser }) => {
+const SaveLoad = ({ user, handleSetUser }) => {
   const [saveLoadOpen, setSaveLoadOpen] = useState(false)
   
-  const Save = (event, user, handleSetUser, netlifyUser) => {
+  const Save = (event, user, handleSetUser) => {
     let newUserObject = user
     newUserObject.saves[event.target.slot - 1] = {
       title: document.getElementById('title').value,
@@ -112,8 +112,11 @@ const SaveLoad = ({ user, handleSetUser, netlifyUser }) => {
       threads: document.getElementById('threads').value, 
     }
     handleSetUser(newUserObject)
-    netlifyUser.jwt().then(
-      axios.post('/.netlify/functions/saveGame', {user: user}, {headers: {"Authorization": `Bearer ${netlifyUser.token.access_token}`}})
+
+    // eslint-disable-next-line no-undef
+    netlifyIdentity.refresh().then(
+      // eslint-disable-next-line no-undef
+      axios.post('/.netlify/functions/saveGame', {user: user}, {headers: {"Authorization": `Bearer ${netlifyIdentity.currentUser().token.access_token}`}})
     )
   }
   
@@ -156,7 +159,7 @@ const SaveLoad = ({ user, handleSetUser, netlifyUser }) => {
                 <SaveCardInner>
                   <span>{`Slot ${index + 1}`}</span>
                   <SlotWrapper>
-                    <Button id="save" slot={index + 1} onClick={e => Save(e, user, handleSetUser, netlifyUser)}>Save</Button>
+                    <Button id="save" slot={index + 1} onClick={e => Save(e, user, handleSetUser)}>Save</Button>
                     <Button disabled={item.log === undefined} id="load" slot={index + 1} onClick={e => Load(e, user)} >Load</Button>
                   </SlotWrapper>
                 </SaveCardInner>

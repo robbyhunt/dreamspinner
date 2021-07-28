@@ -38,7 +38,7 @@ class App extends React.Component {
       threadsOpen: false,
       npcsOpen: false,
       user: undefined,
-      netlifyUser: undefined,
+      isLoggedIn: false
     };
   }
 
@@ -48,22 +48,24 @@ class App extends React.Component {
       if (user) {
         console.log(user)
         user.jwt().then(
-          this.setState({netlifyUser: user}),
+          this.setState({isLoggedIn: true})
         )
       }
     })
     // eslint-disable-next-line no-undef
     netlifyIdentity.on('login', user => {
       if (user) {
-        this.setState({netlifyUser: user})
-        // eslint-disable-next-line no-undef
-        netlifyIdentity.close();
+        user.jwt().then(
+          this.setState({isLoggedIn: true}),
+          // eslint-disable-next-line no-undef
+          netlifyIdentity.close()
+        )
       }
     })
     // eslint-disable-next-line no-undef
     netlifyIdentity.on('logout', () => {
-        this.setState({netlifyUser: undefined})
         this.setState({user: undefined})
+        this.setState({isLoggedIn: false})
         // eslint-disable-next-line no-undef
         netlifyIdentity.close();
       }
@@ -74,10 +76,15 @@ class App extends React.Component {
     const handleStart = async () => {
       this.setState({isLoading: true})
       let accountInfo;
-      if (this.state.netlifyUser) {
-        this.state.netlifyUser.jwt().then(
-          accountInfo = await axios.post('/.netlify/functions/createUser', {}, {headers: {"Authorization": `Bearer ${this.state.netlifyUser.token.access_token}`}}),
-          this.setState({user: accountInfo.data})
+      // eslint-disable-next-line no-undef
+      if (netlifyIdentity.currentUser()) {
+        // eslint-disable-next-line no-undef
+        netlifyIdentity.refresh().then(
+          // eslint-disable-next-line no-undef
+          accountInfo = await axios.post('/.netlify/functions/createUser', {}, {headers: {"Authorization": `Bearer ${netlifyIdentity.currentUser().token.access_token}`}}),
+          this.setState({user: accountInfo.data}),
+          // eslint-disable-next-line no-undef
+          console.log(netlifyIdentity.currentUser())
         )
       }
       DiceSound()
@@ -141,14 +148,13 @@ class App extends React.Component {
         {this.state.startOpen ? (
           <Start
             onClick={handleStart}
-            isLoggedIn={this.state.netlifyUser}
+            isLoggedIn={this.state.isLoggedIn}
             isLoading={this.state.isLoading}
           />
         ) : (
           <>
             <SaveLoad
               user={this.state.user}
-              netlifyUser={this.state.netlifyUser}
               handleSetUser={handleSetUser}
             />
             <Play activeGenre={this.state.activeGenre}/>
