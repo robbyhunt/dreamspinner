@@ -8,11 +8,9 @@ function AddToLog(newString = document.getElementById('input').value) {
     lineBreak = '\n'
   }
 
-  document.getElementById('log').value = log.value + lineBreak + newString;
+  log.value = log.value + lineBreak + newString;
 
   document.getElementById('input').value = "";
-
-  log.scrollTop = log.scrollHeight;
 }
 
 

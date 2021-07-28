@@ -221,6 +221,8 @@ const Play = ({activeGenre}) => {
     setIsEditActive(!isEditActive)
   }
 
+  const dice = ["d4", "d6", "d8", "d10", "d12", "d20", "d100"]
+
   return (
     <Wrapper>
         <Inner>
@@ -248,13 +250,9 @@ const Play = ({activeGenre}) => {
 
             <DiceButtonWrapper>
               Dice:
-              <Button id="d4" onClick={RollDice}>d4</Button>
-              <Button id="d6" onClick={RollDice}>d6</Button>
-              <Button id="d8" onClick={RollDice}>d8</Button>
-              <Button id="d10" onClick={RollDice}>d10</Button>
-              <Button id="d12" onClick={RollDice}>d12</Button>
-              <Button id="d20" onClick={RollDice}>d20</Button>
-              <Button id="d100" onClick={RollDice}>d100</Button>
+              {dice.map(item => (
+                <Button key={item} id={item} onClick={RollDice}>{item}</Button>
+              ))}
             </DiceButtonWrapper>
 
             <LogButtonWrapper>
@@ -265,7 +263,7 @@ const Play = ({activeGenre}) => {
             </LogButtonWrapper>
           </ButtonWrapper>
 
-          <Input name="input" id="input" placeholder="Type something here and press Shift + Enter or click Submit..." rows={1} onKeyUp={Submit}/>
+          <Input name="input" id="input" placeholder="Type something here and press Shift + Enter or click Submit..." rows={1} onKeyUp={Submit} />
         </Inner>
     </Wrapper>
   );

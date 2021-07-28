@@ -32,15 +32,18 @@ class App extends React.Component {
     super(props);
     this.state = {
       startOpen: true,
+
+      user: undefined,
+      isLoggedIn: false,
       isLoading: false,
+
       activeBackground: "http://www.transparenttextures.com/patterns/light-paper-fibers.png",
       activeGenre: "generic",
+
       settingsOpen: false,
       notesOpen: false,
       threadsOpen: false,
       npcsOpen: false,
-      user: undefined,
-      isLoggedIn: false
     };
   }
 
