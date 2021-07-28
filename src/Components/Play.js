@@ -1,5 +1,3 @@
-/*global netlifyIdentity*/
-
 import React, {useState} from 'react';
 import Styled from "@emotion/styled";
 import Fate from '../Generators/Fate';
@@ -226,8 +224,6 @@ const Play = ({activeGenre}) => {
   return (
     <Wrapper>
         <Inner>
-          <button onClick={() => {console.log(netlifyIdentity.currentUser().token)}}>netlifyIdentity.currentUser().token</button>
-          <button onClick={() => {netlifyIdentity.refresh().then(console.log)}}>netlifyIdentity.refresh()</button>
           <ButtonWrapper>
             <Button id={`${activeGenre}`} onClick={Place} style={{marginLeft: "0"}}>Place (Only works for fantasy atm)</Button>
             <Button id={`${activeGenre}`} onClick={Item}>Item (Only works for apocalyptic atm)</Button>
