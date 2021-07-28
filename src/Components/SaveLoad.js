@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import Styled from "@emotion/styled";
 import axios from "axios"
 
-const Wrapper = Styled('div')`
+const SaveButtonContainer = Styled('div')`
   position: absolute;
   top: 0;
   right: 0;
@@ -30,7 +30,7 @@ const Button = Styled('button')`
   }
 `;
 
-const SaveLoad = Styled('div')`
+const Modal = Styled('div')`
   position: absolute;
   top: 0;
   left: 0;
@@ -99,10 +99,10 @@ const Close = Styled('p')`
 `;
 
 
-const SaveButtons = ({ user, handleSetUser, token }) => {
+const SaveLoad = ({ user, handleSetUser, netlifyUser }) => {
   const [saveLoadOpen, setSaveLoadOpen] = useState(false)
   
-  const Save = (event, user, handleSetUser, token) => {
+  const Save = (event, user, handleSetUser, netlifyUser) => {
     let newUserObject = user
     newUserObject.saves[event.target.slot - 1] = {
       title: document.getElementById('title').value,
@@ -112,7 +112,9 @@ const SaveButtons = ({ user, handleSetUser, token }) => {
       threads: document.getElementById('threads').value, 
     }
     handleSetUser(newUserObject)
-    axios.post('/.netlify/functions/saveGame', {user: user}, {headers: {"Authorization": `Bearer ${token}`}})
+    netlifyUser.jwt().then(
+      axios.post('/.netlify/functions/saveGame', {user: user}, {headers: {"Authorization": `Bearer ${netlifyUser.token.access_token}`}})
+    )
   }
   
   const Load = async (event, user) => {
@@ -128,7 +130,7 @@ const SaveButtons = ({ user, handleSetUser, token }) => {
 
   return (
     <>
-      <Wrapper>
+      <SaveButtonContainer>
         {user ? (
           <>
             Game Name: 
@@ -140,9 +142,10 @@ const SaveButtons = ({ user, handleSetUser, token }) => {
           </>
         )}
         <Button disabled={user === undefined} id="save" slot={1} onClick={() => setSaveLoadOpen(true)}>Save/Load</Button>
-      </Wrapper>
+      </SaveButtonContainer>
+
       {user && (
-        <SaveLoad style={{opacity: saveLoadOpen ? "1" : "0", pointerEvents: saveLoadOpen ? "auto" : "none"}}>
+        <Modal style={{opacity: saveLoadOpen ? "1" : "0", pointerEvents: saveLoadOpen ? "auto" : "none"}}>
           <Inner style={{opacity: saveLoadOpen ? "1" : "0", pointerEvents: saveLoadOpen ? "auto" : "none"}}>
             <Close onClick={() => setSaveLoadOpen(false)}>Close</Close>
             <Title>Save & Load Games</Title>
@@ -153,7 +156,7 @@ const SaveButtons = ({ user, handleSetUser, token }) => {
                 <SaveCardInner>
                   <span>{`Slot ${index + 1}`}</span>
                   <SlotWrapper>
-                    <Button id="save" slot={index + 1} onClick={e => Save(e, user, handleSetUser, token)}>Save</Button>
+                    <Button id="save" slot={index + 1} onClick={e => Save(e, user, handleSetUser, netlifyUser)}>Save</Button>
                     <Button disabled={item.log === undefined} id="load" slot={index + 1} onClick={e => Load(e, user)} >Load</Button>
                   </SlotWrapper>
                 </SaveCardInner>
@@ -161,10 +164,11 @@ const SaveButtons = ({ user, handleSetUser, token }) => {
             ))}
 
           </Inner>
-        </SaveLoad>
+        </Modal>
       )}
+
     </>
   );
 }
 
-export default SaveButtons;
+export default SaveLoad;

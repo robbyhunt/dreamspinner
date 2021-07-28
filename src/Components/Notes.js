@@ -34,7 +34,7 @@ const NotesArea = Styled('textarea')`
   pointer-events: initial;
   outline: none;
   padding: 10px;
-  font-size: 16px;
+  font-size: 18px;
   resize: none;
 
   &:focus {

@@ -10,7 +10,7 @@ import NoirBG from "./img/noirbg.jpg"
 import ApocalypticBG from "./img/apocalypticbg.jpg"
 import Settings from "./Components/Settings"
 import Notes from "./Components/Notes"
-import SaveButtons from "./Components/SaveButtons"
+import SaveLoad from "./Components/SaveLoad"
 import axios from "axios"
 
 const Wrapper = Styled('div')`
@@ -38,8 +38,7 @@ class App extends React.Component {
       threadsOpen: false,
       npcsOpen: false,
       user: undefined,
-      isLoggedIn: false,
-      token: "",
+      netlifyUser: undefined,
     };
   }
 
@@ -47,26 +46,24 @@ class App extends React.Component {
     // eslint-disable-next-line no-undef
     netlifyIdentity.on('init', user => {
       if (user) {
-        this.setState({isLoggedIn: true})
-        this.setState({user: user})
-        this.setState({token: user.token.access_token})
+        console.log(user)
+        user.jwt().then(
+          this.setState({netlifyUser: user}),
+        )
       }
     })
     // eslint-disable-next-line no-undef
     netlifyIdentity.on('login', user => {
       if (user) {
-        this.setState({isLoggedIn: true})
-        this.setState({user: user})
-        this.setState({token: user.token.access_token})
+        this.setState({netlifyUser: user})
         // eslint-disable-next-line no-undef
         netlifyIdentity.close();
       }
     })
     // eslint-disable-next-line no-undef
     netlifyIdentity.on('logout', () => {
-        this.setState({isLoggedIn: false})
+        this.setState({netlifyUser: undefined})
         this.setState({user: undefined})
-        this.setState({token: ""})
         // eslint-disable-next-line no-undef
         netlifyIdentity.close();
       }
@@ -77,9 +74,11 @@ class App extends React.Component {
     const handleStart = async () => {
       this.setState({isLoading: true})
       let accountInfo;
-      if (this.state.isLoggedIn) {
-        accountInfo = await axios.post('/.netlify/functions/createUser', {}, {headers: {"Authorization": `Bearer ${this.state.token}`}})
-        this.setState({user: accountInfo.data})
+      if (this.state.netlifyUser) {
+        this.state.netlifyUser.jwt().then(
+          accountInfo = await axios.post('/.netlify/functions/createUser', {}, {headers: {"Authorization": `Bearer ${this.state.netlifyUser.token.access_token}`}}),
+          this.setState({user: accountInfo.data})
+        )
       }
       DiceSound()
       this.setState({startOpen: false})
@@ -142,15 +141,15 @@ class App extends React.Component {
         {this.state.startOpen ? (
           <Start
             onClick={handleStart}
-            isLoggedIn={this.state.isLoggedIn}
+            isLoggedIn={this.state.netlifyUser}
             isLoading={this.state.isLoading}
           />
         ) : (
           <>
-            <SaveButtons
+            <SaveLoad
               user={this.state.user}
+              netlifyUser={this.state.netlifyUser}
               handleSetUser={handleSetUser}
-              token={this.state.token}
             />
             <Play activeGenre={this.state.activeGenre}/>
             <Settings
