@@ -47,7 +47,6 @@ class App extends React.Component {
   componentDidMount() {
     netlifyIdentity.on('init', user => {
       if (user) {
-        console.log(user)
         user.jwt().then(
           this.setState({isLoggedIn: true})
         )
@@ -55,10 +54,8 @@ class App extends React.Component {
     })
     netlifyIdentity.on('login', user => {
       if (user) {
-        user.jwt().then(
-          this.setState({isLoggedIn: true}),
-          netlifyIdentity.close()
-        )
+        this.setState({isLoggedIn: true})
+        netlifyIdentity.close()
       }
     })
     netlifyIdentity.on('logout', () => {
@@ -77,7 +74,6 @@ class App extends React.Component {
         netlifyIdentity.refresh().then(
           accountInfo = await axios.post('/.netlify/functions/createUser', {}, {headers: {"Authorization": `Bearer ${netlifyIdentity.currentUser().token.access_token}`}}),
           this.setState({user: accountInfo.data}),
-          console.log(netlifyIdentity.currentUser())
         )
       }
       DiceSound()

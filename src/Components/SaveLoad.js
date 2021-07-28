@@ -106,7 +106,7 @@ const SaveLoad = ({ user, handleSetUser }) => {
   
   const Save = (event, user, handleSetUser) => {
     let newUserObject = user
-    newUserObject.saves[event.target.slot - 1] = {
+    newUserObject.saves[event.target.slot] = {
       title: document.getElementById('title').value,
       log: document.getElementById('log').value,
       notes: document.getElementById('notes').value,
@@ -121,7 +121,7 @@ const SaveLoad = ({ user, handleSetUser }) => {
   }
   
   const Load = async (event, user) => {
-    const gameData = user.saves[event.target.slot - 1]
+    const gameData = user.saves[event.target.slot]
     document.getElementById('title').value = gameData.title
     document.getElementById('log').value = gameData.log
     document.getElementById('notes').value = gameData.notes
@@ -154,13 +154,13 @@ const SaveLoad = ({ user, handleSetUser }) => {
             <Title>Save & Load Games</Title>
 
             {user.saves.map((item, index) => (
-              <SaveCard>
+              <SaveCard key={index}>
                 <span style={{fontSize: 16}}>{item.title ? item.title.length > 40 ? item.title.slice(0, 38) + "..." : item.title : item.log ? "Untitled Game" : "Empty Slot"}</span>
                 <SaveCardInner>
                   <span>{`Slot ${index + 1}`}</span>
                   <SlotWrapper>
-                    <Button id="save" slot={index + 1} onClick={e => Save(e, user, handleSetUser)}>Save</Button>
-                    <Button disabled={item.log === undefined} id="load" slot={index + 1} onClick={e => Load(e, user)} >Load</Button>
+                    <Button id="save" slot={index} onClick={e => Save(e, user, handleSetUser)}>Save</Button>
+                    <Button disabled={item.log === undefined} id="load" slot={index} onClick={e => Load(e, user)} >Load</Button>
                   </SlotWrapper>
                 </SaveCardInner>
               </SaveCard>
