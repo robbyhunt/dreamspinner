@@ -104,7 +104,7 @@ const Close = Styled('p')`
 const SaveLoad = ({ user, handleSetUser }) => {
   const [saveLoadOpen, setSaveLoadOpen] = useState(false)
   
-  const Save = (event, user, handleSetUser) => {
+  const Save = async (event, user, handleSetUser) => {
     let newUserObject = user
     newUserObject.saves[event.target.slot] = {
       title: document.getElementById('title').value,
@@ -115,9 +115,12 @@ const SaveLoad = ({ user, handleSetUser }) => {
     }
     handleSetUser(newUserObject)
 
-    netlifyIdentity.refresh().then(
-      axios.post('/.netlify/functions/saveGame', {user: user}, {headers: {"Authorization": `Bearer ${netlifyIdentity.currentUser().token.access_token}`}})
-    )
+    let token
+    await netlifyIdentity.refresh(true).then(returnedToken => {
+      token = returnedToken
+    })
+
+    axios.post('/.netlify/functions/saveGame', {user: user}, {headers: {"Authorization": `Bearer ${token}`}})
   }
   
   const Load = async (event, user) => {

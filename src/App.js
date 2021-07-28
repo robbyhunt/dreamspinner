@@ -47,16 +47,14 @@ class App extends React.Component {
   componentDidMount() {
     netlifyIdentity.on('init', user => {
       if (user) {
-        user.jwt().then(
-          this.setState({isLoggedIn: true})
-        )
+        user.jwt(true).then(this.setState({isLoggedIn: true}))
       }
     })
     netlifyIdentity.on('login', user => {
-      if (user) {
+      user.jwt(true).then(() => {
         this.setState({isLoggedIn: true})
         netlifyIdentity.close()
-      }
+      })
     })
     netlifyIdentity.on('logout', () => {
         this.setState({user: undefined})
@@ -70,11 +68,15 @@ class App extends React.Component {
     const handleStart = async () => {
       this.setState({isLoading: true})
       let accountInfo;
-      if (netlifyIdentity.currentUser()) {
-        netlifyIdentity.refresh().then(
-          accountInfo = await axios.post('/.netlify/functions/createUser', {}, {headers: {"Authorization": `Bearer ${netlifyIdentity.currentUser().token.access_token}`}}),
-          this.setState({user: accountInfo.data}),
-        )
+      if (this.state.isLoggedIn) {
+        let token
+        await netlifyIdentity.refresh(true).then(returnedToken => {
+          token = returnedToken
+        })
+
+        accountInfo = await axios.post('/.netlify/functions/createUser', {}, {headers: {"Authorization": `Bearer ${token}`}})
+
+        this.setState({user: accountInfo.data})
       }
       DiceSound()
       this.setState({startOpen: false})
