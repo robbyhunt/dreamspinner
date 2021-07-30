@@ -51,14 +51,34 @@ function Notes() {
   const [threadsOpen, setThreadsOpen] = useState(false);
   const [npcsOpen, setNpcsOpen] = useState(false);
 
-  const { npcs, threads, notes } = useSelector((s) => s);
+  const handleToggle = (type) => {
+    setNotesOpen(false);
+    setThreadsOpen(false);
+    setNpcsOpen(false);
 
+    switch (type) {
+      case "notes":
+        setNotesOpen(!notesOpen);
+        break;
+      case "threads":
+        setThreadsOpen(!threadsOpen);
+        break;
+      case "npcs":
+        setNpcsOpen(!npcsOpen);
+        break;
+
+      default:
+        break;
+    }
+  };
+
+  const { npcs, threads, notes } = useSelector((s) => s);
   const dispatch = useDispatch();
 
   return (
     <>
       <Wrapper notesOpen={notesOpen} position="25px">
-        <Title onClick={() => setNotesOpen(!notesOpen)}>
+        <Title onClick={() => handleToggle("notes")}>
           {"notes".toUpperCase()}
         </Title>
         <NotesArea
@@ -69,7 +89,7 @@ function Notes() {
         />
       </Wrapper>
       <Wrapper notesOpen={threadsOpen} position="225px">
-        <Title onClick={() => setThreadsOpen(!threadsOpen)}>
+        <Title onClick={() => handleToggle("threads")}>
           {"threads".toUpperCase()}
         </Title>
         <NotesArea
@@ -80,7 +100,7 @@ function Notes() {
         />
       </Wrapper>
       <Wrapper notesOpen={npcsOpen} position="425px">
-        <Title onClick={() => setNpcsOpen(!npcsOpen)}>
+        <Title onClick={() => handleToggle("npcs")}>
           {"npcs".toUpperCase()}
         </Title>
         <NotesArea
