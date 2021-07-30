@@ -1,17 +1,13 @@
-import AddToLog from "./AddToLog";
-import DiceSound from "./DiceSound"
+import DiceSound from "./DiceSound";
 
-function RollDice(event) {   
+function RollDice(event) {
+  const result = ` > [${event.target.id}]: ${
+    Math.floor(Math.random() * event.target.id.substring(1, 4)) + 1
+  }`;
 
-  const result = ` > [${event.target.id}]: ${Math.floor(Math.random() * event.target.id.substring(1, 4)) + 1}`;
+  DiceSound();
 
-  DiceSound()
-  
-  return(
-    AddToLog() + AddToLog(result)
-  )
+  return result;
 }
 
 export default RollDice;
-
-

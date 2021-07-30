@@ -1,17 +1,13 @@
-import React, {useState} from 'react';
+import React, { useState } from "react";
 import Styled from "@emotion/styled";
-import Fate from '../Generators/Fate';
-import ComplexQuestion from '../Generators/ComplexQuestion';
-import Undo from '../util/Undo';
-import ClearLog from '../util/ClearLog';
-import SubmitButton from '../util/SubmitButton';
-import Submit from '../util/Submit';
-import Place from '../Generators/Place'
-import Npc from '../Generators/Npc'
-import Item from '../Generators/Item'
-import RollDice from '../util/DiceRoll';
 
-const Wrapper = Styled('div')`
+import { useSelector, useDispatch } from "react-redux";
+import { changeLog, addToLog, undoLog, changeInput } from "../actionCreators";
+
+import { Fate, Event, ComplexQuestion, Place, Npc, Item } from "../Generators";
+import RollDice from "../util/DiceRoll";
+
+const Wrapper = Styled("div")`
   width: 90%;
   height: 100%;
   margin: 0 auto;
@@ -22,7 +18,7 @@ const Wrapper = Styled('div')`
   z-index: 10;
 `;
 
-const Inner = Styled('div')`
+const Inner = Styled("div")`
   width: 100%; 
   max-width: 1500px; 
   overflow: hidden;
@@ -39,7 +35,7 @@ const Inner = Styled('div')`
   }
 `;
 
-const ButtonWrapper = Styled('div')`
+const ButtonWrapper = Styled("div")`
   display: flex;
   justify-content: space-between;
   flex-direction: column;
@@ -58,7 +54,7 @@ const ButtonWrapper = Styled('div')`
   }
 `;
 
-const GeneratorWrapper = Styled('div')`
+const GeneratorWrapper = Styled("div")`
   display: flex;
   margin-bottom: 10px;
   justify-content: space-around;
@@ -70,7 +66,7 @@ const GeneratorWrapper = Styled('div')`
   }
 `;
 
-const FateButtonWrapper = Styled('div')`
+const FateButtonWrapper = Styled("div")`
   display: flex;
   color: white;
   align-items: center;
@@ -82,7 +78,7 @@ const FateButtonWrapper = Styled('div')`
   }
 `;
 
-const DiceButtonWrapper = Styled('div')`
+const DiceButtonWrapper = Styled("div")`
   display: flex;
   color: white;
   align-items: center;
@@ -100,7 +96,7 @@ const DiceButtonWrapper = Styled('div')`
   }
 `;
 
-const LogButtonWrapper = Styled('div')`
+const LogButtonWrapper = Styled("div")`
   display: flex;
   justify-content: space-around;
   margin-top: 0;
@@ -121,7 +117,7 @@ const LogButtonWrapper = Styled('div')`
   }
 `;
 
-const Button = Styled('button')`
+const Button = Styled("button")`
   cursor: pointer;
   margin-left: 0px;
   background-color: #ffffff;
@@ -145,7 +141,7 @@ const Button = Styled('button')`
 const GenerateButton = Styled(Button)`
 `;
 
-const Log = Styled('textarea')`
+const Log = Styled("textarea")`
   width: calc(100% - 20px);
   height: 40vh;
   resize: none;
@@ -184,7 +180,7 @@ const Log = Styled('textarea')`
   }
 `;
 
-const Input = Styled('textarea')`
+const Input = Styled("textarea")`
   width: calc(100% - 20px);
   padding: 10px;
   height: 60px;
@@ -214,59 +210,154 @@ const Input = Styled('textarea')`
   }
 `;
 
-const Play = ({activeGenre}) => {
-  const [isEditActive, setIsEditActive] = useState(false)
+const Play = ({ activeGenre }) => {
+  const [isEditActive, setIsEditActive] = useState(false);
 
-  const handleClickLog = () => {
-    setIsEditActive(!isEditActive)
-  }
+  const { log, input } = useSelector((s) => s);
+  const dispatch = useDispatch();
 
-  const dice = ["d4", "d6", "d8", "d10", "d12", "d20", "d100"]
+  const handleGenerator = (e) => {
+    let result;
+
+    switch (e.target.name) {
+      case "place":
+        result = Place(e);
+        break;
+      case "item":
+        result = Item(e);
+        break;
+      case "npc":
+        result = Npc(e);
+        break;
+      case "complex":
+        result = ComplexQuestion(e);
+        break;
+      case "fate":
+        result = Fate(e);
+        break;
+      case "dice":
+        result = RollDice(e);
+        break;
+
+      default:
+        break;
+    }
+
+    if (Array.isArray(result)) {
+      dispatch(addToLog(result[0]));
+      const event = Event(result[1]);
+      if (event) {
+        dispatch(addToLog(event));
+      }
+    } else {
+      dispatch(addToLog(result));
+    }
+  };
+
+  const handleSubmit = (e, isButton = false) => {
+    if (isButton || (e.key === "Enter" && e.shiftKey)) {
+      const submission = input.replace(/\n.*$/, "");
+      dispatch(changeInput(""));
+      dispatch(addToLog(submission));
+    }
+  };
+
+  const dice = ["d4", "d6", "d8", "d10", "d12", "d20", "d100"];
 
   return (
     <Wrapper>
-        <Inner>
-          <ButtonWrapper>
-            <Button id={`${activeGenre}`} onClick={Place} style={{marginLeft: "0"}}>Place (Only works for fantasy atm)</Button>
-            <Button id={`${activeGenre}`} onClick={Item}>Item (Only works for apocalyptic atm)</Button>
-            <Button id={`${activeGenre}`} onClick={Npc}>Character (Only works for fantasy atm)</Button>
-          </ButtonWrapper>
+      <Inner>
+        <ButtonWrapper>
+          <Button
+            id={`${activeGenre}`}
+            name="place"
+            onClick={handleGenerator}
+            style={{ marginLeft: "0" }}
+          >
+            Place (Only works for fantasy atm)
+          </Button>
+          <Button id={`${activeGenre}`} name="item" onClick={handleGenerator}>
+            Item (Only works for apocalyptic atm)
+          </Button>
+          <Button id={`${activeGenre}`} name="npc" onClick={handleGenerator}>
+            Character (Only works for fantasy atm)
+          </Button>
+        </ButtonWrapper>
 
-          <Log name="log" id="log" readOnly={!isEditActive} />
+        <Log
+          name="log"
+          id="log"
+          readOnly={!isEditActive}
+          value={log}
+          onChange={(e) => dispatch(changeLog(e.target.value))}
+        />
 
-          <ButtonWrapper>
-            <GeneratorWrapper>
-              Complex Question:
-              <GenerateButton id="cqa" onClick={ComplexQuestion}>Action</GenerateButton>
-              <GenerateButton id="cqd" onClick={ComplexQuestion}>Description</GenerateButton>
-            </GeneratorWrapper>
+        <ButtonWrapper>
+          <GeneratorWrapper>
+            Complex Question:
+            <GenerateButton id="cqa" name="complex" onClick={handleGenerator}>
+              Action
+            </GenerateButton>
+            <GenerateButton id="cqd" name="complex" onClick={handleGenerator}>
+              Description
+            </GenerateButton>
+          </GeneratorWrapper>
 
-            <FateButtonWrapper>
-              Yes / No: 
-              <Button id="fateunlikely" onClick={Fate}>Unlikely</Button>
-              <Button id="fate5050" onClick={Fate}>50/50</Button>
-              <Button id="fatelikely" onClick={Fate}>Likely</Button>
-            </FateButtonWrapper>
+          <FateButtonWrapper>
+            Yes / No:
+            <Button id="fateunlikely" name="fate" onClick={handleGenerator}>
+              Unlikely
+            </Button>
+            <Button id="fate5050" name="fate" onClick={handleGenerator}>
+              50/50
+            </Button>
+            <Button id="fatelikely" name="fate" onClick={handleGenerator}>
+              Likely
+            </Button>
+          </FateButtonWrapper>
 
-            <DiceButtonWrapper>
-              Dice:
-              {dice.map(item => (
-                <Button key={item} id={item} onClick={RollDice}>{item}</Button>
-              ))}
-            </DiceButtonWrapper>
+          <DiceButtonWrapper>
+            Dice:
+            {dice.map((item) => (
+              <Button
+                key={item}
+                id={item}
+                name="dice"
+                onClick={handleGenerator}
+              >
+                {item}
+              </Button>
+            ))}
+          </DiceButtonWrapper>
 
-            <LogButtonWrapper>
-              <Button id="submit" onClick={SubmitButton}>Submit</Button>
-              <Button id="undo" onClick={Undo}>Undo</Button>
-              <Button id="edit" onClick={handleClickLog}>{isEditActive ? "Confirm" : "Edit"}</Button>
-              <Button id="clear" onClick={ClearLog}>Clear Log</Button>
-            </LogButtonWrapper>
-          </ButtonWrapper>
+          <LogButtonWrapper>
+            <Button id="submit" onClick={(e) => handleSubmit(e, true)}>
+              Submit
+            </Button>
+            <Button id="undo" onClick={() => dispatch(undoLog())}>
+              Undo
+            </Button>
+            <Button id="edit" onClick={() => setIsEditActive(!isEditActive)}>
+              {isEditActive ? "Confirm" : "Edit"}
+            </Button>
+            <Button id="clear" onClick={() => dispatch(changeLog(""))}>
+              Clear Log
+            </Button>
+          </LogButtonWrapper>
+        </ButtonWrapper>
 
-          <Input name="input" id="input" placeholder="Type something here and press Shift + Enter or click Submit..." rows={1} onKeyUp={Submit} />
-        </Inner>
+        <Input
+          name="input"
+          id="input"
+          placeholder="Type something here and press Shift + Enter or click Submit..."
+          rows={1}
+          onKeyUp={handleSubmit}
+          value={input}
+          onChange={(e) => dispatch(changeInput(e.target.value))}
+        />
+      </Inner>
     </Wrapper>
   );
-}
+};
 
 export default Play;

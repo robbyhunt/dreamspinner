@@ -1,10 +1,19 @@
 /*global netlifyIdentity*/
 
-import React, {useState} from 'react';
+import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  changeLog,
+  changeInput,
+  changeUser,
+  changeNotes,
+  changeThreads,
+  changeNPCs,
+} from "../actionCreators";
 import Styled from "@emotion/styled";
-import axios from "axios"
+import axios from "axios";
 
-const SaveButtonContainer = Styled('div')`
+const SaveButtonContainer = Styled("div")`
   position: absolute;
   top: 0;
   right: 0;
@@ -16,7 +25,7 @@ const SaveButtonContainer = Styled('div')`
   color: #ffffff;
 `;
 
-const Button = Styled('button')`
+const Button = Styled("button")`
   cursor: pointer;
   background-color: #ffffff;
   border: none;
@@ -32,7 +41,7 @@ const Button = Styled('button')`
   }
 `;
 
-const Modal = Styled('div')`
+const Modal = Styled("div")`
   position: absolute;
   top: 0;
   left: 0;
@@ -46,7 +55,7 @@ const Modal = Styled('div')`
   align-items: center;
 `;
 
-const Inner = Styled('div')`
+const Inner = Styled("div")`
   background-color: #ffffff;
   transition: 400ms;
   padding: 15px;
@@ -58,12 +67,12 @@ const Inner = Styled('div')`
   margin: 0 15px;
 `;
 
-const Title = Styled('p')`
+const Title = Styled("p")`
   margin: 0 0 20px;
   font-size: 22px;
 `;
 
-const SaveCard = Styled('div')`
+const SaveCard = Styled("div")`
   display: flex;
   margin-bottom: 20px;
   align-items: center;
@@ -76,17 +85,17 @@ const SaveCard = Styled('div')`
   }
 `;
 
-const SaveCardInner = Styled('div')`
+const SaveCardInner = Styled("div")`
   display: flex;
   flex-direction: column;
   text-align: center;
 `;
 
-const SlotWrapper = Styled('div')`
+const SlotWrapper = Styled("div")`
   display: flex;
 `;
 
-const Close = Styled('p')`
+const Close = Styled("p")`
   position: absolute;
   top: 0;
   right: 10px;
@@ -100,92 +109,134 @@ const Close = Styled('p')`
   }
 `;
 
+const SaveLoad = () => {
+  const [saveLoadOpen, setSaveLoadOpen] = useState(false);
 
-const SaveLoad = ({ user, handleSetUser }) => {
-  const [saveLoadOpen, setSaveLoadOpen] = useState(false)
-  
+  const { log, user, notes, threads, npcs } = useSelector((s) => s);
+  const dispatch = useDispatch();
+
   const Save = async (event) => {
-    let newUserObject = user
+    let newUserObject = user;
     newUserObject.saves[event.target.slot] = {
-      title: document.getElementById('title').value,
-      log: document.getElementById('log').value,
-      notes: document.getElementById('notes').value,
-      npcs: document.getElementById('npcs').value,
-      threads: document.getElementById('threads').value, 
-    }
-    handleSetUser(newUserObject)
+      title: document.getElementById("title").value,
+      log,
+      notes,
+      npcs,
+      threads,
+    };
+    dispatch(changeUser(newUserObject));
 
-    let token
-    await netlifyIdentity.refresh().then(returnedToken => {
-      token = returnedToken
-    })
+    let token;
+    await netlifyIdentity.refresh().then((returnedToken) => {
+      token = returnedToken;
+    });
 
-    axios.post('/.netlify/functions/saveGame', {user: user}, {headers: {"Authorization": `Bearer ${token}`}})
-  }
-  
+    axios.post(
+      "/.netlify/functions/saveGame",
+      { user: user },
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+  };
+
   const Load = async (event) => {
-    const gameData = user.saves[event.target.slot]
-    document.getElementById('title').value = gameData.title
-    document.getElementById('log').value = gameData.log
-    document.getElementById('notes').value = gameData.notes
-    document.getElementById('threads').value = gameData.threads
-    document.getElementById('npcs').value = gameData.npcs
-    document.getElementById('input').value = ""
-    document.getElementById('log').scrollTop = document.getElementById('log').scrollHeight;
-    setSaveLoadOpen(false)
-  }
+    const gameData = user.saves[event.target.slot];
+    document.getElementById("title").value = gameData.title;
+    dispatch(changeThreads(gameData.threads));
+    dispatch(changeNotes(gameData.notes));
+    dispatch(changeNPCs(gameData.npcs));
+    dispatch(changeInput(""));
+    await dispatch(changeLog(gameData.log));
+
+    document.getElementById("log").scrollTop =
+      document.getElementById("log").scrollHeight;
+
+    setSaveLoadOpen(false);
+  };
 
   const newGame = () => {
-    document.getElementById('title').value = "Untitled Game"
-    document.getElementById('log').value = ""
-    document.getElementById('notes').value = ""
-    document.getElementById('threads').value = ""
-    document.getElementById('npcs').value = ""
-    document.getElementById('input').value = ""
-  }
+    document.getElementById("title").value = "Untitled Game";
+    dispatch(changeThreads(""));
+    dispatch(changeNotes(""));
+    dispatch(changeNPCs(""));
+    dispatch(changeInput(""));
+    dispatch(changeLog(""));
+  };
 
   return (
     <>
       <SaveButtonContainer>
         {user ? (
           <>
-            Game Name: 
-            <input id="title" defaultValue="Untitled Game" style={{margin: "0 10px 0 5px"}}/>
+            Game Name:
+            <input
+              id="title"
+              defaultValue="Untitled Game"
+              style={{ margin: "0 10px 0 5px" }}
+            />
           </>
         ) : (
-          <>
-            {`Sign in to save  `}
-          </>
+          <>{`Sign in to save  `}</>
         )}
-        <Button disabled={user === undefined} onClick={() => setSaveLoadOpen(true)} style={{marginRight: 5}}>Save/Load</Button>
+        <Button
+          disabled={user === undefined}
+          onClick={() => setSaveLoadOpen(true)}
+          style={{ marginRight: 5 }}
+        >
+          Save/Load
+        </Button>
         <Button onClick={newGame}>New Game</Button>
       </SaveButtonContainer>
 
       {user && (
-        <Modal style={{opacity: saveLoadOpen ? "1" : "0", pointerEvents: saveLoadOpen ? "auto" : "none"}}>
-          <Inner style={{opacity: saveLoadOpen ? "1" : "0", pointerEvents: saveLoadOpen ? "auto" : "none"}}>
+        <Modal
+          style={{
+            opacity: saveLoadOpen ? "1" : "0",
+            pointerEvents: saveLoadOpen ? "auto" : "none",
+          }}
+        >
+          <Inner
+            style={{
+              opacity: saveLoadOpen ? "1" : "0",
+              pointerEvents: saveLoadOpen ? "auto" : "none",
+            }}
+          >
             <Close onClick={() => setSaveLoadOpen(false)}>Close</Close>
             <Title>Save & Load Games</Title>
 
             {user.saves.map((item, index) => (
               <SaveCard key={index}>
-                <span style={{fontSize: 16}}>{item.title ? item.title.length > 40 ? item.title.slice(0, 38) + "..." : item.title : item.log ? "Untitled Game" : "Empty Slot"}</span>
+                <span style={{ fontSize: 16 }}>
+                  {item.title
+                    ? item.title.length > 40
+                      ? item.title.slice(0, 38) + "..."
+                      : item.title
+                    : item.log
+                    ? "Untitled Game"
+                    : "Empty Slot"}
+                </span>
                 <SaveCardInner>
                   <span>{`Slot ${index + 1}`}</span>
                   <SlotWrapper>
-                    <Button id="save" slot={index} onClick={e => Save(e)}>Save</Button>
-                    <Button disabled={item.log === undefined} id="load" slot={index} onClick={e => Load(e)} >Load</Button>
+                    <Button id="save" slot={index} onClick={(e) => Save(e)}>
+                      Save
+                    </Button>
+                    <Button
+                      disabled={item.log === undefined}
+                      id="load"
+                      slot={index}
+                      onClick={(e) => Load(e)}
+                    >
+                      Load
+                    </Button>
                   </SlotWrapper>
                 </SaveCardInner>
               </SaveCard>
             ))}
-
           </Inner>
         </Modal>
       )}
-
     </>
   );
-}
+};
 
 export default SaveLoad;

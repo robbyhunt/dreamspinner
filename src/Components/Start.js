@@ -1,8 +1,13 @@
-import React from 'react';
-import logo from '../img/mandala.png';
-import Styled from "@emotion/styled";
+/*global netlifyIdentity*/
 
-const Inner = Styled('div')`
+import React, { useState } from "react";
+import logo from "../img/mandala.png";
+import Styled from "@emotion/styled";
+import { useDispatch } from "react-redux";
+import { changeUser } from "../actionCreators";
+import axios from "axios";
+
+const Inner = Styled("div")`
   background-color: #0079a3;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%2300467f' fill-opacity='0.26'%3E%3Cpath d='M0 38.59l2.83-2.83 1.41 1.41L1.41 40H0v-1.41zM0 1.4l2.83 2.83 1.41-1.41L1.41 0H0v1.41zM38.59 40l-2.83-2.83 1.41-1.41L40 38.59V40h-1.41zM40 1.41l-2.83 2.83-1.41-1.41L38.59 0H40v1.41zM20 18.6l2.83-2.83 1.41 1.41L21.41 20l2.83 2.83-1.41 1.41L20 21.41l-2.83 2.83-1.41-1.41L18.59 20l-2.83-2.83 1.41-1.41L20 18.59z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
   height: 100vh;
@@ -14,7 +19,7 @@ const Inner = Styled('div')`
   color: #ffffff;
 `;
 
-const Title = Styled('div')`
+const Title = Styled("div")`
   color: #ffffff;
   filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5));
   transition: 800ms;
@@ -77,7 +82,7 @@ const Button = Styled("button")`
   }
 `;
 
-const Logo = Styled('img')`
+const Logo = Styled("img")`
   height: 30vmin;
   min-height: 275px;
   -webkit-user-select: none;
@@ -103,28 +108,48 @@ const Logo = Styled('img')`
   }
 `;
 
-function Start({onClick, isLoggedIn, isLoading}) {
+const Start = ({ onClick, isLoggedIn }) => {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const dispatch = useDispatch();
+
+  const HandleStart = async () => {
+    setIsLoading(true);
+    let accountInfo;
+    if (isLoggedIn) {
+      let token;
+      await netlifyIdentity.refresh().then((returnedToken) => {
+        token = returnedToken;
+      });
+
+      accountInfo = await axios.post(
+        "/.netlify/functions/createUser",
+        {},
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      dispatch(changeUser(accountInfo.data));
+    }
+    onClick();
+  };
+
   return (
     <Inner>
-      <Title>
-        Dreamspinner
-      </Title>
-      <Tagline>
-        A modern solo RPG and creative writing tool
-      </Tagline>
-      <Logo src={logo} alt="logo"/>
+      <Title>Dreamspinner</Title>
+      <Tagline>A modern solo RPG and creative writing tool</Tagline>
+      <Logo src={logo} alt="logo" />
       {isLoggedIn ? (
-        <Button onClick={onClick}>
+        <Button onClick={HandleStart}>
           {isLoading ? "Loading..." : "Play"}
         </Button>
       ) : (
-        <Button onClick={onClick}>
-        {isLoading ? "Loading..." : "Play as guest"}
+        <Button onClick={HandleStart}>
+          {isLoading ? "Loading..." : "Play as guest"}
         </Button>
       )}
       <Button data-netlify-identity-button></Button>
     </Inner>
   );
-}
+};
 
 export default Start;
