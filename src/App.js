@@ -31,6 +31,7 @@ const Wrapper = Styled("div")`
       : "cover"};
   background-position: center;
   overflow: hidden;
+  position: relative;
 `;
 
 class App extends React.Component {

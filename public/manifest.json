@@ -16,6 +16,11 @@
       "src": "logo512.png",
       "type": "image/png",
       "sizes": "512x512"
+    },
+    {
+      "src": "mandala.png",
+      "type": "image/png",
+      "sizes": "312x312"
     }
   ],
   "start_url": ".",
