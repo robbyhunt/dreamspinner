@@ -187,7 +187,7 @@ const SaveLoad = () => {
         <Button onClick={newGame}>New Game</Button>
       </SaveButtonContainer>
 
-      {user && (
+      {user.saves && (
         <Modal
           style={{
             opacity: saveLoadOpen ? "1" : "0",
