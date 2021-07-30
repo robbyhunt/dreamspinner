@@ -6,39 +6,25 @@ import { changeLog, addToLog, undoLog, changeInput } from "../actionCreators";
 
 import { Fate, Event, ComplexQuestion, Place, Npc, Item } from "../Generators";
 import RollDice from "../util/DiceRoll";
+import Dialog from "./Dialog";
+import ResizableContainer from "./ResizableContainer";
 
 const Wrapper = Styled("div")`
-  width: 90%;
+  width: 100%;
   height: 100%;
-  margin: 0 auto;
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 10;
-`;
-
-const Inner = Styled("div")`
-  width: 100%; 
-  max-width: 1500px; 
-  overflow: hidden;
-  border-radius: 20px;
-  display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.4));
-  margin-top: 40px;
-
-  @media (min-width: 457px) {
-    margin-top: 0px;
-  }
+  background-color: #ffffff;
+  border-radius: 10px;
 `;
 
 const ButtonWrapper = Styled("div")`
   display: flex;
   justify-content: space-between;
-  flex-direction: column;
   width: calc(100% - 20px);
   flex-wrap: wrap;
   background-color: #00467f;
@@ -47,11 +33,6 @@ const ButtonWrapper = Styled("div")`
   -webkit-user-select: none;
   -ms-user-select: none;
   user-select: none;
-
-
-  @media (min-width: 958px) {
-    flex-direction: row;
-  }
 `;
 
 const GeneratorWrapper = Styled("div")`
@@ -61,9 +42,6 @@ const GeneratorWrapper = Styled("div")`
   color: white;
   align-items: center;
 
-  @media (min-width: 958px) {
-    margin-bottom: 0;
-  }
 `;
 
 const FateButtonWrapper = Styled("div")`
@@ -73,9 +51,6 @@ const FateButtonWrapper = Styled("div")`
   margin-bottom: 10px;
   justify-content: space-around;
 
-  @media (min-width: 958px) {
-    margin-bottom: 0;
-  }
 `;
 
 const DiceButtonWrapper = Styled("div")`
@@ -86,14 +61,6 @@ const DiceButtonWrapper = Styled("div")`
   justify-content: space-around;
   margin-top: 0;
 
-  @media (min-width: 958px) {
-    margin-bottom: 0;
-    margin-top: 15px;
-  }
-
-  @media (min-width: 1110px) {
-    margin-top: 0;
-  }
 `;
 
 const LogButtonWrapper = Styled("div")`
@@ -102,29 +69,16 @@ const LogButtonWrapper = Styled("div")`
   margin-top: 0;
   margin-left: 0;
 
-  @media (min-width: 958px) {
-    justify-content: flex-end;
-    margin-top: 15px;
-  }
-
-  @media (min-width: 1110px) {
-    margin-left: calc(100% - 280px);
-  }
-
-  @media (min-width: 1531px) {
-    margin-top: 0;
-    margin-left: 0;
-  }
 `;
 
 const Button = Styled("button")`
   cursor: pointer;
-  margin-left: 0px;
   background-color: #ffffff;
   border: none;
   border-radius: 5px;
   padding: 5px 10px;
-
+  margin: 0 5px;
+  
   &:hover {
     background-color: #efefefef;
   }
@@ -132,22 +86,20 @@ const Button = Styled("button")`
   &:focus {
     outline: none;
   }
-
-  @media (min-width: 958px) {
-    margin-left: 10px;
-  }
 `;
 
 const GenerateButton = Styled(Button)`
 `;
 
 const Log = Styled("textarea")`
-  width: calc(100% - 20px);
-  height: 40vh;
+  width: calc(100% - 25px);
+  height: 85%;
   resize: none;
   padding: 10px;
   font-size: 22px;
   line-height: 30px;
+  margin-right: 5px;
+  border: none;
 
   ::-webkit-scrollbar {
     width: 5px;
@@ -166,26 +118,15 @@ const Log = Styled("textarea")`
   &:focus {
     outline: none;
   }
-
-  @media (min-width: 958px) {
-    height: 50vh;
-  }
-
-  @media (min-width: 1249px) {
-    height: 55vh;
-  }
-
-  @media (min-width: 1531px) {
-    height: 60vh;
-  }
 `;
 
 const Input = Styled("textarea")`
   width: calc(100% - 20px);
   padding: 10px;
-  height: 60px;
+  height: 15%;
   resize: none;
   font-size: 20px;
+  border-radius: 0 0 10px 10px;
 
   ::-webkit-scrollbar {
     width: 5px;
@@ -199,10 +140,6 @@ const Input = Styled("textarea")`
   ::-webkit-scrollbar-thumb {
     border-radius: 10px;
     background-color: #376d99;
-  }
-
-  @media (min-width: 1531px) {
-    height: 100px;
   }
 
   &:focus {
@@ -265,98 +202,100 @@ const Play = ({ activeGenre }) => {
   const dice = ["d4", "d6", "d8", "d10", "d12", "d20", "d100"];
 
   return (
-    <Wrapper>
-      <Inner>
-        <ButtonWrapper>
-          <Button
-            id={`${activeGenre}`}
-            name="place"
-            onClick={handleGenerator}
-            style={{ marginLeft: "0" }}
-          >
-            Place (Only works for fantasy atm)
-          </Button>
-          <Button id={`${activeGenre}`} name="item" onClick={handleGenerator}>
-            Item (Only works for apocalyptic atm)
-          </Button>
-          <Button id={`${activeGenre}`} name="npc" onClick={handleGenerator}>
-            Character (Only works for fantasy atm)
-          </Button>
-        </ButtonWrapper>
-
-        <Log
-          name="log"
-          id="log"
-          readOnly={!isEditActive}
-          value={log}
-          onChange={(e) => dispatch(changeLog(e.target.value))}
-        />
-
-        <ButtonWrapper>
-          <GeneratorWrapper>
-            Complex Question:
-            <GenerateButton id="cqa" name="complex" onClick={handleGenerator}>
-              Action
-            </GenerateButton>
-            <GenerateButton id="cqd" name="complex" onClick={handleGenerator}>
-              Description
-            </GenerateButton>
-          </GeneratorWrapper>
-
-          <FateButtonWrapper>
-            Yes / No:
-            <Button id="fateunlikely" name="fate" onClick={handleGenerator}>
-              Unlikely
+    <Dialog title="Game Log" canClose={false}>
+      <ResizableContainer minwidth="700px" minheight="600px">
+        <Wrapper>
+          <ButtonWrapper>
+            <Button
+              id={`${activeGenre}`}
+              name="place"
+              onClick={handleGenerator}
+              style={{ marginLeft: "0" }}
+            >
+              Place (Only works for fantasy atm)
             </Button>
-            <Button id="fate5050" name="fate" onClick={handleGenerator}>
-              50/50
+            <Button id={`${activeGenre}`} name="item" onClick={handleGenerator}>
+              Item (Only works for apocalyptic atm)
             </Button>
-            <Button id="fatelikely" name="fate" onClick={handleGenerator}>
-              Likely
+            <Button id={`${activeGenre}`} name="npc" onClick={handleGenerator}>
+              Character (Only works for fantasy atm)
             </Button>
-          </FateButtonWrapper>
+          </ButtonWrapper>
 
-          <DiceButtonWrapper>
-            Dice:
-            {dice.map((item) => (
-              <Button
-                key={item}
-                id={item}
-                name="dice"
-                onClick={handleGenerator}
-              >
-                {item}
+          <Log
+            name="log"
+            id="log"
+            readOnly={!isEditActive}
+            value={log}
+            onChange={(e) => dispatch(changeLog(e.target.value))}
+          />
+
+          <ButtonWrapper>
+            <GeneratorWrapper>
+              Complex Question:
+              <GenerateButton id="cqa" name="complex" onClick={handleGenerator}>
+                Action
+              </GenerateButton>
+              <GenerateButton id="cqd" name="complex" onClick={handleGenerator}>
+                Description
+              </GenerateButton>
+            </GeneratorWrapper>
+
+            <FateButtonWrapper>
+              Yes / No:
+              <Button id="fateunlikely" name="fate" onClick={handleGenerator}>
+                Unlikely
               </Button>
-            ))}
-          </DiceButtonWrapper>
+              <Button id="fate5050" name="fate" onClick={handleGenerator}>
+                50/50
+              </Button>
+              <Button id="fatelikely" name="fate" onClick={handleGenerator}>
+                Likely
+              </Button>
+            </FateButtonWrapper>
 
-          <LogButtonWrapper>
-            <Button id="submit" onClick={(e) => handleSubmit(e, true)}>
-              Submit
-            </Button>
-            <Button id="undo" onClick={() => dispatch(undoLog())}>
-              Undo
-            </Button>
-            <Button id="edit" onClick={() => setIsEditActive(!isEditActive)}>
-              {isEditActive ? "Confirm" : "Edit"}
-            </Button>
-            <Button id="clear" onClick={() => dispatch(changeLog(""))}>
-              Clear Log
-            </Button>
-          </LogButtonWrapper>
-        </ButtonWrapper>
+            <DiceButtonWrapper>
+              Dice:
+              {dice.map((item) => (
+                <Button
+                  key={item}
+                  id={item}
+                  name="dice"
+                  onClick={handleGenerator}
+                >
+                  {item}
+                </Button>
+              ))}
+            </DiceButtonWrapper>
 
-        <Input
-          name="input"
-          id="input"
-          placeholder="Type something here and press Shift + Enter or click Submit..."
-          rows={1}
-          onKeyUp={handleSubmit}
-          value={input}
-          onChange={(e) => dispatch(changeInput(e.target.value))}
-        />
-      </Inner>
-    </Wrapper>
+            <LogButtonWrapper>
+              <Button id="submit" onClick={(e) => handleSubmit(e, true)}>
+                Submit
+              </Button>
+              <Button id="undo" onClick={() => dispatch(undoLog())}>
+                Undo
+              </Button>
+              <Button id="edit" onClick={() => setIsEditActive(!isEditActive)}>
+                {isEditActive ? "Confirm" : "Edit"}
+              </Button>
+              <Button id="clear" onClick={() => dispatch(changeLog(""))}>
+                Clear Log
+              </Button>
+            </LogButtonWrapper>
+          </ButtonWrapper>
+
+          <Input
+            name="input"
+            id="input"
+            placeholder="Type something here and press Shift + Enter or click Submit..."
+            rows={1}
+            onKeyUp={handleSubmit}
+            value={input}
+            onChange={(e) => dispatch(changeInput(e.target.value))}
+          />
+        </Wrapper>
+      </ResizableContainer>
+    </Dialog>
   );
 };
 
