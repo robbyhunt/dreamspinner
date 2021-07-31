@@ -43,7 +43,7 @@ const Wrapper = Styled("div")`
 const Play = () => {
   const settingsHook = useState(false);
   const notebookHook = useState(true);
-  const generatorsHook = useState(true);
+  const generatorsHook = useState(false);
 
   const { genre } = useSelector((s) => s);
 
