@@ -1,6 +1,9 @@
 import React from "react";
 import Styled from "@emotion/styled";
 
+import { useDispatch } from "react-redux";
+import { changeGenre } from "../actionCreators";
+
 const Wrapper = Styled("div")`
   width: 150px;
   height: ${(props) => (props.settingsOpen ? "255px" : "35px")};
@@ -58,7 +61,13 @@ const Button = Styled("button")`
   }
 `;
 
-function Settings({ settingsOpen, openSettings, handleGenre }) {
+function Settings({ settingsOpen, openSettings }) {
+  const dispatch = useDispatch();
+
+  const handleGenre = (e) => {
+    dispatch(changeGenre(e.target.id));
+  };
+
   return (
     <Wrapper settingsOpen={settingsOpen}>
       <Title onClick={() => openSettings(!settingsOpen)}>SETTINGS</Title>

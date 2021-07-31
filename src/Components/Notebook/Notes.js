@@ -41,7 +41,13 @@ const TextArea = Styled("textarea")`
 const Notes = ({ data, onChange }) => {
   return (
     <Wrapper>
-      <TextArea name="notes" id="notes" value={data} onChange={onChange} />
+      <TextArea
+        name="notes"
+        id="notes"
+        value={data}
+        onChange={onChange}
+        placeholder="Take miscellaneous notes here..."
+      />
     </Wrapper>
   );
 };

@@ -39,6 +39,10 @@ const Button = Styled("button")`
   &:focus {
     outline: none;
   }
+
+  :disabled {
+    cursor: not-allowed;
+  }
 `;
 
 const Modal = Styled("div")`
@@ -165,7 +169,7 @@ const SaveLoad = () => {
   return (
     <>
       <SaveButtonContainer>
-        {user ? (
+        {user.saves ? (
           <>
             Game Name:
             <input
@@ -178,7 +182,7 @@ const SaveLoad = () => {
           <>{`Sign in to save  `}</>
         )}
         <Button
-          disabled={user === undefined}
+          disabled={user.saves === undefined}
           onClick={() => setSaveLoadOpen(true)}
           style={{ marginRight: 5 }}
         >

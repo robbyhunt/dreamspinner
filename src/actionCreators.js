@@ -29,3 +29,7 @@ export function changeThreads(payload) {
 export function changeNPCs(payload) {
   return { type: "CHANGE_NPCS", payload };
 }
+
+export function changeGenre(payload) {
+  return { type: "CHANGE_GENRE", payload };
+}

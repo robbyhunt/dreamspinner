@@ -4,11 +4,6 @@ import React from "react";
 import Start from "./Components/Start";
 import Play from "./Components/Play";
 import DiceSound from "./util/DiceSound";
-import WesternBG from "./img/westernbg.jpg";
-import FantasyBG from "./img/fantasybg.jpg";
-import ScifiBG from "./img/scifibg.jpg";
-import NoirBG from "./img/noirbg.jpg";
-import ApocalypticBG from "./img/apocalypticbg.jpg";
 import SaveLoad from "./Components/SaveLoad";
 
 import { Provider } from "react-redux";
@@ -20,9 +15,6 @@ class App extends React.Component {
     this.state = {
       startOpen: true,
       isLoggedIn: false,
-      activeBackground:
-        "http://www.transparenttextures.com/patterns/light-paper-fibers.png",
-      activeGenre: "generic",
       settingsOpen: false,
     };
   }
@@ -52,25 +44,6 @@ class App extends React.Component {
       this.setState({ startOpen: false });
     };
 
-    const handleGenre = (event) => {
-      let newBg;
-      if (event.target.id === "fantasy") {
-        newBg = FantasyBG;
-      } else if (event.target.id === "western") {
-        newBg = WesternBG;
-      } else if (event.target.id === "scifi") {
-        newBg = ScifiBG;
-      } else if (event.target.id === "noir") {
-        newBg = NoirBG;
-      } else if (event.target.id === "generic") {
-      } else if (event.target.id === "apocalyptic") {
-        newBg = ApocalypticBG;
-      }
-
-      this.setState({ activeGenre: event.target.id });
-      this.setState({ activeBackground: newBg });
-    };
-
     return (
       <Provider store={store}>
         {this.state.startOpen ? (
@@ -78,11 +51,7 @@ class App extends React.Component {
         ) : (
           <>
             <SaveLoad />
-            <Play
-              activeGenre={this.state.activeGenre}
-              activeBackground={this.state.activeBackground}
-              handleGenre={handleGenre}
-            />
+            <Play />
           </>
         )}
       </Provider>

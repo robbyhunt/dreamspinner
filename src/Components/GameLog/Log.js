@@ -160,7 +160,7 @@ const Input = Styled("textarea")`
   }
 `;
 
-const Log = ({ activeGenre }) => {
+const Log = () => {
   const [isEditActive, setIsEditActive] = useState(false);
 
   const { log, input } = useSelector((s) => s);
@@ -234,26 +234,6 @@ const Log = ({ activeGenre }) => {
         initialSize={{ width: "55vw", height: "70vh" }}
       >
         <Inner>
-          <ButtonWrapper>
-            <Button
-              id={`${activeGenre}`}
-              name="place"
-              onClick={handleGenerator}
-              style={{ marginLeft: "0" }}
-            >
-              Place (Only works for fantasy atm)
-            </Button>
-            <Button id={`${activeGenre}`} name="name" onClick={handleGenerator}>
-              Name (Only works for fantasy atm)
-            </Button>
-            <Button id={`${activeGenre}`} name="item" onClick={handleGenerator}>
-              Item (Only works for apocalyptic atm)
-            </Button>
-            <Button id={`${activeGenre}`} name="npc" onClick={handleGenerator}>
-              Character (Only works for fantasy atm)
-            </Button>
-          </ButtonWrapper>
-
           <LogArea
             name="log"
             id="log"

@@ -9,7 +9,7 @@ const Wrapper = Styled("div")`
   position: absolute;
   border-radius: 8px 8px 0 0;
   bottom: -1px;
-  right: 225px;
+  right: ${(props) => props.position};
   z-index: 10;
   transition: 200ms;
   padding: 0 10px;
@@ -26,9 +26,9 @@ const Title = Styled("p")`
   cursor: pointer;
 `;
 
-function Settings({ isOpen, handleToggle, title }) {
+function Settings({ isOpen, handleToggle, title, position }) {
   return (
-    <Wrapper isopen={isOpen}>
+    <Wrapper isopen={isOpen} position={position}>
       <Title onClick={() => handleToggle(!isOpen)}>{title}</Title>
     </Wrapper>
   );

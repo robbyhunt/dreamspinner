@@ -13,7 +13,7 @@ const Title = styled("div")`
   padding: 10px 0;
   background-color: #00467f;
   background-image: url(https://www.transparenttextures.com/patterns/black-linen-2.png);
-  cursor: move;
+  cursor: ${(props) => (props.isdragging ? "grabbing" : "grab")};
   color: #ffffff;
   font-size: 20px;
   text-transform: uppercase;
@@ -105,7 +105,9 @@ export default class Dialog extends Component {
         {onClose && (
           <CloseButton onClick={() => onClose(false)}>Close</CloseButton>
         )}
-        <Title onMouseDown={this._dragStart}>{title}</Title>
+        <Title onMouseDown={this._dragStart} isdragging={this.state.dragging}>
+          {title}
+        </Title>
         <Contents>{children}</Contents>
       </Container>
     );
