@@ -4,7 +4,15 @@ import Styled from "@emotion/styled";
 import { useSelector, useDispatch } from "react-redux";
 import { changeLog, addToLog, undoLog, changeInput } from "../actionCreators";
 
-import { Fate, Event, ComplexQuestion, Place, Npc, Item } from "../Generators";
+import {
+  Fate,
+  Event,
+  ComplexQuestion,
+  Place,
+  Npc,
+  Item,
+  Name,
+} from "../Generators";
 import RollDice from "../util/DiceRoll";
 import Dialog from "./Dialog";
 import ResizableContainer from "./ResizableContainer";
@@ -153,7 +161,7 @@ const Play = ({ activeGenre }) => {
   const { log, input } = useSelector((s) => s);
   const dispatch = useDispatch();
 
-  const handleGenerator = (e) => {
+  const handleGenerator = async (e) => {
     let result;
 
     switch (e.target.name) {
@@ -175,28 +183,40 @@ const Play = ({ activeGenre }) => {
       case "dice":
         result = RollDice(e);
         break;
+      case "name":
+        result = Name(e);
+        break;
 
       default:
         break;
     }
 
     if (Array.isArray(result)) {
-      dispatch(addToLog(result[0]));
+      await dispatch(addToLog(result[0]));
+      scrollLogToBottom();
       const event = Event(result[1]);
       if (event) {
-        dispatch(addToLog(event));
+        await dispatch(addToLog(event));
+        scrollLogToBottom();
       }
     } else {
-      dispatch(addToLog(result));
+      await dispatch(addToLog(result));
+      scrollLogToBottom();
     }
   };
 
-  const handleSubmit = (e, isButton = false) => {
+  const handleSubmit = async (e, isButton = false) => {
     if (isButton || (e.key === "Enter" && e.shiftKey)) {
       const submission = input.replace(/\n.*$/, "");
       dispatch(changeInput(""));
-      dispatch(addToLog(submission));
+      await dispatch(addToLog(submission));
+      scrollLogToBottom();
     }
+  };
+
+  const scrollLogToBottom = () => {
+    document.getElementById("log").scrollTop =
+      document.getElementById("log").scrollHeight;
   };
 
   const dice = ["d4", "d6", "d8", "d10", "d12", "d20", "d100"];
@@ -213,6 +233,9 @@ const Play = ({ activeGenre }) => {
               style={{ marginLeft: "0" }}
             >
               Place (Only works for fantasy atm)
+            </Button>
+            <Button id={`${activeGenre}`} name="name" onClick={handleGenerator}>
+              Name (Only works for fantasy atm)
             </Button>
             <Button id={`${activeGenre}`} name="item" onClick={handleGenerator}>
               Item (Only works for apocalyptic atm)
