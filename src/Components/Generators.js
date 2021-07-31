@@ -2,7 +2,7 @@ import React from "react";
 import Styled from "@emotion/styled";
 
 import { useSelector, useDispatch } from "react-redux";
-import { addToLog } from "../actionCreators";
+import { addToLog, changeInput } from "../actionCreators";
 
 import { Place, Npc, Item, Name } from "../Generators";
 
@@ -46,7 +46,7 @@ const Button = Styled("button")`
 `;
 
 const Generators = ({ hook }) => {
-  const { genre } = useSelector((s) => s);
+  const { genre, input } = useSelector((s) => s);
 
   const dispatch = useDispatch();
 
@@ -71,6 +71,8 @@ const Generators = ({ hook }) => {
         break;
     }
 
+    await dispatch(addToLog(input));
+    dispatch(changeInput(""));
     await dispatch(addToLog(result));
     document.getElementById("log").scrollTop =
       document.getElementById("log").scrollHeight;
@@ -87,7 +89,7 @@ const Generators = ({ hook }) => {
     <Dialog
       title="Generators"
       onClose={hook[1]}
-      initialPosition={{ top: "150px", left: "38vw" }}
+      initialPosition={{ top: "150px", left: "55vw" }}
     >
       <ResizableContainer
         minSize={{ width: "200px", height: "200px" }}

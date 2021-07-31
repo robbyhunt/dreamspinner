@@ -9,15 +9,7 @@ import {
   changeInput,
 } from "../../actionCreators";
 
-import {
-  Fate,
-  Event,
-  ComplexQuestion,
-  Place,
-  Npc,
-  Item,
-  Name,
-} from "../../Generators";
+import { Fate, Event, ComplexQuestion } from "../../Generators";
 import RollDice from "../../util/DiceRoll";
 import Dialog from "../common/Dialog";
 import ResizableContainer from "../common/ResizableContainer";
@@ -170,15 +162,6 @@ const Log = () => {
     let result;
 
     switch (e.target.name) {
-      case "place":
-        result = Place(e);
-        break;
-      case "item":
-        result = Item(e);
-        break;
-      case "npc":
-        result = Npc(e);
-        break;
       case "complex":
         result = ComplexQuestion(e);
         break;
@@ -188,15 +171,14 @@ const Log = () => {
       case "dice":
         result = RollDice(e);
         break;
-      case "name":
-        result = Name(e);
-        break;
 
       default:
         break;
     }
 
     if (Array.isArray(result)) {
+      await dispatch(addToLog(input));
+      dispatch(changeInput(""));
       await dispatch(addToLog(result[0]));
       scrollLogToBottom();
       const event = Event(result[1]);
@@ -205,6 +187,8 @@ const Log = () => {
         scrollLogToBottom();
       }
     } else {
+      await dispatch(addToLog(input));
+      dispatch(changeInput(""));
       await dispatch(addToLog(result));
       scrollLogToBottom();
     }
