@@ -2,13 +2,9 @@ import React, { Component } from "react";
 import styled from "@emotion/styled";
 
 const Container = styled("div")`
-  border-radius: 0px;
-  background-color: #ffffff;
-  position: absolute;
-  top: 50px;
-  left: 50px;
-  z-index: 10;
   border-radius: 10px;
+  position: absolute;
+  z-index: 10;
   filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.4));
 `;
 
@@ -19,25 +15,32 @@ const Title = styled("div")`
   background-image: url(https://www.transparenttextures.com/patterns/black-linen-2.png);
   cursor: move;
   color: #ffffff;
-  border-radius: 10px 10px 0 0;
   font-size: 20px;
   text-transform: uppercase;
   font-weight: 400;
   letter-spacing: 3px;
+  border-radius: 10px 10px 0 0;
+  user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
 `;
 
 const Contents = styled("div")``;
 
 const CloseButton = styled("div")`
+  position: absolute;
+  top: 0px;
+  right: 5px;
+  padding: 5px;
   font-size: 12px;
-  width: 100px;
-  color: black;
-  border: 2px solid black;
-  border-radius: 25px;
-  padding: 10px;
-  margin: 10px;
-  margin-left: 140px;
+  color: #ffffff;
   cursor: pointer;
+  opacity: 0.8;
+  transition: 200ms;
+
+  :hover {
+    opacity: 1;
+  }
 `;
 
 export default class Dialog extends Component {
@@ -48,7 +51,7 @@ export default class Dialog extends Component {
       diffX: 0,
       diffY: 0,
       dragging: false,
-      styles: {},
+      styles: { ...this.props.initialPosition },
     };
 
     this._dragStart = this._dragStart.bind(this);
@@ -69,10 +72,17 @@ export default class Dialog extends Component {
       var left = e.screenX - this.state.diffX;
       var top = e.screenY - this.state.diffY;
 
+      var leftPer = `${
+        Math.round(((left * 100) / window.innerWidth) * 100) / 100
+      }vw`;
+      var topPer = `${
+        Math.round(((top * 100) / window.innerHeight) * 100) / 100
+      }vh`;
+
       this.setState({
         styles: {
-          left: left,
-          top: top,
+          left: leftPer,
+          top: topPer,
         },
       });
     }
@@ -85,18 +95,18 @@ export default class Dialog extends Component {
   }
 
   render() {
-    const { children, title, canClose = true } = this.props;
+    const { children, title, onClose } = this.props;
     return (
       <Container
         style={this.state.styles}
         onMouseMove={this._dragging}
         onMouseUp={this._dragEnd}
       >
+        {onClose && (
+          <CloseButton onClick={() => onClose(false)}>Close</CloseButton>
+        )}
         <Title onMouseDown={this._dragStart}>{title}</Title>
         <Contents>{children}</Contents>
-        {canClose && (
-          <CloseButton onClick={this.props.onClose}>Close</CloseButton>
-        )}
       </Container>
     );
   }

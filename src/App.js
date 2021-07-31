@@ -1,7 +1,6 @@
 /*global netlifyIdentity*/
 
 import React from "react";
-import Styled from "@emotion/styled";
 import Start from "./Components/Start";
 import Play from "./Components/Play";
 import DiceSound from "./util/DiceSound";
@@ -10,46 +9,21 @@ import FantasyBG from "./img/fantasybg.jpg";
 import ScifiBG from "./img/scifibg.jpg";
 import NoirBG from "./img/noirbg.jpg";
 import ApocalypticBG from "./img/apocalypticbg.jpg";
-import Settings from "./Components/Settings";
-import Notes from "./Components/Notes";
 import SaveLoad from "./Components/SaveLoad";
 
 import { Provider } from "react-redux";
 import store from "./store";
-
-const Wrapper = Styled("div")`
-  height: 100vh;
-  text-align: center;
-  background-color: #ffffff;
-  position: relative;
-  background-color: #00467f;
-  background-image: ${(props) => `url(${props.activeBackground})`};
-  background-size: ${(props) =>
-    props.activeBackground ===
-    "http://www.transparenttextures.com/patterns/light-paper-fibers.png"
-      ? "initial"
-      : "cover"};
-  background-position: center;
-  overflow: hidden;
-  position: relative;
-`;
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       startOpen: true,
-
       isLoggedIn: false,
-
       activeBackground:
         "http://www.transparenttextures.com/patterns/light-paper-fibers.png",
       activeGenre: "generic",
-
       settingsOpen: false,
-      notesOpen: false,
-      threadsOpen: false,
-      npcsOpen: false,
     };
   }
 
@@ -78,18 +52,6 @@ class App extends React.Component {
       this.setState({ startOpen: false });
     };
 
-    const handleOpenSettings = () => {
-      closeAllPopups();
-      this.setState({ settingsOpen: !this.state.settingsOpen });
-    };
-
-    const closeAllPopups = () => {
-      this.setState({ npcsOpen: false });
-      this.setState({ settingsOpen: false });
-      this.setState({ notesOpen: false });
-      this.setState({ threadsOpen: false });
-    };
-
     const handleGenre = (event) => {
       let newBg;
       if (event.target.id === "fantasy") {
@@ -111,22 +73,18 @@ class App extends React.Component {
 
     return (
       <Provider store={store}>
-        <Wrapper activeBackground={this.state.activeBackground}>
-          {this.state.startOpen ? (
-            <Start onClick={handleStart} isLoggedIn={this.state.isLoggedIn} />
-          ) : (
-            <>
-              <SaveLoad />
-              <Play activeGenre={this.state.activeGenre} />
-              <Settings
-                settingsOpen={this.state.settingsOpen}
-                openSettings={handleOpenSettings}
-                handleGenre={handleGenre}
-              />
-              <Notes />
-            </>
-          )}
-        </Wrapper>
+        {this.state.startOpen ? (
+          <Start onClick={handleStart} isLoggedIn={this.state.isLoggedIn} />
+        ) : (
+          <>
+            <SaveLoad />
+            <Play
+              activeGenre={this.state.activeGenre}
+              activeBackground={this.state.activeBackground}
+              handleGenre={handleGenre}
+            />
+          </>
+        )}
       </Provider>
     );
   }

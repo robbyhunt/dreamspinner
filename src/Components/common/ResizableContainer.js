@@ -7,12 +7,12 @@ const Container = styled(ResizeConsumer)`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 60vw;
-  height: 70vh;
-  min-width: ${(props) => props.minwidth};
-  min-height: ${(props) => props.minheight};
-  max-width: ${(props) => props.maxwidth};
-  max-height: ${(props) => props.maxheight};
+  width: ${(props) => props.initialsize && props.initialsize.width};
+  height: ${(props) => props.initialsize && props.initialsize.height};
+  min-width: ${(props) => props.minsize && props.minsize.width};
+  min-height: ${(props) => props.minsize && props.minsize.height};
+  max-width: ${(props) => props.maxsize && props.maxsize.width};
+  max-height: ${(props) => props.maxsize && props.maxsize.height};
   resize: both;
   overflow: hidden;
 `;
@@ -32,12 +32,15 @@ export default class ResizableContainer extends React.PureComponent {
   };
 
   render() {
+    const { initialSize, maxSize, minSize } = this.props;
     return (
       <ResizeProvider>
         <Container
           onSizeChanged={this.handleSizeChanged}
           updateDatasetBySize={this.getDatasetBySize}
-          {...this.props}
+          initialsize={initialSize}
+          maxsize={maxSize}
+          minsize={minSize}
         >
           {this.props.children}
         </Container>
