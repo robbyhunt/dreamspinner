@@ -73,7 +73,7 @@ const Threads = ({ data }) => {
       <Create onClick={createThread}>Create</Create>
       {!data[0] ? (
         <span style={{ opacity: 0.55, marginTop: 10 }}>
-          You don't have any threads yet...
+          You don't have any NPCs yet...
         </span>
       ) : (
         data.map((item, index) => (

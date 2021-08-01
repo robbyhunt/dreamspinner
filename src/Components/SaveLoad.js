@@ -116,18 +116,35 @@ const Close = Styled("p")`
 const SaveLoad = () => {
   const [saveLoadOpen, setSaveLoadOpen] = useState(false);
 
-  const { log, user, notes, threads, npcs, title } = useSelector((s) => s);
+  const { log, user, notes, threads, npcs } = useSelector((s) => s);
   const dispatch = useDispatch();
 
   const Save = async (event) => {
     let newUserObject = { ...user };
     newUserObject.saves[event.target.slot] = {
-      title,
+      title: document.getElementById("title").value,
       log,
       notes,
       npcs,
       threads,
     };
+    dispatch(changeUser(newUserObject));
+
+    let token;
+    await netlifyIdentity.refresh().then((returnedToken) => {
+      token = returnedToken;
+    });
+
+    axios.post(
+      "/.netlify/functions/saveGame",
+      { user: user },
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+  };
+
+  const Clear = async (event) => {
+    let newUserObject = { ...user };
+    newUserObject.saves[event.target.slot] = {};
     dispatch(changeUser(newUserObject));
 
     let token;
@@ -211,8 +228,8 @@ const SaveLoad = () => {
               <SaveCard key={index}>
                 <span style={{ fontSize: 16 }}>
                   {item.title
-                    ? item.title.length > 40
-                      ? item.title.slice(0, 38) + "..."
+                    ? item.title.length > 37
+                      ? item.title.slice(0, 35) + "..."
                       : item.title
                     : item.log
                     ? "Untitled Game"
@@ -231,6 +248,14 @@ const SaveLoad = () => {
                       onClick={(e) => Load(e)}
                     >
                       Load
+                    </Button>
+                    <Button
+                      disabled={item.log === undefined}
+                      id="clear"
+                      slot={index}
+                      onClick={(e) => Clear(e)}
+                    >
+                      Clear
                     </Button>
                   </SlotWrapper>
                 </SaveCardInner>
