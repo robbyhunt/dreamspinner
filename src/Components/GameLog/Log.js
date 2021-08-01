@@ -14,6 +14,8 @@ import RollDice from "../../util/DiceRoll";
 import Dialog from "../common/Dialog";
 import ResizableContainer from "../common/ResizableContainer";
 
+import Confirmation from "../common/Confirmation";
+
 const Inner = Styled("div")`
   width: 100%;
   height: 100%;
@@ -156,6 +158,7 @@ const Input = Styled("textarea")`
 
 const Log = () => {
   const [isEditActive, setIsEditActive] = useState(false);
+  const [clearConfirmOpen, setClearConfirmOpen] = useState(false);
 
   const { log, input } = useSelector((s) => s);
   const dispatch = useDispatch();
@@ -216,91 +219,120 @@ const Log = () => {
       document.getElementById("log").scrollHeight;
   };
 
+  const Clear = () => {
+    dispatch(changeLog(""));
+  };
+
   const dice = ["d4", "d6", "d8", "d10", "d12", "d20", "d100"];
 
   return (
-    <Dialog title="Game Log" initialPosition={{ top: "50px", left: "50px" }}>
-      <ResizableContainer
-        minSize={{ width: "725px", height: "400px" }}
-        maxSize={{ width: "90vw", height: "85vh" }}
-        initialSize={{ width: "50vw", height: "75vh" }}
-      >
-        <Inner>
-          <LogArea
-            name="log"
-            id="log"
-            readOnly={!isEditActive}
-            iseditactive={isEditActive}
-            value={log}
-            onChange={(e) => dispatch(changeLog(e.target.value))}
-          />
+    <>
+      <Dialog title="Game Log" initialPosition={{ top: "50px", left: "50px" }}>
+        <ResizableContainer
+          minSize={{ width: "725px", height: "400px" }}
+          maxSize={{ width: "90vw", height: "85vh" }}
+          initialSize={{ width: "50vw", height: "75vh" }}
+        >
+          <Inner>
+            <LogArea
+              name="log"
+              id="log"
+              readOnly={!isEditActive}
+              iseditactive={isEditActive}
+              value={log}
+              onChange={(e) => dispatch(changeLog(e.target.value))}
+            />
 
-          <ButtonWrapper>
-            <GeneratorWrapper>
-              Complex Question:
-              <GenerateButton id="cqa" name="complex" onClick={handleGenerator}>
-                Action
-              </GenerateButton>
-              <GenerateButton id="cqd" name="complex" onClick={handleGenerator}>
-                Description
-              </GenerateButton>
-            </GeneratorWrapper>
-
-            <FateButtonWrapper>
-              Yes / No:
-              <Button id="fateunlikely" name="fate" onClick={handleGenerator}>
-                Unlikely
-              </Button>
-              <Button id="fate5050" name="fate" onClick={handleGenerator}>
-                50/50
-              </Button>
-              <Button id="fatelikely" name="fate" onClick={handleGenerator}>
-                Likely
-              </Button>
-            </FateButtonWrapper>
-
-            <DiceButtonWrapper>
-              Dice:
-              {dice.map((item) => (
-                <Button
-                  key={item}
-                  id={item}
-                  name="dice"
+            <ButtonWrapper>
+              <GeneratorWrapper>
+                Complex Question:
+                <GenerateButton
+                  id="cqa"
+                  name="complex"
                   onClick={handleGenerator}
                 >
-                  {item}
+                  Action
+                </GenerateButton>
+                <GenerateButton
+                  id="cqd"
+                  name="complex"
+                  onClick={handleGenerator}
+                >
+                  Description
+                </GenerateButton>
+              </GeneratorWrapper>
+
+              <FateButtonWrapper>
+                Yes / No:
+                <Button id="fateunlikely" name="fate" onClick={handleGenerator}>
+                  Unlikely
                 </Button>
-              ))}
-            </DiceButtonWrapper>
+                <Button id="fate5050" name="fate" onClick={handleGenerator}>
+                  50/50
+                </Button>
+                <Button id="fatelikely" name="fate" onClick={handleGenerator}>
+                  Likely
+                </Button>
+              </FateButtonWrapper>
 
-            <LogButtonWrapper>
-              <Button id="submit" onClick={(e) => handleSubmit(e, true)}>
-                Submit
-              </Button>
-              <Button id="undo" onClick={() => dispatch(undoLog())}>
-                Undo
-              </Button>
-              <Button id="edit" onClick={() => setIsEditActive(!isEditActive)}>
-                {isEditActive ? "Confirm" : "Edit"}
-              </Button>
-              <Button id="clear" onClick={() => dispatch(changeLog(""))}>
-                Clear Log
-              </Button>
-            </LogButtonWrapper>
-          </ButtonWrapper>
+              <DiceButtonWrapper>
+                Dice:
+                {dice.map((item) => (
+                  <Button
+                    key={item}
+                    id={item}
+                    name="dice"
+                    onClick={handleGenerator}
+                  >
+                    {item}
+                  </Button>
+                ))}
+              </DiceButtonWrapper>
 
-          <Input
-            name="input"
-            id="input"
-            placeholder="Type something here and press Shift + Enter or click Submit..."
-            rows={1}
-            onKeyUp={handleSubmit}
-            value={input}
-            onChange={(e) => dispatch(changeInput(e.target.value))}
-          />
-        </Inner>
-      </ResizableContainer>
-    </Dialog>
+              <LogButtonWrapper>
+                <Button id="submit" onClick={(e) => handleSubmit(e, true)}>
+                  Submit
+                </Button>
+                <Button id="undo" onClick={() => dispatch(undoLog())}>
+                  Undo
+                </Button>
+                <Button
+                  id="edit"
+                  onClick={() => setIsEditActive(!isEditActive)}
+                >
+                  {isEditActive ? "Confirm" : "Edit"}
+                </Button>
+                <Button
+                  id="clear"
+                  disabled={log === ""}
+                  onClick={() => setClearConfirmOpen(true)}
+                >
+                  Clear Log
+                </Button>
+              </LogButtonWrapper>
+            </ButtonWrapper>
+
+            <Input
+              name="input"
+              id="input"
+              placeholder="Type something here and press Shift + Enter or click Submit..."
+              rows={1}
+              onKeyUp={handleSubmit}
+              value={input}
+              onChange={(e) => dispatch(changeInput(e.target.value))}
+            />
+          </Inner>
+        </ResizableContainer>
+      </Dialog>
+
+      <Confirmation
+        title="Are you sure you want to clear the log?"
+        subTitle="This will wipe any unsaved data and cannot be undone."
+        isOpen={clearConfirmOpen}
+        onCancel={() => setClearConfirmOpen(false)}
+        onConfirm={() => Clear()}
+      />
+    </>
   );
 };
 

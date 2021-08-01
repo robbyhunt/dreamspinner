@@ -4,7 +4,7 @@ import React from "react";
 import Start from "./Components/Start";
 import Play from "./Components/Play";
 import DiceSound from "./util/DiceSound";
-import SaveLoad from "./Components/SaveLoad";
+import SaveLoad from "./Components/SaveLoad/SaveLoad";
 
 import { Provider } from "react-redux";
 import store from "./store";

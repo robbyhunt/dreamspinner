@@ -9,21 +9,11 @@ import {
   changeNotes,
   changeThreads,
   changeNPCs,
-} from "../actionCreators";
+} from "../../actionCreators";
 import Styled from "@emotion/styled";
 import axios from "axios";
 
-const SaveButtonContainer = Styled("div")`
-  position: absolute;
-  top: 0;
-  right: 0;
-  padding: 10px;
-  background-color: #00467f;
-  background-image: url("https://www.transparenttextures.com/patterns/black-linen-2.png");
-  border-radius: 0 0 0 5px;
-  z-index: 100;
-  color: #ffffff;
-`;
+import Confirmation from "../common/Confirmation";
 
 const Button = Styled("button")`
   cursor: pointer;
@@ -113,15 +103,27 @@ const Close = Styled("p")`
   }
 `;
 
-const SaveLoad = () => {
-  const [saveLoadOpen, setSaveLoadOpen] = useState(false);
+const SaveModal = ({ setSaveLoadOpen, saveLoadOpen }) => {
+  const [saveConfirmOpen, setSaveConfirmOpen] = useState(false);
+  const [savePayload, setSavePayload] = useState(undefined);
+  const [clearConfirmOpen, setClearConfirmOpen] = useState(false);
+  const [clearPayload, setClearPayload] = useState(undefined);
 
   const { log, user, notes, threads, npcs } = useSelector((s) => s);
   const dispatch = useDispatch();
 
-  const Save = async (event) => {
+  const SaveConfirm = (e) => {
+    if (user.saves[e.target.slot].log === undefined) {
+      Save(e.target.slot);
+    } else {
+      setSavePayload(e.target.slot);
+      setSaveConfirmOpen(true);
+    }
+  };
+
+  const Save = async (slot) => {
     let newUserObject = { ...user };
-    newUserObject.saves[event.target.slot] = {
+    newUserObject.saves[slot] = {
       title: document.getElementById("title").value,
       log,
       notes,
@@ -142,9 +144,14 @@ const SaveLoad = () => {
     );
   };
 
-  const Clear = async (event) => {
+  const ClearConfirm = (e) => {
+    setClearPayload(e.target.slot);
+    setClearConfirmOpen(true);
+  };
+
+  const Clear = async (slot) => {
     let newUserObject = { ...user };
-    newUserObject.saves[event.target.slot] = {};
+    newUserObject.saves[slot] = {};
     dispatch(changeUser(newUserObject));
 
     let token;
@@ -174,98 +181,84 @@ const SaveLoad = () => {
     setSaveLoadOpen(false);
   };
 
-  const newGame = () => {
-    document.getElementById("title").value = "Untitled Game";
-    dispatch(changeThreads([]));
-    dispatch(changeNotes(""));
-    dispatch(changeNPCs([]));
-    dispatch(changeInput(""));
-    dispatch(changeLog(""));
-  };
-
   return (
     <>
-      <SaveButtonContainer>
-        {user.saves ? (
-          <>
-            Game Name:
-            <input
-              id="title"
-              defaultValue="Untitled Game"
-              style={{ margin: "0 10px 0 5px" }}
-            />
-          </>
-        ) : (
-          <>{`Sign in to save  `}</>
-        )}
-        <Button
-          disabled={user.saves === undefined}
-          onClick={() => setSaveLoadOpen(true)}
-          style={{ marginRight: 5 }}
-        >
-          Save/Load
-        </Button>
-        <Button onClick={newGame}>New Game</Button>
-      </SaveButtonContainer>
-
-      {user.saves && (
-        <Modal
+      <Modal
+        style={{
+          opacity: saveLoadOpen ? "1" : "0",
+          pointerEvents: saveLoadOpen ? "auto" : "none",
+        }}
+      >
+        <Inner
           style={{
             opacity: saveLoadOpen ? "1" : "0",
             pointerEvents: saveLoadOpen ? "auto" : "none",
           }}
         >
-          <Inner
-            style={{
-              opacity: saveLoadOpen ? "1" : "0",
-              pointerEvents: saveLoadOpen ? "auto" : "none",
-            }}
-          >
-            <Close onClick={() => setSaveLoadOpen(false)}>Close</Close>
-            <Title>Save & Load Games</Title>
+          <Close onClick={() => setSaveLoadOpen(false)}>Close</Close>
+          <Title>Save & Load Games</Title>
 
-            {user.saves.map((item, index) => (
-              <SaveCard key={index}>
-                <span style={{ fontSize: 16 }}>
-                  {item.title
-                    ? item.title.length > 37
-                      ? item.title.slice(0, 35) + "..."
-                      : item.title
-                    : item.log
-                    ? "Untitled Game"
-                    : "Empty Slot"}
-                </span>
-                <SaveCardInner>
-                  <span>{`Slot ${index + 1}`}</span>
-                  <SlotWrapper>
-                    <Button id="save" slot={index} onClick={(e) => Save(e)}>
-                      Save
-                    </Button>
-                    <Button
-                      disabled={item.log === undefined}
-                      id="load"
-                      slot={index}
-                      onClick={(e) => Load(e)}
-                    >
-                      Load
-                    </Button>
-                    <Button
-                      disabled={item.log === undefined}
-                      id="clear"
-                      slot={index}
-                      onClick={(e) => Clear(e)}
-                    >
-                      Clear
-                    </Button>
-                  </SlotWrapper>
-                </SaveCardInner>
-              </SaveCard>
-            ))}
-          </Inner>
-        </Modal>
-      )}
+          {user.saves.map((item, index) => (
+            <SaveCard key={index}>
+              <span style={{ fontSize: 16 }}>
+                {item.title
+                  ? item.title.length > 37
+                    ? item.title.slice(0, 35) + "..."
+                    : item.title
+                  : item.log
+                  ? "Untitled Game"
+                  : "Empty Slot"}
+              </span>
+              <SaveCardInner>
+                <span>{`Slot ${index + 1}`}</span>
+                <SlotWrapper>
+                  <Button
+                    id="save"
+                    slot={index}
+                    onClick={(e) => SaveConfirm(e)}
+                  >
+                    Save
+                  </Button>
+                  <Button
+                    disabled={item.log === undefined}
+                    id="load"
+                    slot={index}
+                    onClick={(e) => Load(e)}
+                  >
+                    Load
+                  </Button>
+                  <Button
+                    disabled={item.log === undefined}
+                    id="clear"
+                    slot={index}
+                    onClick={(e) => ClearConfirm(e)}
+                  >
+                    Clear
+                  </Button>
+                </SlotWrapper>
+              </SaveCardInner>
+            </SaveCard>
+          ))}
+        </Inner>
+      </Modal>
+
+      <Confirmation
+        title="Are you sure you want to overwrite this slot?"
+        subTitle="This will wipe any previous data and cannot be undone."
+        isOpen={saveConfirmOpen}
+        onCancel={() => setSaveConfirmOpen(false)}
+        onConfirm={() => Save(savePayload)}
+      />
+
+      <Confirmation
+        title="Are you sure you want to clear this save?"
+        subTitle="This will wipe all data in this slot and cannot be undone."
+        isOpen={clearConfirmOpen}
+        onCancel={() => setClearConfirmOpen(false)}
+        onConfirm={() => Clear(clearPayload)}
+      />
     </>
   );
 };
 
-export default SaveLoad;
+export default SaveModal;
