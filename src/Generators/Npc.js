@@ -812,7 +812,7 @@ const personality = [
   "Skillful",
   "Sleazy",
   "Sloppy",
-  "Slovenly",
+  "Sloven",
   "Slow Paced",
   "Slutty",
   "Sly",

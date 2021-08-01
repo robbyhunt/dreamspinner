@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Styled from "@emotion/styled";
 
 const Wrapper = Styled("div")`
-  width: 90%;
+  width: calc(100% - 20px);
   margin: 5px 0;
   position: relative;
   text-align: left;
@@ -15,6 +15,9 @@ const Edit = Styled("div")`
   top: 2px;
   right: 5px;
   opacity: 0.6;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
   
   :hover {
     opacity: 1;
@@ -24,12 +27,15 @@ const Edit = Styled("div")`
 const Title = Styled("div")`
   opacity: ${(props) => (props.isopen ? "0.7" : "1")};
   padding: ${(props) =>
-    props.iseditable ? "10px 50px 5px 10px" : "10px 50px 10px 10px"};
+    props.iseditable ? "10px 42px 5px 10px" : "10px 42px 10px 10px"};
   background-color: #efefefef;
   border-radius: ${(props) => (props.isopen ? "5px 5px 0 0" : "5px")};
   cursor: pointer;
   min-height: 25px;
   font-size: 18px;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 
   :hover {
     opacity: 0.6;
@@ -85,11 +91,11 @@ const Delete = Styled(Edit)`
 
 const Thread = ({ item, index, updateThread, deleteThread }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isEditable, setIsEditable] = useState(true);
+  const [isEditable, setIsEditable] = useState(false);
 
   useEffect(() => {
-    if (item.title !== "") {
-      setIsEditable(false);
+    if (item.title === "") {
+      setIsEditable(true);
     }
   }, []);
 
