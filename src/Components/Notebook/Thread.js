@@ -23,11 +23,13 @@ const Edit = Styled("div")`
 
 const Title = Styled("div")`
   opacity: ${(props) => (props.isopen ? "0.7" : "1")};
-  padding: ${(props) => (props.iseditable ? "10px 10px 5px" : "10px")};
+  padding: ${(props) =>
+    props.iseditable ? "10px 50px 5px 10px" : "10px 50px 10px 10px"};
   background-color: #efefefef;
   border-radius: ${(props) => (props.isopen ? "5px 5px 0 0" : "5px")};
   cursor: pointer;
-  min-height: 20px;
+  min-height: 25px;
+  font-size: 18px;
 
   :hover {
     opacity: 0.6;
@@ -44,7 +46,7 @@ const TextArea = Styled("textarea")`
   width: calc(100% - 20px);
   outline: none;
   border: none;
-  font-size: 18px;
+  font-size: 16px;
   resize: vertical;
   height: 100px;
   padding: 10px;
@@ -73,10 +75,12 @@ const TitleEdit = Styled(TextArea)`
   height: 25px;
   resize: none;
   border-radius: 5px;
+  font-size: 18px;
+  padding: 5px;
 `;
 
 const Delete = Styled(Edit)`
-  top: 18px;
+  top: 20px;
 `;
 
 const Thread = ({ item, index, updateThread, deleteThread }) => {
