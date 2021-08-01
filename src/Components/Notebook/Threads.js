@@ -67,7 +67,7 @@ const Threads = ({ data }) => {
     tempData[index] = newThreadData;
     dispatch(changeThreads(tempData));
   };
-  console.log(data);
+
   return (
     <Wrapper>
       <Create onClick={createThread}>Create</Create>
