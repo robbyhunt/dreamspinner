@@ -71,8 +71,10 @@ const Generators = ({ hook }) => {
         break;
     }
 
-    await dispatch(addToLog(input));
-    dispatch(changeInput(""));
+    if (input !== "") {
+      await dispatch(addToLog(input));
+      dispatch(changeInput(""));
+    }
     await dispatch(addToLog(result));
     document.getElementById("log").scrollTop =
       document.getElementById("log").scrollHeight;

@@ -179,8 +179,10 @@ const Log = () => {
     }
 
     if (Array.isArray(result)) {
-      await dispatch(addToLog(input));
-      dispatch(changeInput(""));
+      if (input !== "") {
+        await dispatch(addToLog(input));
+        dispatch(changeInput(""));
+      }
       await dispatch(addToLog(result[0]));
       scrollLogToBottom();
       const event = Event(result[1]);
@@ -189,8 +191,10 @@ const Log = () => {
         scrollLogToBottom();
       }
     } else {
-      await dispatch(addToLog(input));
-      dispatch(changeInput(""));
+      if (input !== "") {
+        await dispatch(addToLog(input));
+        dispatch(changeInput(""));
+      }
       await dispatch(addToLog(result));
       scrollLogToBottom();
     }
@@ -199,8 +203,10 @@ const Log = () => {
   const handleSubmit = async (e, isButton = false) => {
     if (isButton || (e.key === "Enter" && e.shiftKey)) {
       const submission = input.replace(/\n.*$/, "");
-      dispatch(changeInput(""));
-      await dispatch(addToLog(submission));
+      if (input !== "") {
+        dispatch(changeInput(""));
+        await dispatch(addToLog(submission));
+      }
       scrollLogToBottom();
     }
   };
