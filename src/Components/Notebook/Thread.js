@@ -30,7 +30,7 @@ const Title = Styled("div")`
     props.iseditable ? "10px 42px 5px 10px" : "10px 42px 10px 10px"};
   background-color: #efefefef;
   border-radius: ${(props) => (props.isopen ? "5px 5px 0 0" : "5px")};
-  cursor: pointer;
+  cursor: ${(props) => (props.iseditable ? "auto" : "pointer")};
   min-height: 25px;
   font-size: 18px;
   -webkit-user-select: none;
@@ -38,7 +38,7 @@ const Title = Styled("div")`
   user-select: none;
 
   :hover {
-    opacity: 0.6;
+    opacity: ${(props) => (props.iseditable ? "1" : "0.6")};
   }
 `;
 
@@ -97,7 +97,7 @@ const Thread = ({ item, index, updateThread, deleteThread }) => {
     if (item.title === "") {
       setIsEditable(true);
     }
-  }, []);
+  }, [item.title]);
 
   const changeThread = (e) => {
     let tempData = { ...item };
@@ -121,6 +121,7 @@ const Thread = ({ item, index, updateThread, deleteThread }) => {
             value={item.title}
             id="titleEdit"
             onChange={changeThread}
+            placeholder="Enter a title..."
           />
         ) : item.title !== "" ? (
           "- " + item.title

@@ -103,6 +103,7 @@ const Generators = ({ hook }) => {
             <Button
               id={`${genre}`}
               name={item[0]}
+              key={item[0]}
               onClick={handleGenerator}
               disabled={item[1] !== genre}
             >
