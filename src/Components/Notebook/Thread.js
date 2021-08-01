@@ -132,7 +132,9 @@ const Thread = ({ item, index, updateThread, deleteThread }) => {
       <Edit onClick={() => setIsEditable(!isEditable)}>
         {!isEditable ? "Edit" : "Confirm"}
       </Edit>
-      <Delete onClick={() => deleteThread(index)}>Delete</Delete>
+      {isEditable && (
+        <Delete onClick={() => deleteThread(index)}>Delete</Delete>
+      )}
       {isOpen && (
         <Inner>
           <TextArea
