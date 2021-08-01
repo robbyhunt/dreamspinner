@@ -116,13 +116,13 @@ const Close = Styled("p")`
 const SaveLoad = () => {
   const [saveLoadOpen, setSaveLoadOpen] = useState(false);
 
-  const { log, user, notes, threads, npcs } = useSelector((s) => s);
+  const { log, user, notes, threads, npcs, title } = useSelector((s) => s);
   const dispatch = useDispatch();
 
   const Save = async (event) => {
-    let newUserObject = user;
+    let newUserObject = { ...user };
     newUserObject.saves[event.target.slot] = {
-      title: document.getElementById("title").value,
+      title,
       log,
       notes,
       npcs,
@@ -159,9 +159,9 @@ const SaveLoad = () => {
 
   const newGame = () => {
     document.getElementById("title").value = "Untitled Game";
-    dispatch(changeThreads(""));
+    dispatch(changeThreads([]));
     dispatch(changeNotes(""));
-    dispatch(changeNPCs(""));
+    dispatch(changeNPCs([]));
     dispatch(changeInput(""));
     dispatch(changeLog(""));
   };

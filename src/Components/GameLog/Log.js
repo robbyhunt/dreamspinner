@@ -35,7 +35,7 @@ const ButtonWrapper = Styled("div")`
   flex-wrap: wrap;
   background-color: #00467f;
   background-image: url("https://www.transparenttextures.com/patterns/black-linen-2.png");
-  padding: 10px;
+  padding: 10px 10px 0;
   -webkit-user-select: none;
   -ms-user-select: none;
   user-select: none;
@@ -74,6 +74,7 @@ const LogButtonWrapper = Styled("div")`
   justify-content: space-around;
   margin-top: 0;
   margin-left: 0;
+  margin-bottom: 10px;
 
 `;
 
@@ -106,6 +107,7 @@ const LogArea = Styled("textarea")`
   line-height: 30px;
   margin-right: 5px;
   border: none;
+  background-color: ${(props) => props.iseditactive && "rgba(0, 0, 0, 0.1)"};
 
   ::-webkit-scrollbar {
     width: 5px;
@@ -213,15 +215,16 @@ const Log = () => {
   return (
     <Dialog title="Game Log" initialPosition={{ top: "50px", left: "50px" }}>
       <ResizableContainer
-        minSize={{ width: "700px", height: "600px" }}
-        maxSize={{ width: "90vw", height: "90vh" }}
-        initialSize={{ width: "55vw", height: "70vh" }}
+        minSize={{ width: "725px", height: "400px" }}
+        maxSize={{ width: "90vw", height: "85vh" }}
+        initialSize={{ width: "50vw", height: "75vh" }}
       >
         <Inner>
           <LogArea
             name="log"
             id="log"
             readOnly={!isEditActive}
+            iseditactive={isEditActive}
             value={log}
             onChange={(e) => dispatch(changeLog(e.target.value))}
           />

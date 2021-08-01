@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Styled from "@emotion/styled";
 
 import { useSelector, useDispatch } from "react-redux";
-import { changeNotes, changeThreads, changeNPCs } from "../../actionCreators";
+import { changeNotes, changeNPCs } from "../../actionCreators";
 
 import Dialog from "../common/Dialog";
 import ResizableContainer from "../common/ResizableContainer";
@@ -62,9 +62,6 @@ const Notebook = ({ hook }) => {
       case "notes":
         dispatch(changeNotes(e.target.value));
         break;
-      case "threads":
-        dispatch(changeThreads(e.target.value));
-        break;
       case "npcs":
         dispatch(changeNPCs(e.target.value));
         break;
@@ -90,7 +87,7 @@ const Notebook = ({ hook }) => {
             activeTab === 0 ? (
               <Notes data={notes} onChange={onChange} />
             ) : activeTab === 1 ? (
-              <Threads data={threads} onChange={onChange} />
+              <Threads data={threads} />
             ) : activeTab === // <Threads data={threads} />
               2 ? (
               <NPCs data={npcs} onChange={onChange} />
