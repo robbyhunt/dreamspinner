@@ -227,7 +227,10 @@ const Log = () => {
 
   return (
     <>
-      <Dialog title="Game Log" initialPosition={{ top: "50px", left: "50px" }}>
+      <Dialog
+        title="Game Log"
+        initialPosition={{ top: "-120px", left: "-120px" }}
+      >
         <ResizableContainer
           minSize={{ width: "725px", height: "400px" }}
           maxSize={{ width: "90vw", height: "85vh" }}

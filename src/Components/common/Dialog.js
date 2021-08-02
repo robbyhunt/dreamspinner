@@ -6,6 +6,14 @@ const Container = styled("div")`
   border-radius: 10px;
   position: absolute;
   z-index: 10;
+  pointer-events: ${(props) => (props.isdragging ? "auto" : "none")};
+`;
+
+const Inner = styled("div")`
+  border-radius: 10px;
+  margin: 180px 180px 0px;
+  position: relative;
+  pointer-events: all;
   filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.4));
 `;
 
@@ -67,8 +75,8 @@ export default class Dialog extends Component {
 
   _dragStart(e) {
     this.setState({
-      diffX: e.screenX - e.currentTarget.getBoundingClientRect().left,
-      diffY: e.screenY - e.currentTarget.getBoundingClientRect().top,
+      diffX: e.screenX - e.currentTarget.getBoundingClientRect().left + 180,
+      diffY: e.screenY - e.currentTarget.getBoundingClientRect().top + 180,
       dragging: true,
     });
   }
@@ -89,6 +97,7 @@ export default class Dialog extends Component {
         styles: {
           left: leftPer,
           top: topPer,
+          zIndex: 999,
         },
       });
     }
@@ -97,6 +106,10 @@ export default class Dialog extends Component {
   _dragEnd() {
     this.setState({
       dragging: false,
+      styles: {
+        ...this.state.styles,
+        zIndex: 10,
+      },
     });
   }
 
@@ -107,12 +120,15 @@ export default class Dialog extends Component {
         style={this.state.styles}
         onMouseMove={this._dragging}
         onMouseUp={this._dragEnd}
+        isdragging={this.state.dragging}
       >
-        {onClose && <CloseButton onClick={() => onClose(false)} />}
-        <Title onMouseDown={this._dragStart} isdragging={this.state.dragging}>
-          {title}
-        </Title>
-        <Contents>{children}</Contents>
+        <Inner>
+          {onClose && <CloseButton onClick={() => onClose(false)} />}
+          <Title onMouseDown={this._dragStart} isdragging={this.state.dragging}>
+            {title}
+          </Title>
+          <Contents>{children}</Contents>
+        </Inner>
       </Container>
     );
   }
