@@ -147,11 +147,12 @@ const Thread = ({ item, index, updateThread, deleteThread, restoreThread }) => {
   };
 
   return (
-    <Wrapper style={{ opacity: item.isClosed && 0.5 }}>
+    <Wrapper style={{ opacity: item.isClosed && 0.6 }}>
       <Title
         isopen={isOpen}
         iseditable={isEditable}
         onClick={() => !isEditable && setIsOpen(!isOpen)}
+        style={{ textDecoration: item.isClosed && "line-through" }}
       >
         {isEditable ? (
           <TitleEdit
@@ -159,6 +160,7 @@ const Thread = ({ item, index, updateThread, deleteThread, restoreThread }) => {
             id={`titleEdit-${index}`}
             onChange={changeThread}
             placeholder="Enter a title..."
+            readOnly={item.isClosed}
           />
         ) : item.title !== "" ? (
           "- " + item.title
@@ -187,6 +189,7 @@ const Thread = ({ item, index, updateThread, deleteThread, restoreThread }) => {
             value={item.description}
             id="descriptionEdit"
             onChange={changeThread}
+            readOnly={item.isClosed}
           />
         </Inner>
       )}

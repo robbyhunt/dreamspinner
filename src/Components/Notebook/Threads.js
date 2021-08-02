@@ -6,6 +6,7 @@ import { changeThreads } from "../../actionCreators";
 
 import CreateIcon from "../../img/icons/create.svg";
 import Thread from "./Thread";
+import Confirmation from "../common/Confirmation";
 
 const Wrapper = Styled("div")`
   width: calc(100% - 5px);
@@ -54,6 +55,8 @@ const Create = Styled("div")`
 `;
 
 const Threads = ({ data }) => {
+  const [deleteConfirmation, setDeleteConfirmation] = useState(false);
+  const [deletePayload, setDeletePayload] = useState(undefined);
   const [closedThreads, setClosedThreads] = useState([]);
 
   useEffect(() => {
@@ -81,9 +84,18 @@ const Threads = ({ data }) => {
     dispatch(changeThreads(tempData));
   };
 
-  const deleteThread = (index) => {
+  const confirmDeleteThread = (index) => {
+    setDeletePayload(index);
+    if (data[index].title === "" && data[index].description === "") {
+      deleteThread();
+    } else {
+      setDeleteConfirmation(true);
+    }
+  };
+
+  const deleteThread = () => {
     let tempData = [...data];
-    tempData.splice(index, 1);
+    tempData.splice(deletePayload, 1);
     dispatch(changeThreads(tempData));
   };
 
@@ -98,45 +110,54 @@ const Threads = ({ data }) => {
   };
 
   return (
-    <Wrapper>
-      <Create onClick={createThread} />
-      {!data[0] ? (
-        <span style={{ opacity: 0.55, marginTop: 10 }}>
-          You don't have any threads yet...
-        </span>
-      ) : (
-        data.map((item, index) => {
-          if (item.isClosed) {
-            return null;
-          }
-          return (
-            <Thread
-              key={index}
-              index={index}
-              item={item}
-              updateThread={updateThread}
-              deleteThread={deleteThread}
-              restoreThread={restoreThread}
-            />
-          );
-        })
-      )}
-      {closedThreads[0] &&
-        closedThreads.map((item, index) => {
-          if (item.isClosed) {
+    <>
+      <Wrapper>
+        <Create onClick={createThread} />
+        {!data[0] ? (
+          <span style={{ opacity: 0.55, marginTop: 10 }}>
+            You don't have any threads yet...
+          </span>
+        ) : (
+          data.map((item, index) => {
+            if (item.isClosed) {
+              return null;
+            }
             return (
               <Thread
                 key={index}
                 index={index}
                 item={item}
                 updateThread={updateThread}
-                deleteThread={deleteThread}
-                restoreThread={restoreThread}
+                deleteThread={confirmDeleteThread}
               />
             );
-          } else return null;
-        })}
-    </Wrapper>
+          })
+        )}
+        {closedThreads[0] &&
+          closedThreads.map((item, index) => {
+            if (item.isClosed) {
+              return (
+                <Thread
+                  key={index}
+                  index={index}
+                  item={item}
+                  updateThread={updateThread}
+                  deleteThread={confirmDeleteThread}
+                  restoreThread={restoreThread}
+                />
+              );
+            } else return null;
+          })}
+      </Wrapper>
+
+      <Confirmation
+        title="Are you sure you want to delete this thread?"
+        subTitle="This will wipe its data and cannot be undone."
+        isOpen={deleteConfirmation}
+        onCancel={() => setDeleteConfirmation(false)}
+        onConfirm={deleteThread}
+      />
+    </>
   );
 };
 

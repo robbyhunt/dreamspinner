@@ -83,16 +83,13 @@ const Notebook = ({ hook }) => {
         initialSize={{ width: "20vw", height: "50vh" }}
       >
         <Wrapper>
-          {
-            activeTab === 0 ? (
-              <Notes data={notes} onChange={onChange} />
-            ) : activeTab === 1 ? (
-              <Threads data={threads} />
-            ) : activeTab === // <Threads data={threads} />
-              2 ? (
-              <NPCs data={npcs} onChange={onChange} />
-            ) : null // <NPCs data={npcs} />
-          }
+          {activeTab === 0 ? (
+            <Notes data={notes} onChange={onChange} />
+          ) : activeTab === 1 ? (
+            <Threads data={threads} />
+          ) : activeTab === 2 ? (
+            <NPCs data={npcs} onChange={onChange} />
+          ) : null}
         </Wrapper>
       </ResizableContainer>
       <TabContainer>

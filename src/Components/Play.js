@@ -9,11 +9,12 @@ import Generators from "./Generators";
 import Settings from "./Settings";
 import DialogShortcut from "./common/DialogShortcut";
 
-import WesternBG from "../img/westernbg.jpg";
-import FantasyBG from "../img/fantasybg.jpg";
-import ScifiBG from "../img/scifibg.jpg";
-import NoirBG from "../img/noirbg.jpg";
-import ApocalypticBG from "../img/apocalypticbg.jpg";
+import GenericBG from "../img/wallpapers/generic.png";
+import WesternBG from "../img/wallpapers/western.jpeg";
+import FantasyBG from "../img/wallpapers/fantasy.jpeg";
+import ScifiBG from "../img/wallpapers/scifi.jpeg";
+import NoirBG from "../img/wallpapers/noir.jpeg";
+import ApocalypticBG from "../img/wallpapers/apocalyptic.jpeg";
 
 const Wrapper = Styled("div")`
   height: 100vh;
@@ -22,8 +23,8 @@ const Wrapper = Styled("div")`
   position: relative;
   background-color: #00467f;
   background-image: ${(props) =>
-    props.genre === "fantasy"
-      ? `url(${FantasyBG})`
+    props.genre === "generic"
+      ? `url(${GenericBG})`
       : props.genre === "western"
       ? `url(${WesternBG})`
       : props.genre === "scifi"
@@ -32,7 +33,9 @@ const Wrapper = Styled("div")`
       ? `url(${NoirBG})`
       : props.genre === "apocalyptic"
       ? `url(${ApocalypticBG})`
-      : `url(http://www.transparenttextures.com/patterns/light-paper-fibers.png)`};
+      : props.genre === "fantasy"
+      ? `url(${FantasyBG})`
+      : null};
   background-size: ${(props) =>
     props.genre === "generic" ? "initial" : "cover"};
   background-position: center;
