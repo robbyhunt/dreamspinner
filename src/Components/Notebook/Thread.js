@@ -179,7 +179,9 @@ const Thread = ({ item, index, updateThread, deleteThread, restoreThread }) => {
         </>
       ) : (
         <>
-          <Confirm onClick={() => setIsEditable(false)} />
+          {item.title !== "" && (
+            <Confirm onClick={() => setIsEditable(false)} />
+          )}
           <Delete onClick={() => handleDelete()} />
         </>
       )}
