@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import styled from "@emotion/styled";
+import CloseIcon from "../../img/icons/close.svg";
 
 const Container = styled("div")`
   border-radius: 10px;
@@ -25,23 +26,28 @@ const Title = styled("div")`
   -ms-user-select: none;
 `;
 
-const Contents = styled("div")``;
-
 const CloseButton = styled("div")`
   position: absolute;
-  top: 0px;
+  top: 5px;
   right: 5px;
   padding: 5px;
-  font-size: 12px;
   color: #ffffff;
   cursor: pointer;
   opacity: 0.8;
   transition: 200ms;
+  background-image: url(${CloseIcon});
+  background-size: 90%;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 6px;
+  width: 6px;
 
   :hover {
     opacity: 1;
   }
 `;
+
+const Contents = styled("div")``;
 
 export default class Dialog extends Component {
   constructor(props) {
@@ -102,9 +108,7 @@ export default class Dialog extends Component {
         onMouseMove={this._dragging}
         onMouseUp={this._dragEnd}
       >
-        {onClose && (
-          <CloseButton onClick={() => onClose(false)}>Close</CloseButton>
-        )}
+        {onClose && <CloseButton onClick={() => onClose(false)} />}
         <Title onMouseDown={this._dragStart} isdragging={this.state.dragging}>
           {title}
         </Title>

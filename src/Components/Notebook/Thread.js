@@ -1,5 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Styled from "@emotion/styled";
+
+import EditIcon from "../../img/icons/edit.svg";
+import DeleteIcon from "../../img/icons/delete.svg";
+import ConfirmIcon from "../../img/icons/confirm.svg";
 
 const Wrapper = Styled("div")`
   width: calc(100% - 20px);
@@ -9,15 +13,20 @@ const Wrapper = Styled("div")`
 `;
 
 const Edit = Styled("div")`
-  font-size: 14px;
   cursor: pointer;
   position: absolute;
-  top: 2px;
+  top: 5px;
   right: 5px;
-  opacity: 0.6;
+  opacity: 0.7;
   -webkit-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  background-image: url(${EditIcon});
+  background-size: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 16px;
+  width: 16px;
   
   :hover {
     opacity: 1;
@@ -86,7 +95,12 @@ const TitleEdit = Styled(TextArea)`
 `;
 
 const Delete = Styled(Edit)`
-  top: 20px;
+  top: 32px;
+  background-image: url(${DeleteIcon});
+`;
+
+const Confirm = Styled(Edit)`
+  background-image: url(${ConfirmIcon});
 `;
 
 const Thread = ({ item, index, updateThread, deleteThread }) => {
@@ -99,14 +113,25 @@ const Thread = ({ item, index, updateThread, deleteThread }) => {
     }
   }, [item.title]);
 
+  useEffect(() => {
+    if (isEditable) {
+      document.getElementById(`titleEdit-${index}`).focus();
+    }
+  }, [isEditable, index]);
+
   const changeThread = (e) => {
     let tempData = { ...item };
-    if (e.target.id === "titleEdit") {
+    if (e.target.id.includes("titleEdit")) {
       tempData.title = e.target.value;
-    } else if (e.target.id === "descriptionEdit") {
+    } else if (e.target.id.includes("descriptionEdit")) {
       tempData.description = e.target.value;
     }
     updateThread(index, tempData);
+  };
+
+  const handleDelete = () => {
+    setIsEditable(false);
+    deleteThread(index);
   };
 
   return (
@@ -119,7 +144,7 @@ const Thread = ({ item, index, updateThread, deleteThread }) => {
         {isEditable ? (
           <TitleEdit
             value={item.title}
-            id="titleEdit"
+            id={`titleEdit-${index}`}
             onChange={changeThread}
             placeholder="Enter a title..."
           />
@@ -129,11 +154,13 @@ const Thread = ({ item, index, updateThread, deleteThread }) => {
           " "
         )}
       </Title>
-      <Edit onClick={() => setIsEditable(!isEditable)}>
-        {!isEditable ? "Edit" : "Confirm"}
-      </Edit>
-      {isEditable && (
-        <Delete onClick={() => deleteThread(index)}>Delete</Delete>
+      {!isEditable ? (
+        <Edit onClick={() => setIsEditable(true)} />
+      ) : (
+        <>
+          <Confirm onClick={() => setIsEditable(false)} />
+          <Delete onClick={() => handleDelete()} />
+        </>
       )}
       {isOpen && (
         <Inner>

@@ -4,6 +4,7 @@ import Styled from "@emotion/styled";
 import { useDispatch } from "react-redux";
 import { changeThreads } from "../../actionCreators";
 
+import CreateIcon from "../../img/icons/create.svg";
 import Thread from "./Thread";
 
 const Wrapper = Styled("div")`
@@ -15,7 +16,7 @@ const Wrapper = Styled("div")`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 20px;
+  margin-top: 35px;
   overflow: scroll;
   font-family: "Patrick Hand";
 
@@ -35,12 +36,17 @@ const Wrapper = Styled("div")`
 `;
 
 const Create = Styled("div")`
-  font-size: 14px;
   cursor: pointer;
   position: absolute;
-  top: 2px;
-  right: 5px;
+  top: 8px;
+  right: 8px;
   opacity: 0.6;
+  background-image: url(${CreateIcon});
+  background-size: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 20px;
+  width: 20px;
   
   :hover {
     opacity: 1;
@@ -70,7 +76,7 @@ const Threads = ({ data }) => {
 
   return (
     <Wrapper>
-      <Create onClick={createThread}>Create</Create>
+      <Create onClick={createThread} />
       {!data[0] ? (
         <span style={{ opacity: 0.55, marginTop: 10 }}>
           You don't have any threads yet...

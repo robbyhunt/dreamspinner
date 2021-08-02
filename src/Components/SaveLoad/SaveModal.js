@@ -14,6 +14,7 @@ import Styled from "@emotion/styled";
 import axios from "axios";
 
 import Confirmation from "../common/Confirmation";
+import CloseIcon from "../../img/icons/close-black.svg";
 
 const Button = Styled("button")`
   cursor: pointer;
@@ -89,14 +90,21 @@ const SlotWrapper = Styled("div")`
   display: flex;
 `;
 
-const Close = Styled("p")`
+const CloseButton = Styled("div")`
   position: absolute;
-  top: 0;
+  top: 10px;
   right: 10px;
+  padding: 5px;
+  color: #ffffff;
   cursor: pointer;
-  font-size: 13px;
-  opacity: 0.5;
-  transition: 300ms;
+  opacity: 0.7;
+  transition: 200ms;
+  background-image: url(${CloseIcon});
+  background-size: 90%;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 6px;
+  width: 6px;
 
   :hover {
     opacity: 1;
@@ -195,7 +203,7 @@ const SaveModal = ({ setSaveLoadOpen, saveLoadOpen }) => {
             pointerEvents: saveLoadOpen ? "auto" : "none",
           }}
         >
-          <Close onClick={() => setSaveLoadOpen(false)}>Close</Close>
+          <CloseButton onClick={() => setSaveLoadOpen(false)} />
           <Title>Save & Load Games</Title>
 
           {user.saves.map((item, index) => (
