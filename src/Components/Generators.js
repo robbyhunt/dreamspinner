@@ -91,7 +91,7 @@ const Generators = ({ hook }) => {
     <Dialog
       title="Generators"
       onClose={hook[1]}
-      initialPosition={{ top: "150px", left: "55vw" }}
+      initialPosition={{ top: "150px", left: "45vw" }}
     >
       <ResizableContainer
         minSize={{ width: "200px", height: "200px" }}

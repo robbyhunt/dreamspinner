@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Styled from "@emotion/styled";
 
 import { useDispatch } from "react-redux";
@@ -53,12 +53,31 @@ const Create = Styled("div")`
   }
 `;
 
-const Threads = ({ data }) => {
+const NPCs = ({ data }) => {
+  const [closedThreads, setClosedThreads] = useState([]);
+
+  useEffect(() => {
+    let tempClosedThreads = [];
+    data.map((item) => {
+      if (item.isClosed) {
+        tempClosedThreads.push(item);
+      } else {
+        tempClosedThreads.push({});
+      }
+      return tempClosedThreads;
+    });
+    setClosedThreads(tempClosedThreads);
+  }, [data]);
+
   const dispatch = useDispatch();
 
   const createThread = () => {
     let tempData = [...data];
-    tempData.push({ title: "", description: "" });
+    tempData.push({
+      title: "",
+      description: "",
+      isClosed: false,
+    });
     dispatch(changeNPCs(tempData));
   };
 
@@ -74,6 +93,10 @@ const Threads = ({ data }) => {
     dispatch(changeNPCs(tempData));
   };
 
+  const restoreThread = (index) => {
+    setClosedThreads(closedThreads.slice(index, 1));
+  };
+
   return (
     <Wrapper>
       <Create onClick={createThread} />
@@ -82,18 +105,39 @@ const Threads = ({ data }) => {
           You don't have any NPCs yet...
         </span>
       ) : (
-        data.map((item, index) => (
-          <Thread
-            key={index}
-            index={index}
-            item={item}
-            updateThread={updateThread}
-            deleteThread={deleteThread}
-          />
-        ))
+        data.map((item, index) => {
+          if (item.isClosed) {
+            return null;
+          }
+          return (
+            <Thread
+              key={index}
+              index={index}
+              item={item}
+              updateThread={updateThread}
+              deleteThread={deleteThread}
+              restoreThread={restoreThread}
+            />
+          );
+        })
       )}
+      {closedThreads[0] &&
+        closedThreads.map((item, index) => {
+          if (item.isClosed) {
+            return (
+              <Thread
+                key={index}
+                index={index}
+                item={item}
+                updateThread={updateThread}
+                deleteThread={deleteThread}
+                restoreThread={restoreThread}
+              />
+            );
+          } else return null;
+        })}
     </Wrapper>
   );
 };
 
-export default Threads;
+export default NPCs;

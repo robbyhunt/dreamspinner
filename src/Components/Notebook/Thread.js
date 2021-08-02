@@ -4,6 +4,7 @@ import Styled from "@emotion/styled";
 import EditIcon from "../../img/icons/edit.svg";
 import DeleteIcon from "../../img/icons/delete.svg";
 import ConfirmIcon from "../../img/icons/confirm.svg";
+import CloseThreadIcon from "../../img/icons/close-thread.svg";
 
 const Wrapper = Styled("div")`
   width: calc(100% - 20px);
@@ -103,7 +104,13 @@ const Confirm = Styled(Edit)`
   background-image: url(${ConfirmIcon});
 `;
 
-const Thread = ({ item, index, updateThread, deleteThread }) => {
+const Close = Styled(Edit)`
+  background-image: url(${CloseThreadIcon});
+  top: 25px;
+  right: 6px;
+`;
+
+const Thread = ({ item, index, updateThread, deleteThread, restoreThread }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isEditable, setIsEditable] = useState(false);
 
@@ -125,6 +132,11 @@ const Thread = ({ item, index, updateThread, deleteThread }) => {
       tempData.title = e.target.value;
     } else if (e.target.id.includes("descriptionEdit")) {
       tempData.description = e.target.value;
+    } else if (e.target.id.includes("closeThread")) {
+      tempData.isClosed = true;
+    } else if (e.target.id.includes("recoverThread")) {
+      tempData.isClosed = false;
+      restoreThread(index);
     }
     updateThread(index, tempData);
   };
@@ -135,7 +147,7 @@ const Thread = ({ item, index, updateThread, deleteThread }) => {
   };
 
   return (
-    <Wrapper>
+    <Wrapper style={{ opacity: item.isClosed && 0.5 }}>
       <Title
         isopen={isOpen}
         iseditable={isEditable}
@@ -155,7 +167,14 @@ const Thread = ({ item, index, updateThread, deleteThread }) => {
         )}
       </Title>
       {!isEditable ? (
-        <Edit onClick={() => setIsEditable(true)} />
+        <>
+          <Edit onClick={() => setIsEditable(true)} />
+          {item.isClosed ? (
+            <Close id="recoverThread" onClick={(e) => changeThread(e)} />
+          ) : (
+            <Close id="closeThread" onClick={(e) => changeThread(e)} />
+          )}
+        </>
       ) : (
         <>
           <Confirm onClick={() => setIsEditable(false)} />
