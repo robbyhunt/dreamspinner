@@ -6,6 +6,7 @@ import notes from "./notes";
 import threads from "./threads";
 import npcs from "./npcs";
 import genre from "./genre";
+import title from "./title";
 
 export default combineReducers({
   log,
@@ -15,4 +16,5 @@ export default combineReducers({
   threads,
   npcs,
   genre,
+  title,
 });

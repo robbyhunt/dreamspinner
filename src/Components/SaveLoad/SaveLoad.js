@@ -6,6 +6,7 @@ import {
   changeNotes,
   changeThreads,
   changeNPCs,
+  changeTitle,
 } from "../../actionCreators";
 import Styled from "@emotion/styled";
 
@@ -48,11 +49,11 @@ const SaveLoad = () => {
   const [saveLoadOpen, setSaveLoadOpen] = useState(false);
   const [newGameConfirmation, setNewGameConfirmation] = useState(false);
 
-  const { user } = useSelector((s) => s);
+  const { user, title } = useSelector((s) => s);
   const dispatch = useDispatch();
 
   const newGame = () => {
-    document.getElementById("title").value = "Untitled Game";
+    dispatch(changeTitle("Untitled Game"));
     dispatch(changeThreads([]));
     dispatch(changeNotes(""));
     dispatch(changeNPCs([]));
@@ -68,7 +69,8 @@ const SaveLoad = () => {
             Game Name:
             <input
               id="title"
-              defaultValue="Untitled Game"
+              value={title}
+              onChange={(e) => dispatch(changeTitle(e.target.value))}
               style={{ margin: "0 10px 0 5px" }}
             />
           </>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import Styled from "@emotion/styled";
 
 import EditIcon from "../../img/icons/edit.svg";

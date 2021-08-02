@@ -33,3 +33,7 @@ export function changeNPCs(payload) {
 export function changeGenre(payload) {
   return { type: "CHANGE_GENRE", payload };
 }
+
+export function changeTitle(payload) {
+  return { type: "CHANGE_TITLE", payload };
+}

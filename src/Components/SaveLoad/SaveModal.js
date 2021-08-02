@@ -9,6 +9,7 @@ import {
   changeNotes,
   changeThreads,
   changeNPCs,
+  changeTitle,
 } from "../../actionCreators";
 import Styled from "@emotion/styled";
 import axios from "axios";
@@ -117,7 +118,7 @@ const SaveModal = ({ setSaveLoadOpen, saveLoadOpen }) => {
   const [clearConfirmOpen, setClearConfirmOpen] = useState(false);
   const [clearPayload, setClearPayload] = useState(undefined);
 
-  const { log, user, notes, threads, npcs } = useSelector((s) => s);
+  const { log, user, notes, threads, npcs, title } = useSelector((s) => s);
   const dispatch = useDispatch();
 
   const SaveConfirm = (e) => {
@@ -132,7 +133,7 @@ const SaveModal = ({ setSaveLoadOpen, saveLoadOpen }) => {
   const Save = async (slot) => {
     let newUserObject = { ...user };
     newUserObject.saves[slot] = {
-      title: document.getElementById("title").value,
+      title,
       log,
       notes,
       npcs,
@@ -176,7 +177,7 @@ const SaveModal = ({ setSaveLoadOpen, saveLoadOpen }) => {
 
   const Load = async (event) => {
     const gameData = user.saves[event.target.slot];
-    document.getElementById("title").value = gameData.title;
+    dispatch(changeTitle(gameData.title));
     dispatch(changeThreads(gameData.threads));
     dispatch(changeNotes(gameData.notes));
     dispatch(changeNPCs(gameData.npcs));
