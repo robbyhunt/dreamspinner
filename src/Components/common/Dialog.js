@@ -11,7 +11,7 @@ const Container = styled("div")`
 
 const Inner = styled("div")`
   border-radius: 10px;
-  margin: 180px 180px 0px;
+  margin: 180px 180px;
   position: relative;
   pointer-events: all;
   filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.4));
