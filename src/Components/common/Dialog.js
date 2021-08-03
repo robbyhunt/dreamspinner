@@ -104,6 +104,7 @@ export default class Dialog extends Component {
         styles: {
           left: leftPer,
           top: topPer,
+          right: null,
           zIndex: 999,
         },
       });

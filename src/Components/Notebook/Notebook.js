@@ -75,7 +75,7 @@ const Notebook = ({ hook }) => {
     <Dialog
       title="Notebook"
       onClose={hook[1]}
-      initialPosition={{ top: "10vh", left: "70vw" }}
+      initialPosition={{ top: "10vh", right: "5vw" }}
     >
       <ResizableContainer
         minSize={{ width: "300px", height: "400px" }}
