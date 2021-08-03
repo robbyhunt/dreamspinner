@@ -219,6 +219,8 @@ const Log = () => {
   const scrollLogToBottom = () => {
     document.getElementById("log").scrollTop =
       document.getElementById("log").scrollHeight;
+
+    // AUTO FOCUS INPUT TEXT BOX AFTER ANY SUBMISSION TAKES PLACE
     document.getElementById("input").focus();
   };
 
