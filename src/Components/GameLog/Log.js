@@ -330,13 +330,15 @@ const Log = () => {
         </ResizableContainer>
       </Dialog>
 
-      <Confirmation
-        title="Are you sure you want to clear the log?"
-        subTitle="This will wipe any unsaved data and cannot be undone."
-        isOpen={clearConfirmOpen}
-        onCancel={() => setClearConfirmOpen(false)}
-        onConfirm={() => Clear()}
-      />
+      {clearConfirmOpen && (
+        <Confirmation
+          title="Are you sure you want to clear the log?"
+          subTitle="This will wipe any unsaved data and cannot be undone."
+          isOpen={clearConfirmOpen}
+          onCancel={() => setClearConfirmOpen(false)}
+          onConfirm={() => Clear()}
+        />
+      )}
     </>
   );
 };

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Styled from "@emotion/styled";
 
 const Modal = Styled("div")`
@@ -77,10 +77,23 @@ const Button = Styled("button")`
   }
 `;
 
-function Confirmation({ title, subTitle, onCancel, onConfirm, isOpen }) {
+function Confirmation({ title, subTitle, onCancel, onConfirm }) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    setIsOpen(true);
+  }, []);
+
   const confirm = () => {
-    onCancel();
     onConfirm();
+    cancel();
+  };
+
+  const cancel = () => {
+    setIsOpen(false);
+    setTimeout(function () {
+      onCancel();
+    }, 400);
   };
 
   return (
@@ -99,7 +112,7 @@ function Confirmation({ title, subTitle, onCancel, onConfirm, isOpen }) {
         <Title>{title}</Title>
         <SubTitle>{subTitle}</SubTitle>
         <ButtonWrapper>
-          <Button onClick={onCancel} id="cancel">
+          <Button onClick={cancel} id="cancel">
             Cancel
           </Button>
           <Button onClick={confirm}>Confirm</Button>

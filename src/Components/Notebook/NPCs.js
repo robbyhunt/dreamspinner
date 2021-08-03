@@ -150,13 +150,15 @@ const NPCs = ({ data }) => {
           })}
       </Wrapper>
 
-      <Confirmation
-        title="Are you sure you want to delete this NPC?"
-        subTitle="This will wipe its data and cannot be undone."
-        isOpen={deleteConfirmation}
-        onCancel={() => setDeleteConfirmation(false)}
-        onConfirm={deleteThread}
-      />
+      {deleteConfirmation && (
+        <Confirmation
+          title="Are you sure you want to delete this NPC?"
+          subTitle="This will wipe its data and cannot be undone."
+          isOpen={deleteConfirmation}
+          onCancel={() => setDeleteConfirmation(false)}
+          onConfirm={deleteThread}
+        />
+      )}
     </>
   );
 };

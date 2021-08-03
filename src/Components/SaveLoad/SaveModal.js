@@ -1,6 +1,6 @@
 /*global netlifyIdentity*/
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   changeLog,
@@ -114,6 +114,7 @@ const CloseButton = Styled("div")`
 `;
 
 const SaveModal = ({ setSaveLoadOpen, saveLoadOpen }) => {
+  const [isOpen, setIsOpen] = useState(false);
   const [saveConfirmOpen, setSaveConfirmOpen] = useState(false);
   const [savePayload, setSavePayload] = useState(undefined);
   const [loadConfirmOpen, setLoadConfirmOpen] = useState(false);
@@ -125,6 +126,17 @@ const SaveModal = ({ setSaveLoadOpen, saveLoadOpen }) => {
     (s) => s
   );
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    setIsOpen(true);
+  }, []);
+
+  const close = () => {
+    setIsOpen(false);
+    setTimeout(function () {
+      setSaveLoadOpen(false);
+    }, 400);
+  };
 
   const SaveConfirm = (e) => {
     if (user.saves[e.target.slot].log === undefined) {
@@ -201,24 +213,24 @@ const SaveModal = ({ setSaveLoadOpen, saveLoadOpen }) => {
     document.getElementById("log").scrollTop =
       document.getElementById("log").scrollHeight;
 
-    setSaveLoadOpen(false);
+    close();
   };
 
   return (
     <>
       <Modal
         style={{
-          opacity: saveLoadOpen ? "1" : "0",
-          pointerEvents: saveLoadOpen ? "auto" : "none",
+          opacity: isOpen ? "1" : "0",
+          pointerEvents: isOpen ? "auto" : "none",
         }}
       >
         <Inner
           style={{
-            opacity: saveLoadOpen ? "1" : "0",
-            pointerEvents: saveLoadOpen ? "auto" : "none",
+            opacity: isOpen ? "1" : "0",
+            pointerEvents: isOpen ? "auto" : "none",
           }}
         >
-          <CloseButton onClick={() => setSaveLoadOpen(false)} />
+          <CloseButton onClick={() => close()} />
           <Title>Save & Load Games</Title>
 
           {user.saves.map((item, index) => (
@@ -265,29 +277,35 @@ const SaveModal = ({ setSaveLoadOpen, saveLoadOpen }) => {
         </Inner>
       </Modal>
 
-      <Confirmation
-        title="Are you sure you want to overwrite this slot?"
-        subTitle="This will wipe any previous data and cannot be undone."
-        isOpen={saveConfirmOpen}
-        onCancel={() => setSaveConfirmOpen(false)}
-        onConfirm={() => Save(savePayload)}
-      />
+      {saveConfirmOpen && (
+        <Confirmation
+          title="Are you sure you want to overwrite this slot?"
+          subTitle="This will wipe any previous data and cannot be undone."
+          isOpen={saveConfirmOpen}
+          onCancel={() => setSaveConfirmOpen(false)}
+          onConfirm={() => Save(savePayload)}
+        />
+      )}
 
-      <Confirmation
-        title="Are you sure you want to load this save?"
-        subTitle="Any unsaved data in your current game will be lost."
-        isOpen={loadConfirmOpen}
-        onCancel={() => setLoadConfirmOpen(false)}
-        onConfirm={() => Load(loadPayload)}
-      />
+      {loadConfirmOpen && (
+        <Confirmation
+          title="Are you sure you want to load this save?"
+          subTitle="Any unsaved data in your current game will be lost."
+          isOpen={loadConfirmOpen}
+          onCancel={() => setLoadConfirmOpen(false)}
+          onConfirm={() => Load(loadPayload)}
+        />
+      )}
 
-      <Confirmation
-        title="Are you sure you want to clear this save?"
-        subTitle="This will wipe all data in this slot and cannot be undone."
-        isOpen={clearConfirmOpen}
-        onCancel={() => setClearConfirmOpen(false)}
-        onConfirm={() => Clear(clearPayload)}
-      />
+      {clearConfirmOpen && (
+        <Confirmation
+          title="Are you sure you want to clear this save?"
+          subTitle="This will wipe all data in this slot and cannot be undone."
+          isOpen={clearConfirmOpen}
+          onCancel={() => setClearConfirmOpen(false)}
+          onConfirm={() => Clear(clearPayload)}
+        />
+      )}
     </>
   );
 };

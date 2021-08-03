@@ -86,19 +86,22 @@ const SaveLoad = () => {
         </Button>
         <Button onClick={() => setNewGameConfirmation(true)}>New Game</Button>
       </SaveButtonContainer>
-      {user.saves && (
+      {user.saves && saveLoadOpen && (
         <SaveModal
           saveLoadOpen={saveLoadOpen}
           setSaveLoadOpen={setSaveLoadOpen}
         />
       )}
-      <Confirmation
-        title="Are you sure you want to start a new game?"
-        subTitle="This will wipe any unsaved data and cannot be undone."
-        isOpen={newGameConfirmation}
-        onCancel={() => setNewGameConfirmation(false)}
-        onConfirm={newGame}
-      />
+
+      {newGameConfirmation && (
+        <Confirmation
+          title="Are you sure you want to start a new game?"
+          subTitle="This will wipe any unsaved data and cannot be undone."
+          isOpen={newGameConfirmation}
+          onCancel={() => setNewGameConfirmation(false)}
+          onConfirm={newGame}
+        />
+      )}
     </>
   );
 };
