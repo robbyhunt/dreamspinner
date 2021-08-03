@@ -127,11 +127,17 @@ export default class Dialog extends Component {
         style={this.state.styles}
         onMouseMove={this._dragging}
         onMouseUp={this._dragEnd}
+        onTouchMove={this._dragging}
+        onTouchEnd={this._dragEnd}
       >
         <DragBuffer isdragging={this.state.dragging} />
         <Inner>
           {onClose && <CloseButton onClick={() => onClose(false)} />}
-          <Title onMouseDown={this._dragStart} isdragging={this.state.dragging}>
+          <Title
+            onMouseDown={this._dragStart}
+            onTouchStart={this._dragStart}
+            isdragging={this.state.dragging}
+          >
             {title}
           </Title>
           <Contents>{children}</Contents>
