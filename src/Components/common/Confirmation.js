@@ -13,9 +13,13 @@ const Modal = Styled("div")`
   display: flex;
   justify-content: center;
   align-items: center;
+  user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
 `;
 
 const Inner = Styled("div")`
+  max-width: 400px;
   background-color: #ffffff;
   transition: 400ms;
   padding: 15px;
@@ -24,20 +28,50 @@ const Inner = Styled("div")`
   position: relative;
   margin: 0 15px;
   text-align: center;
+  border-radius: 5px;
 `;
 
 const Title = Styled("p")`
-  margin: 0 0 20px;
-  font-size: 22px;
+  margin: 0 0 10px;
+  font-size: 20px;
+  text-transform: uppercase;
+  font-weight: 400;
+  letter-spacing: 2px;
 `;
 
 const SubTitle = Styled(Title)`
-  font-size: 18px;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+  text-transform: none;
+  font-weight: 300;
+  margin: 0 0 30px;
 `;
 
 const ButtonWrapper = Styled("div")`
   display: flex;
   justify-content: space-around;
+`;
+
+const Button = Styled("button")`
+  color: ${(props) => (props.id === "cancel" ? "#ffffff" : "#00a8e3")};
+  padding: 10px 25px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  background-color: ${(props) =>
+    props.id === "cancel" ? "#ff0101" : "#ffffff"};
+  border-radius: 5px;
+  border: ${(props) =>
+    props.id === "cancel" ? "2px solid #ff0101" : "2px solid #00a8e3"};
+  text-transform: uppercase;
+  user-select: none;
+  transition: opacity 200ms;
+  letter-spacing: 1px;
+  opacity: 1;
+
+  &:hover {
+    opacity: 0.6;
+  }
 `;
 
 function Confirmation({ title, subTitle, onCancel, onConfirm, isOpen }) {
@@ -62,8 +96,10 @@ function Confirmation({ title, subTitle, onCancel, onConfirm, isOpen }) {
         <Title>{title}</Title>
         <SubTitle>{subTitle}</SubTitle>
         <ButtonWrapper>
-          <button onClick={onCancel}>Cancel</button>
-          <button onClick={confirm}>Confirm</button>
+          <Button onClick={onCancel} id="cancel">
+            Cancel
+          </Button>
+          <Button onClick={confirm}>Confirm</Button>
         </ButtonWrapper>
       </Inner>
     </Modal>

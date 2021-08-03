@@ -25,7 +25,6 @@ const Inner = styled("div")`
 `;
 
 const Title = styled("div")`
-  font-weight: bold;
   padding: 10px 0;
   background-color: #00467f;
   background-image: url(https://www.transparenttextures.com/patterns/black-linen-2.png);

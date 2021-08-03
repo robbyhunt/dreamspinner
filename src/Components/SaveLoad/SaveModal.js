@@ -61,6 +61,7 @@ const Inner = Styled("div")`
   max-width: 400px;
   position: relative;
   margin: 0 15px;
+  border-radius: 5px;
 `;
 
 const Title = Styled("p")`
