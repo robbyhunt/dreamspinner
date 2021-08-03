@@ -115,10 +115,14 @@ const CloseButton = Styled("div")`
 const SaveModal = ({ setSaveLoadOpen, saveLoadOpen }) => {
   const [saveConfirmOpen, setSaveConfirmOpen] = useState(false);
   const [savePayload, setSavePayload] = useState(undefined);
+  const [loadConfirmOpen, setLoadConfirmOpen] = useState(false);
+  const [loadPayload, setLoadPayload] = useState(undefined);
   const [clearConfirmOpen, setClearConfirmOpen] = useState(false);
   const [clearPayload, setClearPayload] = useState(undefined);
 
-  const { log, user, notes, threads, npcs, title } = useSelector((s) => s);
+  const { log, user, notes, threads, npcs, title, input } = useSelector(
+    (s) => s
+  );
   const dispatch = useDispatch();
 
   const SaveConfirm = (e) => {
@@ -175,8 +179,17 @@ const SaveModal = ({ setSaveLoadOpen, saveLoadOpen }) => {
     );
   };
 
-  const Load = async (event) => {
-    const gameData = user.saves[event.target.slot];
+  const LoadConfirm = (e) => {
+    if (input === "" && log === "" && !threads[0] && !npcs[0]) {
+      Load(e.target.slot);
+    } else {
+      setLoadPayload(e.target.slot);
+      setLoadConfirmOpen(true);
+    }
+  };
+
+  const Load = async (slot) => {
+    const gameData = user.saves[slot];
     dispatch(changeTitle(gameData.title));
     dispatch(changeThreads(gameData.threads));
     dispatch(changeNotes(gameData.notes));
@@ -232,7 +245,7 @@ const SaveModal = ({ setSaveLoadOpen, saveLoadOpen }) => {
                     disabled={item.log === undefined}
                     id="load"
                     slot={index}
-                    onClick={(e) => Load(e)}
+                    onClick={(e) => LoadConfirm(e)}
                   >
                     Load
                   </Button>
@@ -257,6 +270,14 @@ const SaveModal = ({ setSaveLoadOpen, saveLoadOpen }) => {
         isOpen={saveConfirmOpen}
         onCancel={() => setSaveConfirmOpen(false)}
         onConfirm={() => Save(savePayload)}
+      />
+
+      <Confirmation
+        title="Are you sure you want to load this save?"
+        subTitle="Any unsaved data in your current game will be lost."
+        isOpen={loadConfirmOpen}
+        onCancel={() => setLoadConfirmOpen(false)}
+        onConfirm={() => Load(loadPayload)}
       />
 
       <Confirmation
