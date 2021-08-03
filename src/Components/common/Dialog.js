@@ -80,17 +80,39 @@ export default class Dialog extends Component {
   }
 
   _dragStart(e) {
-    this.setState({
-      diffX: e.screenX - e.currentTarget.getBoundingClientRect().left,
-      diffY: e.screenY - e.currentTarget.getBoundingClientRect().top,
-      dragging: true,
-    });
+    // if event is touch
+    if (e.targetTouches) {
+      this.setState({
+        diffX:
+          e.targetTouches[0].clientX -
+          e.currentTarget.getBoundingClientRect().left,
+        diffY:
+          e.targetTouches[0].clientY -
+          e.currentTarget.getBoundingClientRect().top,
+        dragging: true,
+      });
+    } else {
+      this.setState({
+        diffX: e.clientX - e.currentTarget.getBoundingClientRect().left,
+        diffY: e.clientY - e.currentTarget.getBoundingClientRect().top,
+        dragging: true,
+      });
+    }
   }
 
   _dragging(e) {
     if (this.state.dragging) {
-      var left = e.screenX - this.state.diffX;
-      var top = e.screenY - this.state.diffY;
+      let left;
+      let top;
+
+      // if event is touch
+      if (e.targetTouches) {
+        left = e.targetTouches[0].clientX - this.state.diffX;
+        top = e.targetTouches[0].clientY - this.state.diffY;
+      } else {
+        left = e.clientX - this.state.diffX;
+        top = e.clientY - this.state.diffY;
+      }
 
       var leftPer = `${
         Math.round(((left * 100) / window.innerWidth) * 100) / 100
