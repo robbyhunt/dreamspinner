@@ -146,6 +146,13 @@ const Thread = ({ item, index, updateThread, deleteThread, restoreThread }) => {
     deleteThread(index);
   };
 
+  const handleKey = (e) => {
+    if (e.key === "Enter") {
+      setIsEditable(false);
+      changeThread(e);
+    }
+  };
+
   return (
     <Wrapper style={{ opacity: item.isClosed && 0.6 }}>
       <Title
@@ -161,6 +168,7 @@ const Thread = ({ item, index, updateThread, deleteThread, restoreThread }) => {
             onChange={changeThread}
             placeholder="Enter a title..."
             readOnly={item.isClosed}
+            onKeyDown={(e) => handleKey(e)}
           />
         ) : item.title !== "" ? (
           "- " + item.title

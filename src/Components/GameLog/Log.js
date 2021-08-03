@@ -206,10 +206,12 @@ const Log = () => {
   const handleSubmit = async (e, isButton = false) => {
     if (isButton || (e.key === "Enter" && e.shiftKey)) {
       const submission = input.replace(/\n.*$/, "");
+
       if (input !== "") {
-        dispatch(changeInput(""));
         await dispatch(addToLog(submission));
+        dispatch(changeInput(""));
       }
+
       scrollLogToBottom();
     }
   };
@@ -217,6 +219,7 @@ const Log = () => {
   const scrollLogToBottom = () => {
     document.getElementById("log").scrollTop =
       document.getElementById("log").scrollHeight;
+    document.getElementById("input").focus();
   };
 
   const Clear = () => {
