@@ -35,7 +35,7 @@ const ButtonWrapper = Styled("div")`
   justify-content: space-between;
   width: calc(100% - 20px);
   flex-wrap: wrap;
-  background-color: #00467f;
+  background-color: ${(props) => props.theme.colors.secondary};
   background-image: url("https://www.transparenttextures.com/patterns/black-linen-2.png");
   padding: 10px 10px 0;
   -webkit-user-select: none;

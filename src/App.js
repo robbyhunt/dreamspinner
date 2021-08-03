@@ -1,13 +1,16 @@
 /*global netlifyIdentity*/
 
 import React from "react";
+import { Provider } from "react-redux";
+import store from "./store";
+
+import { ThemeProvider } from "@emotion/react";
+import theme from "./theme";
+
 import Start from "./Components/Start";
 import Play from "./Components/Play";
 import DiceSound from "./util/DiceSound";
 import SaveLoad from "./Components/SaveLoad/SaveLoad";
-
-import { Provider } from "react-redux";
-import store from "./store";
 
 class App extends React.Component {
   constructor(props) {
@@ -46,14 +49,16 @@ class App extends React.Component {
 
     return (
       <Provider store={store}>
-        {this.state.startOpen ? (
-          <Start onClick={handleStart} isLoggedIn={this.state.isLoggedIn} />
-        ) : (
-          <>
-            <SaveLoad />
-            <Play />
-          </>
-        )}
+        <ThemeProvider theme={theme}>
+          {this.state.startOpen ? (
+            <Start onClick={handleStart} isLoggedIn={this.state.isLoggedIn} />
+          ) : (
+            <>
+              <SaveLoad />
+              <Play />
+            </>
+          )}
+        </ThemeProvider>
       </Provider>
     );
   }

@@ -21,7 +21,7 @@ const Wrapper = Styled("div")`
   text-align: center;
   background-color: #ffffff;
   position: relative;
-  background-color: #00467f;
+  background-color: ${(props) => props.theme.colors.secondary};
   background-image: ${(props) =>
     props.genre === "generic"
       ? `url(${GenericBG})`

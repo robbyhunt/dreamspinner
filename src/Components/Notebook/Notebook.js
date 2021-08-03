@@ -38,7 +38,7 @@ const Tab = Styled("div")`
   transform: ${(props) =>
     props.isActive ? "rotate(90deg) translateY(-7px)" : "rotate(90deg)"};
   margin-bottom: 50px;
-  background-color: #00467f;
+  background-color: ${(props) => props.theme.colors.secondary};
   border-radius: 10px 10px 0 0;
   background-image: url(https://www.transparenttextures.com/patterns/black-linen-2.png);
   color: #ffffff;

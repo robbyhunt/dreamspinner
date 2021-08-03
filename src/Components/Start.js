@@ -12,7 +12,7 @@ const Wrapper = Styled("div")`
   text-align: center;
   background-color: #ffffff;
   position: relative;
-  background-color: #00467f;
+  background-color: ${(props) => props.theme.colors.secondary};
   background-image: url("http://www.transparenttextures.com/patterns/light-paper-fibers.png"
   background-position: center;
   overflow: hidden;
@@ -61,7 +61,7 @@ const Tagline = Styled(Title)`
 `;
 
 const Button = Styled("button")`
-  color: #00a8e3;
+  color: ${(props) => props.theme.colors.primary};
   padding: 5px 20px;
   font-size: calc(12px + 2vmin);
   cursor: pointer;
@@ -80,15 +80,15 @@ const Button = Styled("button")`
   &:hover {
     filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.5));
     font-size: calc(15px + 2vmin);
-    color: #00467f;
+    color: ${(props) => props.theme.colors.secondary};
 
     & > a {
-      color: #00467f;
+      color: ${(props) => props.theme.colors.secondary};
     }
   }
 
   & > a {
-    color: #00a8e3;
+    color: ${(props) => props.theme.colors.primary};
     text-decoration: none;
     transition: color 800ms;
   }

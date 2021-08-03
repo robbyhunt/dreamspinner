@@ -26,7 +26,7 @@ const Inner = styled("div")`
 
 const Title = styled("div")`
   padding: 10px 0;
-  background-color: #00467f;
+  background-color: ${(props) => props.theme.colors.secondary};
   background-image: url(https://www.transparenttextures.com/patterns/black-linen-2.png);
   cursor: ${(props) => (props.isdragging ? "grabbing" : "grab")};
   color: #ffffff;

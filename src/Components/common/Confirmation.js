@@ -53,7 +53,8 @@ const ButtonWrapper = Styled("div")`
 `;
 
 const Button = Styled("button")`
-  color: ${(props) => (props.id === "cancel" ? "#ffffff" : "#00a8e3")};
+  color: ${(props) =>
+    props.id === "cancel" ? "#ffffff" : props.theme.colors.primary};
   padding: 10px 25px;
   font-size: 13px;
   font-weight: 600;
@@ -62,7 +63,9 @@ const Button = Styled("button")`
     props.id === "cancel" ? "#ff0101" : "#ffffff"};
   border-radius: 5px;
   border: ${(props) =>
-    props.id === "cancel" ? "2px solid #ff0101" : "2px solid #00a8e3"};
+    props.id === "cancel"
+      ? "2px solid #ff0101"
+      : `2px solid ${props.theme.colors.primary}`};
   text-transform: uppercase;
   user-select: none;
   transition: opacity 200ms;

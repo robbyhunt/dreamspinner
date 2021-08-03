@@ -4,7 +4,7 @@ import Styled from "@emotion/styled";
 const Wrapper = Styled("div")`
   width: 150px;
   height: 35px;
-  background-color: #00467f;
+  background-color: ${(props) => props.theme.colors.secondary};
   background-image: url("https://www.transparenttextures.com/patterns/black-linen-2.png");
   position: absolute;
   border-radius: 8px 8px 0 0;

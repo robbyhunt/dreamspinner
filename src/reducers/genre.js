@@ -1,4 +1,4 @@
-export default function input(state = "generic", action) {
+export default function input(state = "fantasy", action) {
   switch (action.type) {
     case "CHANGE_GENRE":
       return action.payload;
