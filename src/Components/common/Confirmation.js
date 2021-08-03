@@ -93,7 +93,7 @@ function Confirmation({ title, subTitle, onCancel, onConfirm }) {
     setIsOpen(false);
     setTimeout(function () {
       onCancel();
-    }, 400);
+    }, 500);
   };
 
   return (

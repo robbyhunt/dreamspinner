@@ -135,7 +135,7 @@ const SaveModal = ({ setSaveLoadOpen, saveLoadOpen }) => {
     setIsOpen(false);
     setTimeout(function () {
       setSaveLoadOpen(false);
-    }, 400);
+    }, 500);
   };
 
   const SaveConfirm = (e) => {
