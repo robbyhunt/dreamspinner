@@ -121,6 +121,7 @@ const SaveModal = ({ setSaveLoadOpen, saveLoadOpen }) => {
   const [loadPayload, setLoadPayload] = useState(undefined);
   const [clearConfirmOpen, setClearConfirmOpen] = useState(false);
   const [clearPayload, setClearPayload] = useState(undefined);
+  const [isLoading, setIsLoading] = useState([false, undefined]);
 
   const { log, user, notes, threads, npcs, title, input } = useSelector(
     (s) => s
@@ -148,6 +149,8 @@ const SaveModal = ({ setSaveLoadOpen, saveLoadOpen }) => {
   };
 
   const Save = async (slot) => {
+    setIsLoading([true, slot]);
+
     let newUserObject = { ...user };
     newUserObject.saves[slot] = {
       title,
@@ -156,18 +159,20 @@ const SaveModal = ({ setSaveLoadOpen, saveLoadOpen }) => {
       npcs,
       threads,
     };
-    dispatch(changeUser(newUserObject));
 
     let token;
     await netlifyIdentity.refresh().then((returnedToken) => {
       token = returnedToken;
     });
 
-    axios.post(
+    await axios.post(
       "/.netlify/functions/saveGame",
-      { user: user },
+      { user: newUserObject },
       { headers: { Authorization: `Bearer ${token}` } }
     );
+
+    await dispatch(changeUser(newUserObject));
+    setIsLoading([false, undefined]);
   };
 
   const ClearConfirm = (e) => {
@@ -176,20 +181,24 @@ const SaveModal = ({ setSaveLoadOpen, saveLoadOpen }) => {
   };
 
   const Clear = async (slot) => {
+    setIsLoading([true, slot]);
+
     let newUserObject = { ...user };
     newUserObject.saves[slot] = {};
-    dispatch(changeUser(newUserObject));
 
     let token;
     await netlifyIdentity.refresh().then((returnedToken) => {
       token = returnedToken;
     });
 
-    axios.post(
+    await axios.post(
       "/.netlify/functions/saveGame",
-      { user: user },
+      { user: newUserObject },
       { headers: { Authorization: `Bearer ${token}` } }
     );
+
+    await dispatch(changeUser(newUserObject));
+    setIsLoading([false, undefined]);
   };
 
   const LoadConfirm = (e) => {
@@ -251,11 +260,12 @@ const SaveModal = ({ setSaveLoadOpen, saveLoadOpen }) => {
                     id="save"
                     slot={index}
                     onClick={(e) => SaveConfirm(e)}
+                    disabled={isLoading[0]}
                   >
                     Save
                   </Button>
                   <Button
-                    disabled={item.log === undefined}
+                    disabled={item.log === undefined || isLoading[0]}
                     id="load"
                     slot={index}
                     onClick={(e) => LoadConfirm(e)}
@@ -263,7 +273,7 @@ const SaveModal = ({ setSaveLoadOpen, saveLoadOpen }) => {
                     Load
                   </Button>
                   <Button
-                    disabled={item.log === undefined}
+                    disabled={item.log === undefined || isLoading[0]}
                     id="clear"
                     slot={index}
                     onClick={(e) => ClearConfirm(e)}
