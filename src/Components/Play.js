@@ -18,6 +18,8 @@ import ApocalypticBG from "../img/wallpapers/apocalyptic.jpeg";
 
 const Wrapper = Styled("div")`
   height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
+  height: ${document.documentElement.clientHeight};
   text-align: center;
   background-color: #ffffff;
   position: relative;
