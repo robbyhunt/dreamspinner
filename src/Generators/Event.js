@@ -205,9 +205,9 @@ const action = {
   ],
 };
 
-export default function Event(diceResults) {
+export default function Event(diceResults, noRoll = false) {
   const triggerRoll = Math.floor(Math.random() * 6) + 1;
-  if (triggerRoll <= diceResults[0]) {
+  if (noRoll || triggerRoll <= diceResults[0]) {
     let eventFocus = "";
     const focusRoll = Math.floor(Math.random() * 6) + 1;
     const evensOddsRoll = Math.floor(Math.random() * 6) + 1;

@@ -205,6 +205,15 @@ const Log = () => {
     }
   };
 
+  const handleEvent = async () => {
+    let event = Event([], true);
+    if (event === undefined) {
+      event = Event([], true);
+    }
+    await dispatch(addToLog(event));
+    scrollLogToBottom();
+  };
+
   const handleSubmit = async (e, isButton = false) => {
     if (isButton || (e.key === "Enter" && e.shiftKey)) {
       const submission = input.replace(/\n.*$/, "");
@@ -268,11 +277,7 @@ const Log = () => {
                 >
                   Description
                 </GenerateButton>
-                <GenerateButton
-                  id="cqa"
-                  name="complex"
-                  onClick={handleGenerator}
-                >
+                <GenerateButton id="eventGenerator" onClick={handleEvent}>
                   Event
                 </GenerateButton>
               </GeneratorWrapper>
