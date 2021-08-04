@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Styled from "@emotion/styled";
 
 import { useSelector } from "react-redux";
@@ -19,7 +19,6 @@ import ApocalypticBG from "../img/wallpapers/apocalyptic.jpeg";
 const Wrapper = Styled("div")`
   height: 100vh;
   height: calc(var(--vh, 1vh) * 100);
-  height: ${document.documentElement.clientHeight};
   text-align: center;
   background-color: #ffffff;
   position: relative;
@@ -52,6 +51,16 @@ const Play = () => {
   const generatorsHook = useState(false);
 
   const { genre } = useSelector((s) => s);
+
+  useEffect(() => {
+    let vh = document.documentElement.clientHeight * 0.01;
+    document.documentElement.style.setProperty("--vh", `${vh}px`);
+
+    window.addEventListener("resize", () => {
+      let vh = document.documentElement.clientHeight * 0.01;
+      document.documentElement.style.setProperty("--vh", `${vh}px`);
+    });
+  }, []);
 
   return (
     <Wrapper genre={genre}>

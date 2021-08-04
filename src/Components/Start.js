@@ -1,6 +1,6 @@
 /*global netlifyIdentity*/
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import logo from "../img/mandala.png";
 import Styled from "@emotion/styled";
 import { useDispatch } from "react-redux";
@@ -10,7 +10,6 @@ import axios from "axios";
 const Wrapper = Styled("div")`
   height: 100vh;
   height: calc(var(--vh, 1vh) * 100);
-  height: ${window.screen.availHeight};
   text-align: center;
   background-color: #ffffff;
   position: relative;
@@ -124,6 +123,16 @@ const Logo = Styled("img")`
 
 const Start = ({ onClick, isLoggedIn }) => {
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    let vh = document.documentElement.clientHeight * 0.01;
+    document.documentElement.style.setProperty("--vh", `${vh}px`);
+
+    window.addEventListener("resize", () => {
+      let vh = document.documentElement.clientHeight * 0.01;
+      document.documentElement.style.setProperty("--vh", `${vh}px`);
+    });
+  }, []);
 
   const dispatch = useDispatch();
 
