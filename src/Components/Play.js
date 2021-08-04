@@ -41,6 +41,7 @@ const Wrapper = Styled("div")`
   background-position: center;
   overflow: hidden;
   position: relative;
+  touch-action: none;
 `;
 
 const Play = () => {
