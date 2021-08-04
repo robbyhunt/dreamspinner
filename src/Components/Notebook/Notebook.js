@@ -52,7 +52,9 @@ const Tab = Styled("div")`
 `;
 
 const Notebook = ({ hook }) => {
-  const [activeTab, setActiveTab] = useState(0);
+  const [activeTab, setActiveTab] = useState(1);
+  const [loggingThreadChanges, setLoggingThreadChanges] = useState(true);
+  const [loggingNPCChanges, setLoggingNPCChanges] = useState(true);
 
   const { notes, threads, npcs } = useSelector((s) => s);
   const dispatch = useDispatch();
@@ -86,9 +88,18 @@ const Notebook = ({ hook }) => {
           {activeTab === 0 ? (
             <Notes data={notes} onChange={onChange} />
           ) : activeTab === 1 ? (
-            <Threads data={threads} />
+            <Threads
+              data={threads}
+              loggingChanges={loggingThreadChanges}
+              setLoggingChanges={setLoggingThreadChanges}
+            />
           ) : activeTab === 2 ? (
-            <NPCs data={npcs} onChange={onChange} />
+            <NPCs
+              data={npcs}
+              onChange={onChange}
+              loggingChanges={loggingNPCChanges}
+              setLoggingChanges={setLoggingNPCChanges}
+            />
           ) : null}
         </Wrapper>
       </ResizableContainer>

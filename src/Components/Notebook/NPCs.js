@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Styled from "@emotion/styled";
 
 import { useDispatch } from "react-redux";
-import { changeNPCs } from "../../actionCreators";
+import { changeNPCs, addToLog } from "../../actionCreators";
 
 import CreateIcon from "../../img/icons/create.svg";
 import Thread from "./Thread";
@@ -36,6 +36,25 @@ const Wrapper = Styled("div")`
   }
 `;
 
+const ToggleLogging = Styled("button")`
+  cursor: pointer;
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background-color: #efefefef;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+
+  :focus {
+    outline: none;
+  }
+  
+  :hover {
+    opacity: 0.8;
+  }
+`;
+
 const Create = Styled("div")`
   cursor: pointer;
   position: absolute;
@@ -54,10 +73,11 @@ const Create = Styled("div")`
   }
 `;
 
-const NPCs = ({ data }) => {
+const NPCs = ({ data, loggingChanges, setLoggingChanges }) => {
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
   const [deletePayload, setDeletePayload] = useState(undefined);
   const [closedThreads, setClosedThreads] = useState([]);
+  const [editingNew, setEditingNew] = useState(false);
 
   useEffect(() => {
     let tempClosedThreads = [];
@@ -74,7 +94,35 @@ const NPCs = ({ data }) => {
 
   const dispatch = useDispatch();
 
+  const logChange = async (type, index) => {
+    if (loggingChanges) {
+      let string = "";
+      let title = await data[index].title;
+      switch (type) {
+        case "create":
+          string = ` > [New NPC]:  ${title}`;
+          break;
+        case "update":
+          string = ` > [Changed NPC]: ${title}`;
+          break;
+        case "close":
+          string = ` > [Closed NPC]: ${title}`;
+          break;
+        case "restore":
+          string = ` > [Restored NPC]: ${title}`;
+          break;
+
+        default:
+          break;
+      }
+      dispatch(addToLog(string));
+    }
+
+    setEditingNew(false);
+  };
+
   const createThread = () => {
+    setEditingNew(true);
     let tempData = [...data];
     tempData.push({
       title: "",
@@ -97,6 +145,10 @@ const NPCs = ({ data }) => {
     let tempData = [...data];
     tempData.splice(deletePayload, 1);
     dispatch(changeNPCs(tempData));
+
+    if (!data[deletePayload].isClosed) {
+      logChange("close", deletePayload);
+    }
   };
 
   const updateThread = (index, newThreadData) => {
@@ -107,12 +159,20 @@ const NPCs = ({ data }) => {
 
   const restoreThread = (index) => {
     setClosedThreads(closedThreads.slice(index, 1));
+
+    logChange("restore", index);
   };
 
   return (
     <>
       <Wrapper>
-        <Create onClick={createThread} />
+        <ToggleLogging
+          logging={loggingChanges}
+          onClick={() => setLoggingChanges(!loggingChanges)}
+        >
+          Logging Changes: {`${loggingChanges}`}
+        </ToggleLogging>
+        <Create onClick={() => createThread()} />
         {!data[0] ? (
           <span style={{ opacity: 0.55, marginTop: 10 }}>
             You don't have any NPCs yet...
@@ -129,6 +189,8 @@ const NPCs = ({ data }) => {
                 item={item}
                 updateThread={updateThread}
                 deleteThread={confirmDeleteThread}
+                logChange={logChange}
+                editingNew={editingNew}
               />
             );
           })
@@ -152,7 +214,7 @@ const NPCs = ({ data }) => {
 
       {deleteConfirmation && (
         <Confirmation
-          title="Are you sure you want to delete this NPC?"
+          title="Are you sure you want to delete this thread?"
           subTitle="This will wipe its data and cannot be undone."
           isOpen={deleteConfirmation}
           onCancel={() => setDeleteConfirmation(false)}

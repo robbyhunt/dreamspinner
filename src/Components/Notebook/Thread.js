@@ -110,7 +110,15 @@ const Close = Styled(Edit)`
   right: 6px;
 `;
 
-const Thread = ({ item, index, updateThread, deleteThread, restoreThread }) => {
+const Thread = ({
+  item,
+  index,
+  updateThread,
+  deleteThread,
+  restoreThread,
+  logChange,
+  editingNew,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isEditable, setIsEditable] = useState(false);
 
@@ -134,6 +142,7 @@ const Thread = ({ item, index, updateThread, deleteThread, restoreThread }) => {
       tempData.description = e.target.value;
     } else if (e.target.id.includes("closeThread")) {
       tempData.isClosed = true;
+      logChange("close", index);
     } else if (e.target.id.includes("recoverThread")) {
       tempData.isClosed = false;
       restoreThread(index);
@@ -188,7 +197,16 @@ const Thread = ({ item, index, updateThread, deleteThread, restoreThread }) => {
       ) : (
         item.title !== "" && (
           <>
-            <Confirm onClick={() => setIsEditable(false)} />
+            <Confirm
+              onClick={() => {
+                setIsEditable(false);
+                if (editingNew) {
+                  logChange("create", index);
+                } else {
+                  logChange("update", index);
+                }
+              }}
+            />
             <Delete onClick={() => handleDelete()} />
           </>
         )
