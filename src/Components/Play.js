@@ -3,6 +3,8 @@ import Styled from "@emotion/styled";
 
 import { useSelector } from "react-redux";
 
+import { isMobile } from "react-device-detect";
+
 import Log from "./GameLog/Log";
 import Notebook from "./Notebook/Notebook";
 import Generators from "./Generators";
@@ -52,14 +54,21 @@ const Play = () => {
 
   const { genre } = useSelector((s) => s);
 
-  useEffect(() => {
+  const handleMobileWindowSize = () => {
     let vh = document.documentElement.clientHeight * 0.01;
     document.documentElement.style.setProperty("--vh", `${vh}px`);
+  };
 
-    window.addEventListener("resize", () => {
+  useEffect(() => {
+    if (isMobile) {
       let vh = document.documentElement.clientHeight * 0.01;
       document.documentElement.style.setProperty("--vh", `${vh}px`);
-    });
+
+      window.addEventListener("resize", handleMobileWindowSize);
+      return () => {
+        window.removeEventListener("resize", handleMobileWindowSize);
+      };
+    }
   }, []);
 
   return (

@@ -1,11 +1,15 @@
 /*global netlifyIdentity*/
 
 import React, { useState, useEffect } from "react";
-import logo from "../img/mandala.png";
-import Styled from "@emotion/styled";
+
 import { useDispatch } from "react-redux";
 import { changeUser } from "../actionCreators";
+
+import { isMobile } from "react-device-detect";
 import axios from "axios";
+
+import logo from "../img/mandala.png";
+import Styled from "@emotion/styled";
 
 const Wrapper = Styled("div")`
   height: 100vh;
@@ -124,14 +128,21 @@ const Logo = Styled("img")`
 const Start = ({ onClick, isLoggedIn }) => {
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
+  const handleMobileWindowSize = () => {
     let vh = document.documentElement.clientHeight * 0.01;
     document.documentElement.style.setProperty("--vh", `${vh}px`);
+  };
 
-    window.addEventListener("resize", () => {
+  useEffect(() => {
+    if (isMobile) {
       let vh = document.documentElement.clientHeight * 0.01;
       document.documentElement.style.setProperty("--vh", `${vh}px`);
-    });
+
+      window.addEventListener("resize", handleMobileWindowSize);
+      return () => {
+        window.removeEventListener("resize", handleMobileWindowSize);
+      };
+    }
   }, []);
 
   const dispatch = useDispatch();
