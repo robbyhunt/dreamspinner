@@ -4,7 +4,7 @@ import Styled from "@emotion/styled";
 import { useSelector, useDispatch } from "react-redux";
 import { addToLog, changeInput } from "../actionCreators";
 
-import { Place, Npc, Item, Name } from "../Generators";
+import { Place, Person, Item, Name } from "../Generators";
 
 import Dialog from "./common/Dialog";
 import ResizableContainer from "./common/ResizableContainer";
@@ -60,8 +60,8 @@ const Generators = ({ hook }) => {
       case "item":
         result = Item(e);
         break;
-      case "npc":
-        result = Npc(e);
+      case "person":
+        result = Person(e);
         break;
       case "name":
         result = Name(e);
@@ -81,10 +81,10 @@ const Generators = ({ hook }) => {
   };
 
   const generators = [
-    ["place", "fantasy"],
-    ["name", "fantasy"],
     ["item", "apocalyptic"],
-    ["npc", "fantasy"],
+    ["name", "fantasy"],
+    ["person", "fantasy"],
+    ["place", "fantasy"],
   ];
 
   return (

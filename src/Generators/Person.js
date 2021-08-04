@@ -1391,7 +1391,7 @@ const detail = [
   "An ornate belt",
 ];
 
-export default function Npc(event) {
+export default function Person(event) {
   let occupation;
   let race;
 
