@@ -10,7 +10,7 @@ import axios from "axios";
 const Wrapper = Styled("div")`
   height: 100vh;
   height: calc(var(--vh, 1vh) * 100);
-  height: ${document.documentElement.clientHeight};
+  height: ${window.screen.availHeight};
   text-align: center;
   background-color: #ffffff;
   position: relative;
