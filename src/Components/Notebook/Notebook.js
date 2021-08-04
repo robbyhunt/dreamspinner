@@ -78,8 +78,8 @@ const Notebook = ({ hook }) => {
       initialPosition={{ top: "10vh", right: "5vw" }}
     >
       <ResizableContainer
-        minSize={{ width: "300px", height: "400px" }}
-        maxSize={{ width: "40vw", height: "80vh" }}
+        minSize={{ width: "250px", height: "300px" }}
+        maxSize={{ width: "40vw", height: "90vh" }}
         initialSize={{ width: "20vw", height: "50vh" }}
       >
         <Wrapper>

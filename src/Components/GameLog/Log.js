@@ -234,8 +234,8 @@ const Log = () => {
     <>
       <Dialog title="Game Log" initialPosition={{ top: "10vh", left: "5vh" }}>
         <ResizableContainer
-          minSize={{ width: "725px", height: "400px" }}
-          maxSize={{ width: "90vw", height: "85vh" }}
+          minSize={{ width: "625px", height: "400px" }}
+          maxSize={{ width: "95vw", height: "90vh" }}
           initialSize={{ width: "50vw", height: "75vh" }}
         >
           <Inner>
@@ -250,7 +250,6 @@ const Log = () => {
 
             <ButtonWrapper>
               <GeneratorWrapper>
-                Complex Question:
                 <GenerateButton
                   id="cqa"
                   name="complex"
@@ -265,23 +264,16 @@ const Log = () => {
                 >
                   Description
                 </GenerateButton>
+                <GenerateButton
+                  id="cqa"
+                  name="complex"
+                  onClick={handleGenerator}
+                >
+                  Event
+                </GenerateButton>
               </GeneratorWrapper>
 
-              <FateButtonWrapper>
-                Yes / No:
-                <Button id="fateunlikely" name="fate" onClick={handleGenerator}>
-                  Unlikely
-                </Button>
-                <Button id="fate5050" name="fate" onClick={handleGenerator}>
-                  50/50
-                </Button>
-                <Button id="fatelikely" name="fate" onClick={handleGenerator}>
-                  Likely
-                </Button>
-              </FateButtonWrapper>
-
               <DiceButtonWrapper>
-                Dice:
                 {dice.map((item) => (
                   <Button
                     key={item}
@@ -293,6 +285,18 @@ const Log = () => {
                   </Button>
                 ))}
               </DiceButtonWrapper>
+
+              <FateButtonWrapper>
+                <Button id="fateunlikely" name="fate" onClick={handleGenerator}>
+                  Unlikely
+                </Button>
+                <Button id="fate5050" name="fate" onClick={handleGenerator}>
+                  50/50
+                </Button>
+                <Button id="fatelikely" name="fate" onClick={handleGenerator}>
+                  Likely
+                </Button>
+              </FateButtonWrapper>
 
               <LogButtonWrapper>
                 <Button id="submit" onClick={(e) => handleSubmit(e, true)}>
