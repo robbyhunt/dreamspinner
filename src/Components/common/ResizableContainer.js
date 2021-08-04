@@ -1,6 +1,7 @@
 import React from "react";
 import { ResizeProvider, ResizeConsumer } from "react-resize-context";
 import styled from "@emotion/styled";
+import Resize from "../../img/icons/resize.svg";
 
 const Container = styled(ResizeConsumer)`
   display: inline-flex;
@@ -15,6 +16,13 @@ const Container = styled(ResizeConsumer)`
   max-height: ${(props) => props.maxsize && props.maxsize.height};
   resize: both;
   overflow: hidden;
+
+  ::-webkit-resizer {
+    background-image: url(${Resize});
+    background-size: 90%;
+    background-position: 0px -1px;
+    background-repeat: no-repeat;
+  }
 `;
 
 export default class ResizableContainer extends React.PureComponent {
