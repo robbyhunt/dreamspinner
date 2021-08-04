@@ -80,39 +80,35 @@ export default class Dialog extends Component {
   }
 
   _dragStart(e) {
+    let pressEvent;
     // if event is touch
     if (e.targetTouches) {
-      this.setState({
-        diffX:
-          e.targetTouches[0].clientX -
-          e.currentTarget.getBoundingClientRect().left,
-        diffY:
-          e.targetTouches[0].clientY -
-          e.currentTarget.getBoundingClientRect().top,
-        dragging: true,
-      });
+      pressEvent = e.targetTouches[0];
     } else {
-      this.setState({
-        diffX: e.clientX - e.currentTarget.getBoundingClientRect().left,
-        diffY: e.clientY - e.currentTarget.getBoundingClientRect().top,
-        dragging: true,
-      });
+      pressEvent = e;
     }
+    this.setState({
+      diffX: pressEvent.clientX - e.currentTarget.getBoundingClientRect().left,
+      diffY: pressEvent.clientY - e.currentTarget.getBoundingClientRect().top,
+      dragging: true,
+      styles: { ...this.state.styles, zIndex: 999 },
+    });
   }
 
   _dragging(e) {
     if (this.state.dragging) {
       let left;
       let top;
+      let dragEvent;
 
       // if event is touch
       if (e.targetTouches) {
-        left = e.targetTouches[0].clientX - this.state.diffX;
-        top = e.targetTouches[0].clientY - this.state.diffY;
+        dragEvent = e.targetTouches[0];
       } else {
-        left = e.clientX - this.state.diffX;
-        top = e.clientY - this.state.diffY;
+        dragEvent = e;
       }
+      left = dragEvent.clientX - this.state.diffX;
+      top = dragEvent.clientY - this.state.diffY;
 
       var leftPer = `${
         Math.round(((left * 100) / window.innerWidth) * 100) / 100
