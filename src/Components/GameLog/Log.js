@@ -9,6 +9,8 @@ import {
   changeInput,
 } from "../../actionCreators";
 
+import { isMobile } from "react-device-detect";
+
 import { Fate, Event, ComplexQuestion } from "../../Generators";
 import RollDice from "../../util/DiceRoll";
 import Dialog from "../common/Dialog";
@@ -220,8 +222,10 @@ const Log = () => {
     document.getElementById("log").scrollTop =
       document.getElementById("log").scrollHeight;
 
-    // AUTO FOCUS INPUT TEXT BOX AFTER ANY SUBMISSION TAKES PLACE
-    document.getElementById("input").focus();
+    // AUTO FOCUS INPUT TEXT BOX AFTER ANY SUBMISSION TAKES PLACE IF NOT ON MOBILE DEVICE
+    if (!isMobile) {
+      document.getElementById("input").focus();
+    }
   };
 
   const Clear = () => {
