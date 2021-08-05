@@ -180,6 +180,8 @@ const Start = ({ onClick, isLoggedIn }) => {
             onClick();
           }
         });
+    } else {
+      onClick();
     }
   };
 
