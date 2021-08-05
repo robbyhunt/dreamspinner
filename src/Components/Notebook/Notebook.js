@@ -27,7 +27,7 @@ const Wrapper = Styled("div")`
 const TabContainer = Styled("div")`
   position: absolute;
   top: 60px;
-  right: -110px;
+  right: -108px;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -42,7 +42,7 @@ const TabContainer = Styled("div")`
 const Tab = Styled("div")`
   transform-origin: 0 0;
   transform: ${(props) =>
-    props.isActive ? "rotate(90deg) translateY(-7px)" : "rotate(90deg)"};
+    props.isActive ? "rotate(90deg) translateY(-5px)" : "rotate(90deg)"};
   margin-bottom: 50px;
   background-color: ${(props) => props.theme.colors.secondary};
   border-radius: 10px 10px 0 0;

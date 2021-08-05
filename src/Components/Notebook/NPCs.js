@@ -41,17 +41,18 @@ const ToggleLogging = Styled("button")`
   position: absolute;
   top: 8px;
   left: 8px;
-  background-color: #efefefef;
+  background-color: #dddddd;
   border: none;
   border-radius: 5px;
   padding: 5px 10px;
+  opacity: ${(props) => (props.logging ? "1" : "0.7")};
 
   :focus {
     outline: none;
   }
   
   :hover {
-    opacity: 0.8;
+    opacity: ${(props) => (props.logging ? "0.7" : "0.5")};
   }
 `;
 

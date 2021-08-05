@@ -7,6 +7,7 @@ import { isMobile } from "react-device-detect";
 
 import Log from "./GameLog/Log";
 import Notebook from "./Notebook/Notebook";
+import CharacterSheet from "./CharacterSheet/CharacterSheet";
 import Generators from "./Generators";
 import Settings from "./Settings";
 import DialogShortcut from "./common/DialogShortcut";
@@ -48,10 +49,11 @@ const Wrapper = Styled("div")`
 `;
 
 const Play = () => {
-  let notebookInitial =
+  const notebookInitial =
     document.documentElement.clientWidth <= 800 ? false : true;
 
   const notebookHook = useState(notebookInitial);
+  const characterHook = useState(notebookInitial);
   const generatorsHook = useState(false);
   const settingsHook = useState(false);
 
@@ -80,6 +82,8 @@ const Play = () => {
 
       {notebookHook[0] && <Notebook hook={notebookHook} />}
 
+      {characterHook[0] && <CharacterSheet hook={characterHook} />}
+
       {generatorsHook[0] && <Generators hook={generatorsHook} />}
 
       <Settings settingsOpen={settingsHook[0]} openSettings={settingsHook[1]} />
@@ -91,10 +95,16 @@ const Play = () => {
         position="225px"
       />
       <DialogShortcut
+        title="CHARACTERS"
+        isOpen={characterHook[0]}
+        handleToggle={characterHook[1]}
+        position="425px"
+      />
+      <DialogShortcut
         title="GENERATORS"
         isOpen={generatorsHook[0]}
         handleToggle={generatorsHook[1]}
-        position="425px"
+        position="625px"
       />
     </Wrapper>
   );

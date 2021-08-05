@@ -16,7 +16,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      startOpen: true,
+      startOpen: false,
       isLoggedIn: false,
       settingsOpen: false,
     };

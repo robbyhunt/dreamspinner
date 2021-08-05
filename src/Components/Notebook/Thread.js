@@ -44,10 +44,10 @@ const Edit = Styled("div")`
 `;
 
 const Title = Styled("div")`
-  opacity: ${(props) => (props.isopen ? "0.7" : "1")};
+  opacity: ${(props) => (props.iseditable ? "1" : props.isopen ? "1" : "0.7")};
   padding: ${(props) =>
     props.iseditable ? "10px 42px 5px 10px" : "10px 42px 10px 10px"};
-  background-color: #efefefef;
+  background-color: #dddddd;
   border-radius: ${(props) => (props.isopen ? "5px 5px 0 0" : "5px")};
   cursor: ${(props) => (props.iseditable ? "auto" : "pointer")};
   min-height: 25px;
@@ -57,13 +57,13 @@ const Title = Styled("div")`
   user-select: none;
 
   :hover {
-    opacity: ${(props) => (props.iseditable ? "1" : "0.6")};
+    opacity: 1;
   }
 `;
 
 const Inner = Styled("div")`
   border-radius: 0 0 5px 5px;
-  border: 2px solid rgba(239,239,239,0.7);
+  border: 2px solid rgba(221,221,221,1);
   border-top: none;
 `;
 
