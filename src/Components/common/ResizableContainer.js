@@ -23,6 +23,21 @@ const Container = styled(ResizeConsumer)`
     background-position: 0px -1px;
     background-repeat: no-repeat;
   }
+
+  @media (max-width: 800px) {
+    width: 100vw;
+    min-width: 100vw;
+    max-width: 100vw;
+    height: calc(100vh - 125px);
+    min-height: calc(100vh - 125px);
+    max-height: calc(100vh - 125px);
+  }
+
+  @media (max-width: 459px) {
+    height: calc(100vh - 125px);
+    min-height: calc(100vh - 160px);
+    max-height: calc(100vh - 160px);
+  }
 `;
 
 export default class ResizableContainer extends React.PureComponent {

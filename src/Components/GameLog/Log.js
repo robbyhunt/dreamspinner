@@ -30,6 +30,10 @@ const Inner = Styled("div")`
   background-color: #ffffff;
   border-radius: 0 0 10px 10px;
   overflow: hidden;
+
+  @media (max-width: 800px) {
+    border-radius: 0;
+  }
 `;
 
 const ButtonWrapper = Styled("div")`

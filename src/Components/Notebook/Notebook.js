@@ -31,6 +31,12 @@ const TabContainer = Styled("div")`
   display: flex;
   flex-direction: column;
   height: 100%;
+
+  @media (max-width: 800px) {
+    z-index: 11;
+    right: -90px;
+    top: 100px;
+  }
 `;
 
 const Tab = Styled("div")`
@@ -49,6 +55,14 @@ const Tab = Styled("div")`
 
   -webkit-user-select: none;
   -ms-user-select: none;
+
+  @media (max-width: 800px) {
+    width: 60px;
+    transform: ${(props) =>
+      props.isActive ? "rotate(90deg) translateY(7px)" : "rotate(90deg)"};
+    border-radius: 0 0 10px 10px;
+    padding: 10px 10px 10px;
+  }
 `;
 
 const Notebook = ({ hook }) => {

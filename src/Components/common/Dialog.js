@@ -6,6 +6,17 @@ const Container = styled("div")`
   border-radius: 10px;
   position: absolute;
   z-index: 10;
+
+  @media (max-width: 800px) {
+    top: 0;
+    left: 0;
+    margin-top: 46px;
+    border-radius: 0px;
+  }
+
+  @media (max-width: 459px) {
+    margin-top: 72px;
+  }
 `;
 
 const DragBuffer = styled("div")`
@@ -15,6 +26,10 @@ const DragBuffer = styled("div")`
   width: calc(100% + 500px);
   height: calc(100% + 500px);
   pointer-events: ${(props) => (props.isdragging ? "auto" : "none")};
+
+  @media (max-width: 800px) {
+    display: none;
+  }
 `;
 
 const Inner = styled("div")`
@@ -22,6 +37,10 @@ const Inner = styled("div")`
   position: relative;
   pointer-events: all;
   filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.4));
+
+  @media (max-width: 800px) {
+    filter: none;
+  }
 `;
 
 const Title = styled("div")`
@@ -38,6 +57,10 @@ const Title = styled("div")`
   user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
+
+  @media (max-width: 800px) {
+    border-radius: 0px;
+  }
 `;
 
 const CloseButton = styled("div")`
@@ -142,7 +165,16 @@ export default class Dialog extends Component {
     const { children, title, onClose } = this.props;
     return (
       <Container
-        style={this.state.styles}
+        style={{
+          left:
+            document.documentElement.clientWidth > 800 &&
+            this.state.styles.left,
+          top:
+            document.documentElement.clientWidth > 800 && this.state.styles.top,
+          zIndex:
+            document.documentElement.clientWidth > 800 &&
+            this.state.styles.zIndex,
+        }}
         onMouseMove={this._dragging}
         onMouseUp={this._dragEnd}
         onTouchMove={this._dragging}

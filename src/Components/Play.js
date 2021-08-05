@@ -48,9 +48,9 @@ const Wrapper = Styled("div")`
 `;
 
 const Play = () => {
-  const settingsHook = useState(false);
   const notebookHook = useState(true);
   const generatorsHook = useState(false);
+  const settingsHook = useState(false);
 
   const { genre } = useSelector((s) => s);
 
@@ -60,6 +60,10 @@ const Play = () => {
   };
 
   useEffect(() => {
+    if (document.documentElement.clientWidth <= 800) {
+      const setNotebook = notebookHook[1];
+      setNotebook(false);
+    }
     if (isMobile) {
       let vh = document.documentElement.clientHeight * 0.01;
       document.documentElement.style.setProperty("--vh", `${vh}px`);

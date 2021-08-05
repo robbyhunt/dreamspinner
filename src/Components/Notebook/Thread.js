@@ -11,6 +11,11 @@ const Wrapper = Styled("div")`
   margin: 5px 0;
   position: relative;
   text-align: left;
+
+  @media (max-width: 800px) {
+    width: calc(100% - 30px);
+    margin-right: 10px;
+  }
 `;
 
 const Edit = Styled("div")`
