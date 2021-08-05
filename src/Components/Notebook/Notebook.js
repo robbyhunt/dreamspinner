@@ -66,7 +66,7 @@ const Tab = Styled("div")`
 `;
 
 const Notebook = ({ hook }) => {
-  const [activeTab, setActiveTab] = useState(1);
+  const [activeTab, setActiveTab] = useState(0);
   const [loggingThreadChanges, setLoggingThreadChanges] = useState(true);
   const [loggingNPCChanges, setLoggingNPCChanges] = useState(true);
 
