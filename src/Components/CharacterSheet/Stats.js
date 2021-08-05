@@ -26,7 +26,7 @@ const Attribute = Styled("div")`
   justify-content: space-between;
   align-items: center;
   padding: 0 10px;
-  background-color: ${(props) => (props.index % 2 != 0 ? "#dddddd" : "none")};
+  background-color: ${(props) => (props.index % 2 !== 0 ? "#dddddd" : "none")};
 
   & > span {
     font-size: 20px;

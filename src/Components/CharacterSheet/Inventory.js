@@ -22,7 +22,7 @@ const Attributes = Styled("div")`
 const Attribute = Styled("div")`
   display: flex;
   align-items: center;
-  background-color: ${(props) => (props.index % 2 != 0 ? "#dddddd" : "none")};
+  background-color: ${(props) => (props.index % 2 !== 0 ? "#dddddd" : "none")};
   width: calc(100% - 20px);
   padding: 0 10px;
   
