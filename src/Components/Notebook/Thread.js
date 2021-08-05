@@ -28,6 +28,10 @@ const Edit = Styled("div")`
   background-repeat: no-repeat;
   height: 16px;
   width: 16px;
+  display: none;
+  pointer-events: none;
+  display: ${(props) => (props.active ? "block" : "none")};
+  pointer-events: ${(props) => (props.active ? "auto" : "none")};
   
   :hover {
     opacity: 1;
@@ -185,32 +189,32 @@ const Thread = ({
           " "
         )}
       </Title>
-      {!isEditable ? (
-        <>
-          <Edit onClick={() => setIsEditable(true)} />
-          {item.isClosed ? (
-            <Close id="recoverThread" onClick={(e) => changeThread(e)} />
-          ) : (
-            <Close id="closeThread" onClick={(e) => changeThread(e)} />
-          )}
-        </>
-      ) : (
-        item.title !== "" && (
-          <>
-            <Confirm
-              onClick={() => {
-                setIsEditable(false);
-                if (editingNew) {
-                  logChange("create", index);
-                } else {
-                  logChange("update", index);
-                }
-              }}
-            />
-            <Delete onClick={() => handleDelete()} />
-          </>
-        )
-      )}
+      <Edit onClick={() => setIsEditable(true)} active={!isEditable} />
+      <Close
+        id="recoverThread"
+        onClick={(e) => changeThread(e)}
+        active={!isEditable && item.isClosed}
+      />
+      <Close
+        id="closeThread"
+        onClick={(e) => changeThread(e)}
+        active={!isEditable && !item.isClosed}
+      />
+      <Confirm
+        active={isEditable && item.title !== ""}
+        onClick={() => {
+          setIsEditable(false);
+          if (editingNew) {
+            logChange("create", index);
+          } else {
+            logChange("update", index);
+          }
+        }}
+      />
+      <Delete
+        onClick={() => handleDelete()}
+        active={isEditable && item.title !== ""}
+      />
       {isOpen && (
         <Inner>
           <TextArea
