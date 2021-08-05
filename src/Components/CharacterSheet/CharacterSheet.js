@@ -65,7 +65,7 @@ const Tab = Styled("div")`
 
 const CharacterSheet = ({ hook }) => {
   const [activeTab, setActiveTab] = useState(0);
-  const [tabs, setTabs] = useState([
+  const tabs = useState([
     {
       name: "Kai Starborn",
       resources: [
@@ -126,14 +126,14 @@ const CharacterSheet = ({ hook }) => {
         initialSize={{ width: "40vw", height: "45vh" }}
       >
         <Wrapper>
-          {tabs.map(
+          {tabs[0].map(
             (tab, index) =>
               activeTab === index && <Sheet data={tab} key={index} />
           )}
         </Wrapper>
       </ResizableContainer>
       <TabContainer>
-        {tabs.map((tab, index) => (
+        {tabs[0].map((tab, index) => (
           <Tab
             onClick={() => setActiveTab(index)}
             isActive={activeTab === index}
