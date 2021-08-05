@@ -73,7 +73,7 @@ const Play = () => {
         window.removeEventListener("resize", handleMobileWindowSize);
       };
     }
-  }, []);
+  }, [notebookHook[1]]);
 
   return (
     <Wrapper genre={genre}>
