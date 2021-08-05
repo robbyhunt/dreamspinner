@@ -39,7 +39,7 @@ const Left = Styled("div")`
 `;
 
 const Name = Styled("p")`
-  font-size: 20px;
+  font-size: 24px;
   font-weight: 500;
 `;
 
