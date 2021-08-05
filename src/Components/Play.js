@@ -48,7 +48,10 @@ const Wrapper = Styled("div")`
 `;
 
 const Play = () => {
-  const notebookHook = useState(true);
+  let notebookInitial =
+    document.documentElement.clientWidth <= 800 ? false : true;
+
+  const notebookHook = useState(notebookInitial);
   const generatorsHook = useState(false);
   const settingsHook = useState(false);
 
@@ -60,10 +63,6 @@ const Play = () => {
   };
 
   useEffect(() => {
-    if (document.documentElement.clientWidth <= 800) {
-      const setNotebook = notebookHook[1];
-      setNotebook(false);
-    }
     if (isMobile) {
       let vh = document.documentElement.clientHeight * 0.01;
       document.documentElement.style.setProperty("--vh", `${vh}px`);
@@ -73,7 +72,7 @@ const Play = () => {
         window.removeEventListener("resize", handleMobileWindowSize);
       };
     }
-  }, [notebookHook[1]]);
+  }, []);
 
   return (
     <Wrapper genre={genre}>
