@@ -243,9 +243,15 @@ const Log = () => {
 
   const dice = ["d4", "d6", "d8", "d10", "d12", "d20", "d100"];
 
+  const initialLeft =
+    document.documentElement.clientWidth > 1200 ? "5vh" : "2vh";
+
   return (
     <>
-      <Dialog title="Game Log" initialPosition={{ top: "10vh", left: "5vh" }}>
+      <Dialog
+        title="Game Log"
+        initialPosition={{ top: "10vh", left: initialLeft }}
+      >
         <ResizableContainer
           minSize={{ width: "625px", height: "400px" }}
           maxSize={{ width: "95vw", height: "90vh" }}

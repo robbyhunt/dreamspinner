@@ -127,6 +127,7 @@ const Logo = Styled("img")`
 
 const Start = ({ onClick, isLoggedIn }) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
 
   const handleMobileWindowSize = () => {
     let vh = document.documentElement.clientHeight * 0.01;
@@ -156,15 +157,30 @@ const Start = ({ onClick, isLoggedIn }) => {
         token = returnedToken;
       });
 
-      accountInfo = await axios.post(
-        "/.netlify/functions/createUser",
-        {},
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-
-      dispatch(changeUser(accountInfo.data));
+      axios
+        .post(
+          "/.netlify/functions/createUser",
+          {},
+          { headers: { Authorization: `Bearer ${token}` } }
+        )
+        // if success
+        .then((res) => {
+          accountInfo = res;
+        })
+        // if error
+        .catch((err) => setIsError(err))
+        // after each
+        .then(() => {
+          if (accountInfo === undefined) {
+            setIsError(true);
+            setIsLoading(false);
+            console.log(`Error: ${isError}`);
+          } else {
+            dispatch(changeUser(accountInfo.data));
+            onClick();
+          }
+        });
     }
-    onClick();
   };
 
   return (
@@ -174,9 +190,15 @@ const Start = ({ onClick, isLoggedIn }) => {
         <Tagline>A modern solo RPG and creative writing tool</Tagline>
         <Logo src={logo} alt="logo" />
         {isLoggedIn ? (
-          <Button onClick={HandleStart}>
-            {isLoading ? "Loading..." : "Play"}
-          </Button>
+          isError ? (
+            <span style={{ fontSize: 18 }}>
+              {`Something went wrong. Please try logging out and back in again.`}
+            </span>
+          ) : (
+            <Button onClick={HandleStart}>
+              {isLoading ? "Loading..." : "Play"}
+            </Button>
+          )
         ) : (
           <Button onClick={HandleStart}>
             {isLoading ? "Loading..." : "Play as guest"}

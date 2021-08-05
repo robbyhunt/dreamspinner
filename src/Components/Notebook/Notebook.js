@@ -73,11 +73,16 @@ const Notebook = ({ hook }) => {
     }
   };
 
+  const initialLeft =
+    document.documentElement.clientWidth > 1200
+      ? "calc(95vw - 20vw)"
+      : "calc(95vw - 250px)";
+
   return (
     <Dialog
       title="Notebook"
       onClose={hook[1]}
-      initialPosition={{ top: "10vh", right: "5vw" }}
+      initialPosition={{ top: "10vh", left: initialLeft }}
     >
       <ResizableContainer
         minSize={{ width: "250px", height: "300px" }}
