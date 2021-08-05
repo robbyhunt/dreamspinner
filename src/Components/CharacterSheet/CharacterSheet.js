@@ -69,7 +69,7 @@ const CharacterSheet = ({ hook }) => {
     {
       name: "Kai Starborn",
       resources: [
-        { name: "Wounds", value: 1, maxValue: 3, color: "	#d54e4e" },
+        { name: "Wounds", value: 3, maxValue: 3, color: "	#d54e4e" },
         { name: "PP", value: 10, maxValue: 15, color: "#439eb1" },
       ],
       stats: {
@@ -88,6 +88,21 @@ const CharacterSheet = ({ hook }) => {
           { name: "Notice", value: "d6" },
         ],
       },
+      equipment: [
+        { name: "Sword", 2: "Str+d6+1", 3: "1", notes: "AP 1" },
+        {
+          name: "Medium Shield",
+          2: "+2 Parry",
+          3: "-",
+          notes: "Half cover against missile attacks",
+        },
+      ],
+      inventory: [
+        "a thing",
+        "some type of other thing",
+        "bedroll",
+        "the amulet of elswin",
+      ],
     },
   ]);
 

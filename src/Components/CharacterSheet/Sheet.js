@@ -3,6 +3,8 @@ import Styled from "@emotion/styled";
 
 import Resources from "./Resources";
 import Stats from "./Stats";
+import Equipment from "./Equipment";
+import Inventory from "./Inventory";
 
 const Wrapper = Styled("div")`
   width: 100%;
@@ -21,7 +23,7 @@ const Right = Styled("div")`
   align-items: center;
   height: 100%;
   flex-basis: 70%;
-  padding: 10px;
+  padding: 20px 20px;
 `;
 
 const Left = Styled("div")`
@@ -52,6 +54,8 @@ const Sheet = ({ data }) => {
       </Left>
       <Right>
         <Stats stats={data.stats} />
+        <Equipment equipment={data.equipment} />
+        <Inventory inventory={data.inventory} />
       </Right>
     </Wrapper>
   );
