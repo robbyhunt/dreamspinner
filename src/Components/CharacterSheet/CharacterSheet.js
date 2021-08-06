@@ -65,34 +65,34 @@ const Tab = Styled("div")`
 
 const CharacterSheet = ({ hook }) => {
   const [activeTab, setActiveTab] = useState(0);
-  const tabs = useState([
+  const [characters, setCharacters] = useState([
     {
       name: "Kai Starborn",
       resources: [
         { name: "Wounds", value: 3, maxValue: 3, color: "	#d54e4e" },
         { name: "PP", value: 10, maxValue: 15, color: "#439eb1" },
       ],
-      stats: {
-        attributes: [
-          { name: "Strength", value: "d6" },
-          { name: "Agility", value: "d6" },
-          { name: "Spirit", value: "d8" },
-          { name: "Smarts", value: "d6" },
-          { name: "Vigor", value: "d6" },
+      stats: [
+        [
+          { name: "Strength", value: "d6", type: "attributes" },
+          { name: "Agility", value: "d6", type: "attributes" },
+          { name: "Spirit", value: "d8", type: "attributes" },
+          { name: "Smarts", value: "d6", type: "attributes" },
+          { name: "Vigor", value: "d6", type: "attributes" },
         ],
-        skills: [
-          { name: "Fighting", value: "d8" },
-          { name: "Athletics", value: "d6" },
-          { name: "Sneak", value: "d6" },
-          { name: "Persuasion", value: "d4" },
-          { name: "Notice", value: "d6" },
+        [
+          { name: "Fighting", value: "d8", type: "skills" },
+          { name: "Athletics", value: "d6", type: "skills" },
+          { name: "Sneak", value: "d6", type: "skills" },
+          { name: "Persuasion", value: "d4", type: "skills" },
+          { name: "Notice", value: "d6", type: "skills" },
         ],
-        modifiers: [
-          { name: "Pace", value: "d6" },
-          { name: "Parry", value: "6" },
-          { name: "Toughness", value: "8" },
+        [
+          { name: "Pace", value: "d6", type: "modifiers" },
+          { name: "Parry", value: "6", type: "modifiers" },
+          { name: "Toughness", value: "8", type: "modifiers" },
         ],
-      },
+      ],
       equipment: [
         { name: "Sword", 2: "Str+d6+1", 3: "1", notes: "AP 1" },
         {
@@ -131,20 +131,27 @@ const CharacterSheet = ({ hook }) => {
         initialSize={{ width: "40vw", height: "45vh" }}
       >
         <Wrapper>
-          {tabs[0].map(
-            (tab, index) =>
-              activeTab === index && <Sheet data={tab} key={index} />
+          {characters.map(
+            (character, index) =>
+              activeTab === index && (
+                <Sheet
+                  data={character}
+                  hook={[characters, setCharacters]}
+                  sheetIndex={index}
+                  key={index}
+                />
+              )
           )}
         </Wrapper>
       </ResizableContainer>
       <TabContainer>
-        {tabs[0].map((tab, index) => (
+        {characters.map((character, index) => (
           <Tab
             onClick={() => setActiveTab(index)}
             isActive={activeTab === index}
             key={index}
           >
-            {tab.name ? tab.name : "Untitled"}
+            {character.name ? character.name : "Untitled"}
           </Tab>
         ))}
         <Tab style={{ width: 20 }}>+</Tab>

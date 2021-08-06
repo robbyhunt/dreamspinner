@@ -60,7 +60,7 @@ const Name = Styled("p")`
   font-weight: 500;
 `;
 
-const Sheet = ({ data }) => {
+const Sheet = ({ data, hook, sheetIndex }) => {
   return (
     <Wrapper>
       <Left>
@@ -68,9 +68,17 @@ const Sheet = ({ data }) => {
         <Resources resources={data.resources} />
       </Left>
       <Right>
-        <Stats stats={data.stats} />
-        <Equipment equipment={data.equipment} />
-        <Inventory inventory={data.inventory} />
+        <Stats stats={data.stats} hook={hook} sheetIndex={sheetIndex} />
+        <Equipment
+          equipment={data.equipment}
+          hook={hook}
+          sheetIndex={sheetIndex}
+        />
+        <Inventory
+          inventory={data.inventory}
+          hook={hook}
+          sheetIndex={sheetIndex}
+        />
       </Right>
     </Wrapper>
   );

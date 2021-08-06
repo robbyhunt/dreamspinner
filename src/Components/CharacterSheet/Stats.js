@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import Styled from "@emotion/styled";
 
 import CreateIcon from "../../img/icons/create.svg";
+import EditIcon from "../../img/icons/edit-white.svg";
+import DeleteIcon from "../../img/icons/close-black.svg";
 
 const Wrapper = Styled("div")`
   width: 100%;
@@ -14,7 +16,8 @@ const Wrapper = Styled("div")`
 const AttributesContainer = Styled("div")`
   display: flex;
   flex-direction: column;
-  flex-basis: 33.3%;
+  flex-basis: 30%;
+  position: relative;
 `;
 
 const Attributes = Styled("div")`
@@ -26,8 +29,11 @@ const Attribute = Styled("div")`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 10px;
+  padding: ${(props) => (props.iseditable ? "0" : "0 10px")};
   background-color: ${(props) => (props.index % 2 !== 0 ? "#dddddd" : "none")};
+  text-align: left;
+  height: 27px;
+  position: relative;
 
   & > span {
     font-size: 20px;
@@ -59,60 +65,178 @@ const Create = Styled("div")`
   width: 100%;
   transition: 200ms;
   margin-top: 5px;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
   
   :hover {
     opacity: 1;
   }
 `;
 
-const Stats = ({ stats }) => {
+const Edit = Styled("div")`
+  cursor: pointer;
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  opacity: 1;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background-image: url(${EditIcon});
+  background-size: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 16px;
+  width: 16px;
+  transition: 200ms;
+  
+  :hover {
+    opacity: 0.7;
+  }
+`;
+
+const AttributeEdit = Styled("textarea")`
+  resize: none;
+  width: 80%;
+  height: calc(100% - 3px);
+  padding: 3px 0 0 5px;
+  outline: none;
+  border: 1px solid #efefefef;
+  background-color: rgba(0,0,0,0);
+
+  :focus {
+    outline: none;
+    border: 1px solid #efefefef;
+  }
+`;
+
+const AttributeValueEdit = Styled(AttributeEdit)`
+  text-align: right;
+  width: 20%;
+  padding: 3px 5px 0;
+`;
+
+const Delete = Styled(Edit)`
+  top: 2px;
+  right: -4px;
+  width: 8px;
+  height: 8px;
+  background-image: url(${DeleteIcon});
+`;
+
+const Stats = ({ stats, hook, sheetIndex }) => {
+  const [attributesEditable, setAttributesEditable] = useState(false);
+  const [skillsEditable, setSkillsEditable] = useState(false);
+  const [modifiersEditable, setModifiersEditable] = useState(false);
+
+  const hooks = {
+    attributes: attributesEditable,
+    skills: skillsEditable,
+    modifiers: modifiersEditable,
+  };
+
+  const handleToggleEdit = (e) => {
+    switch (e.target.id) {
+      case "attributes":
+        setAttributesEditable(!attributesEditable);
+        break;
+      case "skills":
+        setSkillsEditable(!skillsEditable);
+        break;
+      case "modifiers":
+        setModifiersEditable(!modifiersEditable);
+        break;
+
+      default:
+        break;
+    }
+  };
+
+  const handleChangeStats = (e, statsIndex, statIndex) => {
+    const setData = hook[1];
+    let tempData = [...hook[0]];
+
+    if (e.target.id.includes("name")) {
+      tempData[sheetIndex].stats[statsIndex][statIndex].name = e.target.value;
+    } else if (e.target.id.includes("value")) {
+      tempData[sheetIndex].stats[statsIndex][statIndex].value = e.target.value;
+    }
+
+    setData(tempData);
+  };
+
+  const handleCreateStat = (e, statsIndex, type) => {
+    const setData = hook[1];
+    let tempData = [...hook[0]];
+    tempData[sheetIndex].stats[statsIndex].push({ name: "", value: "", type });
+    setData(tempData);
+  };
+
+  const handleDeleteStat = (statsIndex, statIndex) => {
+    const setData = hook[1];
+    let tempData = [...hook[0]];
+    tempData[sheetIndex].stats[statsIndex].splice(statIndex, 1);
+    setData(tempData);
+  };
+
   return (
     <Wrapper>
-      <AttributesContainer style={{ marginRight: 10 }}>
-        <Title>Attributes:</Title>
-        <Attributes>
-          {stats.attributes.map((attribute, index) => (
-            <Attribute key={index} index={index}>
-              <span>
-                {attribute.name}
-                {":"}
-              </span>
-              <span>{attribute.value}</span>
-            </Attribute>
-          ))}
-          <Create />
-        </Attributes>
-      </AttributesContainer>
-      <AttributesContainer style={{ marginRight: 10 }}>
-        <Title>Skills:</Title>
-        <Attributes>
-          {stats.skills.map((skill, index) => (
-            <Attribute key={index} index={index}>
-              <span>
-                {skill.name}
-                {":"}
-              </span>
-              <span>{skill.value}</span>
-            </Attribute>
-          ))}
-          <Create />
-        </Attributes>
-      </AttributesContainer>
-      <AttributesContainer>
-        <Title>Modifieres:</Title>
-        <Attributes>
-          {stats.modifiers.map((modifier, index) => (
-            <Attribute key={index} index={index}>
-              <span>
-                {modifier.name}
-                {":"}
-              </span>
-              <span>{modifier.value}</span>
-            </Attribute>
-          ))}
-          <Create />
-        </Attributes>
-      </AttributesContainer>
+      {stats.map((stat, statsIndex) => (
+        <AttributesContainer
+          key={statsIndex}
+          style={{ marginRight: statsIndex !== 2 && 10 }}
+        >
+          <Title>
+            {stat[0].type.charAt(0).toUpperCase() + stat[0].type.slice(1, 99)}:
+          </Title>
+          <Edit id={stat[0].type} onClick={(e) => handleToggleEdit(e)} />
+          <Attributes>
+            {stat.map((attribute, statIndex) => (
+              <Attribute
+                key={statIndex}
+                index={statIndex}
+                iseditable={hooks[attribute.type]}
+              >
+                {!hooks[attribute.type] ? (
+                  <>
+                    <span style={{ flexBasis: "90%" }}>
+                      {attribute.name + ":"}
+                    </span>
+                    <span style={{ flexBasis: "10%" }}>{attribute.value}</span>
+                  </>
+                ) : (
+                  <>
+                    <AttributeEdit
+                      value={attribute.name}
+                      id={`${attribute.name}-name`}
+                      onChange={(e) =>
+                        handleChangeStats(e, statsIndex, statIndex)
+                      }
+                    />
+                    <AttributeValueEdit
+                      value={attribute.value}
+                      id={`${attribute.name}-value`}
+                      onChange={(e) =>
+                        handleChangeStats(e, statsIndex, statIndex)
+                      }
+                    />
+                  </>
+                )}
+
+                <Delete
+                  style={{ display: !hooks[attribute.type] && "none" }}
+                  onClick={() => handleDeleteStat(statsIndex, statIndex)}
+                />
+              </Attribute>
+            ))}
+            <Create
+              style={{ display: !hooks[stat[0].type] && "none" }}
+              onClick={(e) => handleCreateStat(e, statsIndex, stat[0].type)}
+            />
+          </Attributes>
+        </AttributesContainer>
+      ))}
     </Wrapper>
   );
 };
