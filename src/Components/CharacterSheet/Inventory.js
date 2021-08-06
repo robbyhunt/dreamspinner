@@ -1,6 +1,8 @@
 import React from "react";
 import Styled from "@emotion/styled";
 
+import CreateIcon from "../../img/icons/create.svg";
+
 const Wrapper = Styled("div")`
   width: 100%;
   max-width: 700px;
@@ -42,6 +44,23 @@ const Title = Styled("p")`
   max-width: 680px;
 `;
 
+const Create = Styled("div")`
+  cursor: pointer;
+  opacity: 0.6;
+  background-image: url(${CreateIcon});
+  background-size: 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 20px;
+  width: 100%;
+  transition: 200ms;
+  margin-top: 5px;
+  
+  :hover {
+    opacity: 1;
+  }
+`;
+
 const Inventory = ({ inventory }) => {
   return (
     <>
@@ -54,6 +73,7 @@ const Inventory = ({ inventory }) => {
                 <span>{item}</span>
               </Attribute>
             ))}
+            <Create />
           </Attributes>
         </AttributesContainer>
       </Wrapper>

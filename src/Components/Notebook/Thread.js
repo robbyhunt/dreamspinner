@@ -168,6 +168,11 @@ const Thread = ({
     if (e.key === "Enter") {
       setIsEditable(false);
       changeThread(e);
+      if (editingNew) {
+        logChange("create", index);
+      } else {
+        logChange("update", index);
+      }
     }
   };
 

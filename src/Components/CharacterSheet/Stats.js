@@ -1,19 +1,20 @@
 import React from "react";
 import Styled from "@emotion/styled";
 
+import CreateIcon from "../../img/icons/create.svg";
+
 const Wrapper = Styled("div")`
   width: 100%;
   max-width: 700px;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 `;
 
 const AttributesContainer = Styled("div")`
   display: flex;
   flex-direction: column;
-  flex-basis: 50%;
-  max-width: 250px;
+  flex-basis: 33.3%;
 `;
 
 const Attributes = Styled("div")`
@@ -37,15 +38,6 @@ const Attribute = Styled("div")`
   }
 `;
 
-const SkillsContainer = Styled(AttributesContainer)`
-`;
-
-const Skills = Styled(Attributes)`
-`;
-
-const Skill = Styled(Attribute)`
-`;
-
 const Title = Styled("p")`
   margin: 0;
   text-align: left;
@@ -56,10 +48,27 @@ const Title = Styled("p")`
   padding: 0 10px;
 `;
 
+const Create = Styled("div")`
+  cursor: pointer;
+  opacity: 0.6;
+  background-image: url(${CreateIcon});
+  background-size: 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 20px;
+  width: 100%;
+  transition: 200ms;
+  margin-top: 5px;
+  
+  :hover {
+    opacity: 1;
+  }
+`;
+
 const Stats = ({ stats }) => {
   return (
     <Wrapper>
-      <AttributesContainer style={{ marginRight: 20 }}>
+      <AttributesContainer style={{ marginRight: 10 }}>
         <Title>Attributes:</Title>
         <Attributes>
           {stats.attributes.map((attribute, index) => (
@@ -71,22 +80,39 @@ const Stats = ({ stats }) => {
               <span>{attribute.value}</span>
             </Attribute>
           ))}
+          <Create />
         </Attributes>
       </AttributesContainer>
-      <SkillsContainer>
+      <AttributesContainer style={{ marginRight: 10 }}>
         <Title>Skills:</Title>
-        <Skills>
+        <Attributes>
           {stats.skills.map((skill, index) => (
-            <Skill key={index} index={index}>
+            <Attribute key={index} index={index}>
               <span>
                 {skill.name}
                 {":"}
               </span>
               <span>{skill.value}</span>
-            </Skill>
+            </Attribute>
           ))}
-        </Skills>
-      </SkillsContainer>
+          <Create />
+        </Attributes>
+      </AttributesContainer>
+      <AttributesContainer>
+        <Title>Modifieres:</Title>
+        <Attributes>
+          {stats.modifiers.map((modifier, index) => (
+            <Attribute key={index} index={index}>
+              <span>
+                {modifier.name}
+                {":"}
+              </span>
+              <span>{modifier.value}</span>
+            </Attribute>
+          ))}
+          <Create />
+        </Attributes>
+      </AttributesContainer>
     </Wrapper>
   );
 };

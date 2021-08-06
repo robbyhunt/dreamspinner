@@ -24,6 +24,21 @@ const Right = Styled("div")`
   height: 100%;
   flex-basis: 70%;
   padding: 20px 20px;
+  overflow-y: scroll;
+
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+ 
+  ::-webkit-scrollbar-track {
+    background-color: #ffffff; 
+    border-radius: 10px;
+  }
+ 
+  ::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #376d99;
+  }
 `;
 
 const Left = Styled("div")`

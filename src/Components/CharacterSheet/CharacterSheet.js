@@ -87,6 +87,11 @@ const CharacterSheet = ({ hook }) => {
           { name: "Persuasion", value: "d4" },
           { name: "Notice", value: "d6" },
         ],
+        modifiers: [
+          { name: "Pace", value: "d6" },
+          { name: "Parry", value: "6" },
+          { name: "Toughness", value: "8" },
+        ],
       },
       equipment: [
         { name: "Sword", 2: "Str+d6+1", 3: "1", notes: "AP 1" },
@@ -121,7 +126,7 @@ const CharacterSheet = ({ hook }) => {
       initialPosition={{ top: "15vh", left: initialLeft }}
     >
       <ResizableContainer
-        minSize={{ width: "425px", height: "300px" }}
+        minSize={{ width: "605px", height: "300px" }}
         maxSize={{ width: "70vw", height: "90vh" }}
         initialSize={{ width: "40vw", height: "45vh" }}
       >

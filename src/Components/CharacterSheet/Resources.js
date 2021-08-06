@@ -36,11 +36,26 @@ const ResourceValues = Styled("div")`
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
+  width: calc(100% - 20px);
   height: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
+  padding: 0 10px;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  & > span {
+    cursor: pointer;
+    margin-bottom: 6px;
+    font-size: 22px;
+    transition: 200ms;
+
+    :hover {
+      opacity: 0.7;
+    }
+  }
 `;
 
 const Resources = ({ resources }) => {
@@ -53,9 +68,13 @@ const Resources = ({ resources }) => {
           color={resource.color}
         />
         <ResourceValues>
-          <span>{resource.value}</span>
-          <span>{" / "}</span>
-          <span>{resource.maxValue}</span>
+          <span>-</span>
+          <div>
+            <span>{resource.value}</span>
+            <span>{" / "}</span>
+            <span>{resource.maxValue}</span>
+          </div>
+          <span>+</span>
         </ResourceValues>
       </ResourceBar>
     </Resource>

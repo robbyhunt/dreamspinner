@@ -1,12 +1,14 @@
 import React from "react";
 import Styled from "@emotion/styled";
 
+import CreateIcon from "../../img/icons/create.svg";
+
 const Wrapper = Styled("div")`
   width: 100%;
   max-width: 700px;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 `;
 
 const AttributesContainer = Styled("div")`
@@ -47,12 +49,35 @@ const Title = Styled("p")`
   width: calc(100% - 20px);
   padding: 0 10px;
   max-width: 680px;
+  display: flex;
+`;
+
+const Create = Styled("div")`
+  cursor: pointer;
+  opacity: 0.6;
+  background-image: url(${CreateIcon});
+  background-size: 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 20px;
+  width: 100%;
+  transition: 200ms;
+  margin-top: 5px;
+  
+  :hover {
+    opacity: 1;
+  }
 `;
 
 const Equipment = ({ equipment }) => {
   return (
     <>
-      <Title>Equipment:</Title>
+      <Title>
+        <span style={{ flexBasis: "40%" }}>Equipment:</span>
+        <span style={{ flexBasis: "20%" }}>DMG/DEF:</span>
+        <span style={{ flexBasis: "10%" }}>Range:</span>
+        <span style={{ flexBasis: "30%" }}>Notes:</span>
+      </Title>
       <Wrapper>
         <AttributesContainer>
           <Attributes>
@@ -68,6 +93,7 @@ const Equipment = ({ equipment }) => {
                 </span>
               </Attribute>
             ))}
+            <Create />
           </Attributes>
         </AttributesContainer>
       </Wrapper>
