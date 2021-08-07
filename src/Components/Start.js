@@ -36,7 +36,7 @@ const Inner = Styled("div")`
   color: #ffffff;
 `;
 
-const Title = Styled("div")`
+const Title = Styled("h1")`
   color: #ffffff;
   filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5));
   transition: 800ms;
@@ -46,6 +46,8 @@ const Title = Styled("div")`
   margin: 10px;
   text-transform: uppercase;
   letter-spacing: 5px;
+  font-size: calc(28px + 2vmin);
+  font-weight: 400;
 
   &:hover {
     filter: drop-shadow(0 0 15px rgba(0, 0, 0, 1));
@@ -53,14 +55,22 @@ const Title = Styled("div")`
   }
 `;
 
-const Tagline = Styled(Title)`
+const Tagline = Styled("h2")`  color: #ffffff;
+  filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5));
+  transition: 800ms;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  margin: 10px 0 30px;
+  letter-spacing: 5px;
+  font-weight: 400;
   color: #e6e6e6;
   font-size: calc(1px + 3vmin);
   text-transform: none;
   max-width: 550px;
-  margin-bottom: 30px;
 
   &:hover {
+    filter: drop-shadow(0 0 15px rgba(0, 0, 0, 1));
     font-size: calc(3px + 3vmin);
   }
 `;
