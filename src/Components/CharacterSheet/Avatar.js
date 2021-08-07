@@ -193,15 +193,19 @@ const Avatar = ({ name, avatar, sheetIndex }) => {
           </>
         ) : (
           <div>
-            <form>
-              <label htmlFor="fileBrowser">Upload an avatar...</label>
-              <input
-                type="file"
-                id="fileBrowser"
-                label="Avatar Upload"
-                onChange={imageUpload}
-              />
-            </form>
+            {isLoading ? (
+              <div>Uploading...</div>
+            ) : (
+              <form>
+                <label htmlFor="fileBrowser">Upload an avatar...</label>
+                <input
+                  type="file"
+                  id="fileBrowser"
+                  label="Avatar Upload"
+                  onChange={imageUpload}
+                />
+              </form>
+            )}
           </div>
         )}
       </AvatarContainer>
