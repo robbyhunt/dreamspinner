@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import Styled from "@emotion/styled";
 
 import CreateIcon from "../../img/icons/create.svg";
+import EditIcon from "../../img/icons/edit-white.svg";
+import DeleteIcon from "../../img/icons/close-black.svg";
 
 const Wrapper = Styled("div")`
   width: 100%;
@@ -25,15 +27,19 @@ const Attribute = Styled("div")`
   display: flex;
   align-items: center;
   background-color: ${(props) => (props.index % 2 !== 0 ? "#dddddd" : "none")};
-  width: calc(100% - 20px);
-  padding: 0 10px;
+  padding: ${(props) => (props.iseditable ? "0" : "0 10px")};
+  width: ${(props) => (props.iseditable ? "100%" : "calc(100% - 20px)")};
+  height: 27px;
+  position: relative;
   
   & > span {
     font-size: 20px;
+    white-space: nowrap;
+    overflow: hidden;
   }
 `;
 
-const Title = Styled("p")`
+const TitleBar = Styled("div")`
   margin: 0;
   text-align: left;
   font-size: 20px;
@@ -42,6 +48,7 @@ const Title = Styled("p")`
   width: calc(100% - 20px);
   padding: 0 10px;
   max-width: 680px;
+  position: relative
 `;
 
 const Create = Styled("div")`
@@ -61,19 +68,110 @@ const Create = Styled("div")`
   }
 `;
 
-const Inventory = ({ inventory }) => {
+const Edit = Styled("div")`
+  cursor: pointer;
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  opacity: 1;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background-image: url(${EditIcon});
+  background-size: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 16px;
+  width: 16px;
+  transition: 200ms;
+  
+  :hover {
+    opacity: 0.7;
+  }
+`;
+
+const Delete = Styled(Edit)`
+  top: 2px;
+  right: -4px;
+  width: 8px;
+  height: 8px;
+  background-image: url(${DeleteIcon});
+`;
+
+const TextEdit = Styled("textarea")`
+  resize: none;
+  height: calc(100% - 5px);
+  width: 100%;
+  padding: 5px 0 0 5px;
+  outline: none;
+  border: 1px solid #efefefef;
+  background-color: rgba(0,0,0,0);
+
+  :focus {
+    outline: none;
+    border: 1px solid #efefefef;
+  }
+`;
+
+const Inventory = ({ inventory, hook, sheetIndex }) => {
+  const [isEditable, setIsEditable] = useState(false);
+
+  const handleChange = (e, index) => {
+    const setData = hook[1];
+    let tempData = [...hook[0]];
+    tempData[sheetIndex].inventory[index] = e.target.value;
+
+    setData(tempData);
+  };
+
+  const handleCreate = () => {
+    const setData = hook[1];
+    let tempData = [...hook[0]];
+    tempData[sheetIndex].inventory.push("");
+
+    setData(tempData);
+  };
+
+  const handleDelete = (index) => {
+    const setData = hook[1];
+    let tempData = [...hook[0]];
+    tempData[sheetIndex].inventory.splice(index, 1);
+
+    setData(tempData);
+  };
+
   return (
     <>
-      <Title>Inventory:</Title>
+      <TitleBar>
+        Inventory:
+        <Edit onClick={() => setIsEditable(!isEditable)} />
+      </TitleBar>
       <Wrapper>
         <AttributesContainer>
           <Attributes>
             {inventory.map((item, index) => (
-              <Attribute key={index} index={index}>
-                <span>{item}</span>
+              <Attribute key={index} index={index} iseditable={isEditable}>
+                {isEditable ? (
+                  <>
+                    <TextEdit
+                      value={item}
+                      id={`inventory-${index}`}
+                      onChange={(e) => handleChange(e, index)}
+                    />
+                    <Delete
+                      style={{ display: !isEditable && "none" }}
+                      onClick={() => handleDelete(index)}
+                    />
+                  </>
+                ) : (
+                  <span>{item}</span>
+                )}
               </Attribute>
             ))}
-            <Create />
+            <Create
+              style={{ display: !isEditable && "none" }}
+              onClick={() => handleCreate()}
+            />
           </Attributes>
         </AttributesContainer>
       </Wrapper>

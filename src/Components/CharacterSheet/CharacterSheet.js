@@ -22,54 +22,55 @@ const Wrapper = Styled("div")`
   border-radius: 0 0 10px 10px;
   `;
 
-const TabContainer = Styled("div")`
-  position: absolute;
-  top: 60px;
-  right: -140px;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+// const TabContainer = Styled("div")`
+//   position: absolute;
+//   top: 60px;
+//   right: -140px;
+//   display: flex;
+//   flex-direction: column;
+//   height: 100%;
 
-  @media (max-width: 800px) {
-    z-index: 11;
-    right: -90px;
-    top: 100px;
-  }
-`;
+//   @media (max-width: 800px) {
+//     z-index: 11;
+//     right: -90px;
+//     top: 100px;
+//   }
+// `;
 
-const Tab = Styled("div")`
-  transform-origin: 0 0;
-  transform: ${(props) =>
-    props.isActive ? "rotate(90deg) translateY(-5px)" : "rotate(90deg)"};
-  margin-bottom: 50px;
-  background-color: ${(props) => props.theme.colors.secondary};
-  border-radius: 10px 10px 0 0;
-  background-image: url(https://www.transparenttextures.com/patterns/black-linen-2.png);
-  color: #ffffff;
-  padding: 5px 10px 15px;
-  cursor: pointer;
-  user-select: none;
-  transition: 200ms;
+// const Tab = Styled("div")`
+//   transform-origin: 0 0;
+//   transform: ${(props) =>
+//     props.isActive ? "rotate(90deg) translateY(-5px)" : "rotate(90deg)"};
+//   margin-bottom: 50px;
+//   background-color: ${(props) => props.theme.colors.secondary};
+//   border-radius: 10px 10px 0 0;
+//   background-image: url(https://www.transparenttextures.com/patterns/black-linen-2.png);
+//   color: #ffffff;
+//   padding: 5px 10px 15px;
+//   cursor: pointer;
+//   user-select: none;
+//   transition: 200ms;
 
-  -webkit-user-select: none;
-  -ms-user-select: none;
+//   -webkit-user-select: none;
+//   -ms-user-select: none;
 
-  @media (max-width: 800px) {
-    width: 60px;
-    transform: ${(props) =>
-      props.isActive ? "rotate(90deg) translateY(7px)" : "rotate(90deg)"};
-    border-radius: 0 0 10px 10px;
-    padding: 10px 10px 10px;
-  }
-`;
+//   @media (max-width: 800px) {
+//     width: 60px;
+//     transform: ${(props) =>
+//       props.isActive ? "rotate(90deg) translateY(7px)" : "rotate(90deg)"};
+//     border-radius: 0 0 10px 10px;
+//     padding: 10px 10px 10px;
+//   }
+// `;
 
 const CharacterSheet = ({ hook }) => {
-  const [activeTab, setActiveTab] = useState(0);
+  const activeTab = useState(0);
   const [characters, setCharacters] = useState([
     {
       name: "Kai Starborn",
+      avatar: "https://i.ibb.co/w7TJZ51/1-Novice.jpg",
       resources: [
-        { name: "Wounds", value: 3, maxValue: 3, color: "	#d54e4e" },
+        { name: "Wounds", value: 3, maxValue: 3, color: "#d54e4e" },
         { name: "PP", value: 10, maxValue: 15, color: "#439eb1" },
       ],
       stats: [
@@ -127,13 +128,13 @@ const CharacterSheet = ({ hook }) => {
     >
       <ResizableContainer
         minSize={{ width: "605px", height: "300px" }}
-        maxSize={{ width: "70vw", height: "90vh" }}
+        maxSize={{ width: "1100px", height: "90vh" }}
         initialSize={{ width: "40vw", height: "45vh" }}
       >
         <Wrapper>
           {characters.map(
             (character, index) =>
-              activeTab === index && (
+              activeTab[0] === index && (
                 <Sheet
                   data={character}
                   hook={[characters, setCharacters]}
@@ -144,7 +145,7 @@ const CharacterSheet = ({ hook }) => {
           )}
         </Wrapper>
       </ResizableContainer>
-      <TabContainer>
+      {/* <TabContainer>
         {characters.map((character, index) => (
           <Tab
             onClick={() => setActiveTab(index)}
@@ -155,7 +156,7 @@ const CharacterSheet = ({ hook }) => {
           </Tab>
         ))}
         <Tab style={{ width: 20 }}>+</Tab>
-      </TabContainer>
+      </TabContainer> */}
     </Dialog>
   );
 };

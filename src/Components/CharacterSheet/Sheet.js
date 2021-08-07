@@ -5,6 +5,7 @@ import Resources from "./Resources";
 import Stats from "./Stats";
 import Equipment from "./Equipment";
 import Inventory from "./Inventory";
+import Avatar from "./Avatar";
 
 const Wrapper = Styled("div")`
   width: 100%;
@@ -55,17 +56,21 @@ const Left = Styled("div")`
   }
 `;
 
-const Name = Styled("p")`
-  font-size: 24px;
-  font-weight: 500;
-`;
-
 const Sheet = ({ data, hook, sheetIndex }) => {
   return (
     <Wrapper>
       <Left>
-        <Name>{data.name}</Name>
-        <Resources resources={data.resources} />
+        <Avatar
+          avatar={data.avatar}
+          name={data.name}
+          hook={hook}
+          sheetIndex={sheetIndex}
+        />
+        <Resources
+          resources={data.resources}
+          hook={hook}
+          sheetIndex={sheetIndex}
+        />
       </Left>
       <Right>
         <Stats stats={data.stats} hook={hook} sheetIndex={sheetIndex} />

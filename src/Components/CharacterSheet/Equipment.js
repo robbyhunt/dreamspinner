@@ -13,19 +13,19 @@ const Wrapper = Styled("div")`
   margin-bottom: 10px;
 `;
 
-const AttributesContainer = Styled("div")`
+const Container = Styled("div")`
   display: flex;
   flex-direction: column;
   flex-basis: 100%;
 `;
 
-const Attributes = Styled("div")`
+const EquipmentTable = Styled("div")`
   display: flex;
   flex-direction: column;
   text-align: left;
 `;
 
-const Attribute = Styled("div")`
+const Item = Styled("div")`
   display: flex;
   align-items: center;
   background-color: ${(props) => (props.index % 2 !== 0 ? "#dddddd" : "none")};
@@ -36,7 +36,7 @@ const Attribute = Styled("div")`
   
   & > span {
     font-size: 20px;
-    margin-right: 10px;
+    overflow: hidden;
 
     :last-of-type {
       margin-right: 0;
@@ -44,7 +44,7 @@ const Attribute = Styled("div")`
   }
 `;
 
-const Title = Styled("p")`
+const TitleBar = Styled("div")`
   margin: 0;
   text-align: left;
   font-size: 20px;
@@ -120,7 +120,7 @@ const Delete = Styled(Edit)`
 `;
 
 const Equipment = ({ equipment, sheetIndex, hook }) => {
-  const [isEditable, setIsEditable] = useState(true);
+  const [isEditable, setIsEditable] = useState(false);
 
   const handleChange = (e, index) => {
     const setData = hook[1];
@@ -157,40 +157,40 @@ const Equipment = ({ equipment, sheetIndex, hook }) => {
 
   return (
     <>
-      <Title>
+      <TitleBar>
         <span style={{ flexBasis: "40%" }}>Equipment:</span>
         <span style={{ flexBasis: "20%" }}>DMG/DEF:</span>
         <span style={{ flexBasis: "10%" }}>Range:</span>
         <span style={{ flexBasis: "30%" }}>Notes:</span>
         <Edit onClick={() => setIsEditable(!isEditable)} />
-      </Title>
+      </TitleBar>
       <Wrapper>
-        <AttributesContainer>
-          <Attributes>
+        <Container>
+          <EquipmentTable>
             {equipment.map((item, index) => (
-              <Attribute key={index} index={index} iseditable={isEditable}>
+              <Item key={index} index={index} iseditable={isEditable}>
                 {isEditable ? (
                   <>
                     <EquipmentEdit
-                      style={{ flexBasis: "40%" }}
+                      style={{ flexBasis: "4" }}
                       value={item.name}
                       id={`equipment-name-${index}`}
                       onChange={(e) => handleChange(e, index)}
                     />
                     <EquipmentEdit
-                      style={{ flexBasis: "20%" }}
+                      style={{ flexBasis: "2" }}
                       value={item[2]}
                       id={`equipment-[2]-${index}`}
                       onChange={(e) => handleChange(e, index)}
                     />
                     <EquipmentEdit
-                      style={{ flexBasis: "10%" }}
+                      style={{ flexBasis: "1" }}
                       value={item[3]}
                       id={`equipment-[3]-${index}`}
                       onChange={(e) => handleChange(e, index)}
                     />
                     <EquipmentEdit
-                      style={{ flexBasis: "30%" }}
+                      style={{ flexBasis: "3" }}
                       value={item.notes}
                       id={`equipment-notes-${index}`}
                       onChange={(e) => handleChange(e, index)}
@@ -206,20 +206,18 @@ const Equipment = ({ equipment, sheetIndex, hook }) => {
                     <span style={{ flexBasis: "20%" }}>{item[2]}</span>
                     <span style={{ flexBasis: "10%" }}>{item[3]}</span>
                     <span style={{ flexBasis: "30%" }}>
-                      {item.notes.length > 14
-                        ? item.notes.slice(0, 13) + "..."
-                        : item.notes}
+                      <span style={{ whiteSpace: "nowrap" }}>{item.notes}</span>
                     </span>
                   </>
                 )}
-              </Attribute>
+              </Item>
             ))}
             <Create
               style={{ display: !isEditable && "none" }}
               onClick={() => handleCreate()}
             />
-          </Attributes>
-        </AttributesContainer>
+          </EquipmentTable>
+        </Container>
       </Wrapper>
     </>
   );
