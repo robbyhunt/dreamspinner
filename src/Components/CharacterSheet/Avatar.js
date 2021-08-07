@@ -1,4 +1,8 @@
 import React, { useState } from "react";
+
+import { useSelector, useDispatch } from "react-redux";
+import { changeCharacters } from "../../actionCreators";
+
 import Styled from "@emotion/styled";
 
 import EditIcon from "../../img/icons/edit.svg";
@@ -117,16 +121,18 @@ const Delete = Styled(Edit)`
   background-image: url(${DeleteIcon});
 `;
 
-const Avatar = ({ name, avatar, hook, sheetIndex }) => {
+const Avatar = ({ name, avatar, sheetIndex }) => {
   const [isEditable, setIsEditable] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
+  const { characters } = useSelector((s) => s);
+  const dispatch = useDispatch();
+
   const handleChange = (e) => {
-    const setData = hook[1];
-    let tempData = [...hook[0]];
+    let tempData = [...characters];
     tempData[sheetIndex].name = e.target.value;
 
-    setData(tempData);
+    dispatch(changeCharacters(tempData));
   };
 
   const imageUpload = async (e) => {
@@ -146,10 +152,9 @@ const Avatar = ({ name, avatar, hook, sheetIndex }) => {
       .then((data) => data.json())
       .then((data) => {
         if (data.success) {
-          const setData = hook[1];
-          let tempData = [...hook[0]];
+          let tempData = [...characters];
           tempData[sheetIndex].avatar = data.data.url;
-          setData(tempData);
+          dispatch(changeCharacters(tempData));
         } else {
           console.log("upload failed");
           console.log(data);
@@ -159,11 +164,10 @@ const Avatar = ({ name, avatar, hook, sheetIndex }) => {
   };
 
   const handleDelete = () => {
-    const setData = hook[1];
-    let tempData = [...hook[0]];
+    let tempData = [...characters];
     tempData[sheetIndex].avatar = "";
 
-    setData(tempData);
+    dispatch(changeCharacters(tempData));
   };
 
   return (
@@ -176,7 +180,7 @@ const Avatar = ({ name, avatar, hook, sheetIndex }) => {
           onChange={(e) => handleChange(e)}
         />
       ) : (
-        <Name>{name}</Name>
+        <Name>{name ? name : "New Character"}</Name>
       )}
       <Delete
         onClick={() => handleDelete()}

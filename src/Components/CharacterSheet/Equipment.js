@@ -1,4 +1,8 @@
 import React, { useState } from "react";
+
+import { useSelector, useDispatch } from "react-redux";
+import { changeCharacters } from "../../actionCreators";
+
 import Styled from "@emotion/styled";
 
 import CreateIcon from "../../img/icons/create.svg";
@@ -119,12 +123,14 @@ const Delete = Styled(Edit)`
   background-image: url(${DeleteIcon});
 `;
 
-const Equipment = ({ equipment, sheetIndex, hook }) => {
+const Equipment = ({ equipment, sheetIndex }) => {
   const [isEditable, setIsEditable] = useState(false);
 
+  const { characters } = useSelector((s) => s);
+  const dispatch = useDispatch();
+
   const handleChange = (e, index) => {
-    const setData = hook[1];
-    let tempData = [...hook[0]];
+    let tempData = [...characters];
 
     if (e.target.id.includes("name")) {
       tempData[sheetIndex].equipment[index].name = e.target.value;
@@ -136,23 +142,21 @@ const Equipment = ({ equipment, sheetIndex, hook }) => {
       tempData[sheetIndex].equipment[index].notes = e.target.value;
     }
 
-    setData(tempData);
+    dispatch(changeCharacters(tempData));
   };
 
   const handleCreate = () => {
-    const setData = hook[1];
-    let tempData = [...hook[0]];
+    let tempData = [...characters];
     tempData[sheetIndex].equipment.push({ name: "", 2: "", 3: "", notes: "" });
 
-    setData(tempData);
+    dispatch(changeCharacters(tempData));
   };
 
   const handleDelete = (index) => {
-    const setData = hook[1];
-    let tempData = [...hook[0]];
+    let tempData = [...characters];
     tempData[sheetIndex].equipment.splice(index, 1);
 
-    setData(tempData);
+    dispatch(changeCharacters(tempData));
   };
 
   return (
@@ -172,25 +176,25 @@ const Equipment = ({ equipment, sheetIndex, hook }) => {
                 {isEditable ? (
                   <>
                     <EquipmentEdit
-                      style={{ flexBasis: "4" }}
+                      style={{ flexBasis: "40%" }}
                       value={item.name}
                       id={`equipment-name-${index}`}
                       onChange={(e) => handleChange(e, index)}
                     />
                     <EquipmentEdit
-                      style={{ flexBasis: "2" }}
+                      style={{ flexBasis: "20%" }}
                       value={item[2]}
                       id={`equipment-[2]-${index}`}
                       onChange={(e) => handleChange(e, index)}
                     />
                     <EquipmentEdit
-                      style={{ flexBasis: "1" }}
+                      style={{ flexBasis: "10%" }}
                       value={item[3]}
                       id={`equipment-[3]-${index}`}
                       onChange={(e) => handleChange(e, index)}
                     />
                     <EquipmentEdit
-                      style={{ flexBasis: "3" }}
+                      style={{ flexBasis: "30%" }}
                       value={item.notes}
                       id={`equipment-notes-${index}`}
                       onChange={(e) => handleChange(e, index)}

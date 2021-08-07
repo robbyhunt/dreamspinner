@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import Styled from "@emotion/styled";
 
-// import { useSelector, useDispatch } from "react-redux";
-// import { changeNotes, changeNPCs } from "../../actionCreators";
+import { useSelector } from "react-redux";
 
 import Dialog from "../common/Dialog";
 import ResizableContainer from "../common/ResizableContainer";
@@ -65,54 +64,8 @@ const Wrapper = Styled("div")`
 
 const CharacterSheet = ({ hook }) => {
   const activeTab = useState(0);
-  const [characters, setCharacters] = useState([
-    {
-      name: "Kai Starborn",
-      avatar: "https://i.ibb.co/w7TJZ51/1-Novice.jpg",
-      resources: [
-        { name: "Wounds", value: 3, maxValue: 3, color: "#d54e4e" },
-        { name: "PP", value: 10, maxValue: 15, color: "#439eb1" },
-      ],
-      stats: [
-        [
-          { name: "Strength", value: "d6", type: "attributes" },
-          { name: "Agility", value: "d6", type: "attributes" },
-          { name: "Spirit", value: "d8", type: "attributes" },
-          { name: "Smarts", value: "d6", type: "attributes" },
-          { name: "Vigor", value: "d6", type: "attributes" },
-        ],
-        [
-          { name: "Fighting", value: "d8", type: "skills" },
-          { name: "Athletics", value: "d6", type: "skills" },
-          { name: "Sneak", value: "d6", type: "skills" },
-          { name: "Persuasion", value: "d4", type: "skills" },
-          { name: "Notice", value: "d6", type: "skills" },
-        ],
-        [
-          { name: "Pace", value: "d6", type: "modifiers" },
-          { name: "Parry", value: "6", type: "modifiers" },
-          { name: "Toughness", value: "8", type: "modifiers" },
-        ],
-      ],
-      equipment: [
-        { name: "Sword", 2: "Str+d6+1", 3: "1", notes: "AP 1" },
-        {
-          name: "Medium Shield",
-          2: "+2 Parry",
-          3: "-",
-          notes: "Half cover against missile attacks",
-        },
-      ],
-      inventory: [
-        "a thing",
-        "some type of other thing",
-        "bedroll",
-        "the amulet of elswin",
-      ],
-    },
-  ]);
 
-  // const {  } = useSelector((s) => s);
+  const { characters } = useSelector((s) => s);
   // const dispatch = useDispatch();
 
   const initialLeft =
@@ -135,12 +88,7 @@ const CharacterSheet = ({ hook }) => {
           {characters.map(
             (character, index) =>
               activeTab[0] === index && (
-                <Sheet
-                  data={character}
-                  hook={[characters, setCharacters]}
-                  sheetIndex={index}
-                  key={index}
-                />
+                <Sheet data={character} sheetIndex={index} key={index} />
               )
           )}
         </Wrapper>

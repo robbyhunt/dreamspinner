@@ -53,7 +53,7 @@ const Play = () => {
     document.documentElement.clientWidth <= 800 ? false : true;
 
   const notebookHook = useState(notebookInitial);
-  const characterHook = useState(notebookInitial);
+  const characterHook = useState(false);
   const generatorsHook = useState(false);
   const settingsHook = useState(false);
 

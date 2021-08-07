@@ -1,4 +1,8 @@
 import React, { useState } from "react";
+
+import { useSelector, useDispatch } from "react-redux";
+import { changeCharacters } from "../../actionCreators";
+
 import Styled from "@emotion/styled";
 
 import CreateIcon from "../../img/icons/create.svg";
@@ -125,10 +129,13 @@ const Delete = Styled(Edit)`
   background-image: url(${DeleteIcon});
 `;
 
-const Stats = ({ stats, hook, sheetIndex }) => {
+const Stats = ({ stats, sheetIndex }) => {
   const [attributesEditable, setAttributesEditable] = useState(false);
   const [skillsEditable, setSkillsEditable] = useState(false);
   const [modifiersEditable, setModifiersEditable] = useState(false);
+
+  const { characters } = useSelector((s) => s);
+  const dispatch = useDispatch();
 
   const hooks = {
     attributes: attributesEditable,
@@ -154,8 +161,7 @@ const Stats = ({ stats, hook, sheetIndex }) => {
   };
 
   const handleChangeStats = (e, statsIndex, statIndex) => {
-    const setData = hook[1];
-    let tempData = [...hook[0]];
+    let tempData = [...characters];
 
     if (e.target.id.includes("name")) {
       tempData[sheetIndex].stats[statsIndex][statIndex].name = e.target.value;
@@ -163,80 +169,100 @@ const Stats = ({ stats, hook, sheetIndex }) => {
       tempData[sheetIndex].stats[statsIndex][statIndex].value = e.target.value;
     }
 
-    setData(tempData);
+    dispatch(changeCharacters(tempData));
   };
 
-  const handleCreateStat = (e, statsIndex, type) => {
-    const setData = hook[1];
-    let tempData = [...hook[0]];
+  const handleCreateStat = (statsIndex, type) => {
+    let tempData = [...characters];
     tempData[sheetIndex].stats[statsIndex].push({ name: "", value: "", type });
-    setData(tempData);
+
+    dispatch(changeCharacters(tempData));
   };
 
   const handleDeleteStat = (statsIndex, statIndex) => {
-    const setData = hook[1];
-    let tempData = [...hook[0]];
+    let tempData = [...characters];
     tempData[sheetIndex].stats[statsIndex].splice(statIndex, 1);
-    setData(tempData);
+
+    dispatch(changeCharacters(tempData));
   };
+
+  const hookIndex = [attributesEditable, skillsEditable, modifiersEditable];
 
   return (
     <Wrapper>
-      {stats.map((stat, statsIndex) => (
-        <AttributesContainer
-          key={statsIndex}
-          style={{ marginRight: statsIndex !== 2 && 10 }}
-        >
-          <Title>
-            {stat[0].type.charAt(0).toUpperCase() + stat[0].type.slice(1, 99)}:
-          </Title>
-          <Edit id={stat[0].type} onClick={(e) => handleToggleEdit(e)} />
-          <Attributes>
-            {stat.map((attribute, statIndex) => (
-              <Attribute
-                key={statIndex}
-                index={statIndex}
-                iseditable={hooks[attribute.type]}
-              >
-                {!hooks[attribute.type] ? (
-                  <>
-                    <span style={{ flexBasis: "90%" }}>
-                      {attribute.name + ":"}
-                    </span>
-                    <span style={{ flexBasis: "10%" }}>{attribute.value}</span>
-                  </>
-                ) : (
-                  <>
-                    <AttributeEdit
-                      value={attribute.name}
-                      id={`${attribute.name}-name`}
-                      onChange={(e) =>
-                        handleChangeStats(e, statsIndex, statIndex)
-                      }
-                    />
-                    <AttributeValueEdit
-                      value={attribute.value}
-                      id={`${attribute.name}-value`}
-                      onChange={(e) =>
-                        handleChangeStats(e, statsIndex, statIndex)
-                      }
-                    />
-                  </>
-                )}
+      {stats.map((stat, statsIndex) => {
+        let type;
+        switch (statsIndex) {
+          case 0:
+            type = "attributes";
+            break;
+          case 1:
+            type = "skills";
+            break;
+          case 2:
+            type = "modifiers";
+            break;
 
-                <Delete
-                  style={{ display: !hooks[attribute.type] && "none" }}
-                  onClick={() => handleDeleteStat(statsIndex, statIndex)}
-                />
-              </Attribute>
-            ))}
-            <Create
-              style={{ display: !hooks[stat[0].type] && "none" }}
-              onClick={(e) => handleCreateStat(e, statsIndex, stat[0].type)}
-            />
-          </Attributes>
-        </AttributesContainer>
-      ))}
+          default:
+            break;
+        }
+        return (
+          <AttributesContainer
+            key={statsIndex}
+            style={{ marginRight: statsIndex !== 2 && 10 }}
+          >
+            <Title>{type.charAt(0).toUpperCase() + type.slice(1, 99)}:</Title>
+            <Edit id={type} onClick={(e) => handleToggleEdit(e)} />
+            <Attributes>
+              {stat.map((attribute, statIndex) => (
+                <Attribute
+                  key={statIndex}
+                  index={statIndex}
+                  iseditable={hooks[attribute.type]}
+                >
+                  {!hooks[attribute.type] ? (
+                    <>
+                      <span style={{ flexBasis: "90%" }}>
+                        {attribute.name + ":"}
+                      </span>
+                      <span style={{ flexBasis: "10%" }}>
+                        {attribute.value}
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      <AttributeEdit
+                        value={attribute.name}
+                        id={`${attribute.name}-name`}
+                        placeholder={`${type.substring(0, type.length - 1)}`}
+                        onChange={(e) =>
+                          handleChangeStats(e, statsIndex, statIndex)
+                        }
+                      />
+                      <AttributeValueEdit
+                        value={attribute.value}
+                        id={`${attribute.name}-value`}
+                        onChange={(e) =>
+                          handleChangeStats(e, statsIndex, statIndex)
+                        }
+                      />
+                    </>
+                  )}
+
+                  <Delete
+                    style={{ display: !hookIndex[statsIndex] && "none" }}
+                    onClick={() => handleDeleteStat(statsIndex, statIndex)}
+                  />
+                </Attribute>
+              ))}
+              <Create
+                style={{ display: !hookIndex[statsIndex] && "none" }}
+                onClick={() => handleCreateStat(statsIndex, type)}
+              />
+            </Attributes>
+          </AttributesContainer>
+        );
+      })}
     </Wrapper>
   );
 };

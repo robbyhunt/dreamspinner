@@ -1,4 +1,8 @@
 import React, { useState } from "react";
+
+import { useSelector, useDispatch } from "react-redux";
+import { changeCharacters } from "../../actionCreators";
+
 import Styled from "@emotion/styled";
 
 import CreateIcon from "../../img/icons/create.svg";
@@ -10,6 +14,7 @@ const Wrapper = Styled("div")`
   max-width: 700px;
   display: flex;
   justify-content: space-between;
+  margin-bottom: 50px;
 `;
 
 const AttributesContainer = Styled("div")`
@@ -113,31 +118,31 @@ const TextEdit = Styled("textarea")`
   }
 `;
 
-const Inventory = ({ inventory, hook, sheetIndex }) => {
+const Inventory = ({ inventory, sheetIndex }) => {
   const [isEditable, setIsEditable] = useState(false);
 
+  const { characters } = useSelector((s) => s);
+  const dispatch = useDispatch();
+
   const handleChange = (e, index) => {
-    const setData = hook[1];
-    let tempData = [...hook[0]];
+    let tempData = [...characters];
     tempData[sheetIndex].inventory[index] = e.target.value;
 
-    setData(tempData);
+    dispatch(changeCharacters(tempData));
   };
 
   const handleCreate = () => {
-    const setData = hook[1];
-    let tempData = [...hook[0]];
+    let tempData = [...characters];
     tempData[sheetIndex].inventory.push("");
 
-    setData(tempData);
+    dispatch(changeCharacters(tempData));
   };
 
   const handleDelete = (index) => {
-    const setData = hook[1];
-    let tempData = [...hook[0]];
+    let tempData = [...characters];
     tempData[sheetIndex].inventory.splice(index, 1);
 
-    setData(tempData);
+    dispatch(changeCharacters(tempData));
   };
 
   return (

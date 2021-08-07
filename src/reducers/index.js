@@ -7,6 +7,7 @@ import threads from "./threads";
 import npcs from "./npcs";
 import genre from "./genre";
 import title from "./title";
+import characters from "./characters";
 
 export default combineReducers({
   log,
@@ -17,4 +18,5 @@ export default combineReducers({
   npcs,
   genre,
   title,
+  characters,
 });

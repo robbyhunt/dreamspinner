@@ -56,34 +56,17 @@ const Left = Styled("div")`
   }
 `;
 
-const Sheet = ({ data, hook, sheetIndex }) => {
+const Sheet = ({ data, sheetIndex }) => {
   return (
     <Wrapper>
       <Left>
-        <Avatar
-          avatar={data.avatar}
-          name={data.name}
-          hook={hook}
-          sheetIndex={sheetIndex}
-        />
-        <Resources
-          resources={data.resources}
-          hook={hook}
-          sheetIndex={sheetIndex}
-        />
+        <Avatar avatar={data.avatar} name={data.name} sheetIndex={sheetIndex} />
+        <Resources resources={data.resources} sheetIndex={sheetIndex} />
       </Left>
       <Right>
-        <Stats stats={data.stats} hook={hook} sheetIndex={sheetIndex} />
-        <Equipment
-          equipment={data.equipment}
-          hook={hook}
-          sheetIndex={sheetIndex}
-        />
-        <Inventory
-          inventory={data.inventory}
-          hook={hook}
-          sheetIndex={sheetIndex}
-        />
+        <Stats stats={data.stats} sheetIndex={sheetIndex} />
+        <Equipment equipment={data.equipment} sheetIndex={sheetIndex} />
+        <Inventory inventory={data.inventory} sheetIndex={sheetIndex} />
       </Right>
     </Wrapper>
   );

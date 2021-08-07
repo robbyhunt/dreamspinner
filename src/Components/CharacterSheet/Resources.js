@@ -1,4 +1,8 @@
 import React, { useState } from "react";
+
+import { useSelector, useDispatch } from "react-redux";
+import { changeCharacters } from "../../actionCreators";
+
 import Styled from "@emotion/styled";
 
 import CreateIcon from "../../img/icons/create.svg";
@@ -149,9 +153,11 @@ const Delete = Styled(Edit)`
 const Resources = ({ resources, hook, sheetIndex }) => {
   const [isEditable, setIsEditable] = useState(false);
 
+  const { characters } = useSelector((s) => s);
+  const dispatch = useDispatch();
+
   const handleCreate = () => {
-    const setData = hook[1];
-    let tempData = [...hook[0]];
+    let tempData = [...characters];
     tempData[sheetIndex].resources.push({
       name: "",
       value: 1,
@@ -159,12 +165,11 @@ const Resources = ({ resources, hook, sheetIndex }) => {
       color: "#d54e4e",
     });
 
-    setData(tempData);
+    dispatch(changeCharacters(tempData));
   };
 
   const handleChange = (e, index) => {
-    const setData = hook[1];
-    let tempData = [...hook[0]];
+    let tempData = [...characters];
 
     if (e.target.id.includes("name")) {
       tempData[sheetIndex].resources[index].name = e.target.value;
@@ -208,15 +213,14 @@ const Resources = ({ resources, hook, sheetIndex }) => {
       }
     }
 
-    setData(tempData);
+    dispatch(changeCharacters(tempData));
   };
 
   const handleDelete = (index) => {
-    const setData = hook[1];
-    let tempData = [...hook[0]];
+    let tempData = [...characters];
     tempData[sheetIndex].resources.splice(index, 1);
 
-    setData(tempData);
+    dispatch(changeCharacters(tempData));
   };
 
   return (

@@ -37,3 +37,7 @@ export function changeGenre(payload) {
 export function changeTitle(payload) {
   return { type: "CHANGE_TITLE", payload };
 }
+
+export function changeCharacters(payload) {
+  return { type: "CHANGE_CHARACTERS", payload };
+}
