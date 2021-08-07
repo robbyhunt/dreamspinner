@@ -37,7 +37,7 @@ const Resource = Styled("div")`
 const ResourceBar = Styled("div")`
   width: 100%;
   height: 20px;
-  background-color: rgba(0,0,0,0.1);
+  background-color: rgba(0,0,0,0.15);
   border-radius: 10px;
   color: #ffffff;
   font-weight: 600;
@@ -49,7 +49,10 @@ const ResourceFill = Styled("div")`
   position: absolute;
   top: 0;
   left: 0;
-  width: ${(props) => `${props.percentfilled}%`};
+  width: ${(props) =>
+    props.reversed
+      ? `${100 - props.percentfilled}%`
+      : `${props.percentfilled}%`};
   height: 100%;
   border-radius: 10px;
   background-color: ${(props) => props.color}};
@@ -163,6 +166,7 @@ const Resources = ({ resources, hook, sheetIndex }) => {
       value: 1,
       maxValue: 1,
       color: "#d54e4e",
+      reversed: false,
     });
 
     dispatch(changeCharacters(tempData));
@@ -194,6 +198,9 @@ const Resources = ({ resources, hook, sheetIndex }) => {
           e.target.value
         );
       }
+    } else if (e.target.id.includes("reverse")) {
+      tempData[sheetIndex].resources[index].reversed =
+        !tempData[sheetIndex].resources[index].reversed;
     } else if (e.target.id.includes("minus")) {
       if (tempData[sheetIndex].resources[index].value === 0) {
         return;
@@ -244,7 +251,7 @@ const Resources = ({ resources, hook, sheetIndex }) => {
                   value={resource.color}
                   id={`resource-color-${index}`}
                   onChange={(e) => handleChange(e, index)}
-                  placeholder="Color"
+                  placeholder="Hex"
                   style={{
                     textAlign: "right",
                     width: "25%",
@@ -259,30 +266,50 @@ const Resources = ({ resources, hook, sheetIndex }) => {
             <ResourceFill
               percentfilled={(resource.value / resource.maxValue) * 100}
               color={resource.color}
+              reversed={resource.reversed}
             />
             <ResourceValues>
               <span
                 id={`resource-minus-${index}`}
                 onClick={(e) => handleChange(e, index)}
+                style={{ display: isEditable && "none" }}
               >
                 -
               </span>
-              <div>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  width: "100%",
+                }}
+              >
                 {isEditable ? (
                   <>
                     <ValueEdit
                       value={resource.value}
                       id={`resource-value-${index}`}
                       onChange={(e) => handleChange(e, index)}
-                      style={{ marginRight: 10 }}
+                      style={{ marginRight: 5 }}
                       placeholder="Cur"
                     />
+                    {" / "}
                     <ValueEdit
                       value={resource.maxValue}
                       id={`resource-max-${index}`}
                       onChange={(e) => handleChange(e, index)}
+                      style={{ marginLeft: 5 }}
                       placeholder="Max"
                     />
+                    <button
+                      id={`resource-reverse-${index}`}
+                      onClick={(e) => handleChange(e, index)}
+                      style={{
+                        fontSize: 10,
+                      }}
+                    >
+                      {resource.reversed ? "Unreverse" : "Reverse"}
+                    </button>
                   </>
                 ) : (
                   <>
@@ -295,6 +322,7 @@ const Resources = ({ resources, hook, sheetIndex }) => {
               <span
                 id={`resource-plus-${index}`}
                 onClick={(e) => handleChange(e, index)}
+                style={{ display: isEditable && "none" }}
               >
                 +
               </span>
