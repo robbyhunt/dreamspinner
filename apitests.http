@@ -1,1 +1,1 @@
-get http://localhost:8888/.netlify/functions/createUser
+get http://localhost:8888/.netlify/functions/getImages

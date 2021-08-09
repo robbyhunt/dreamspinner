@@ -8,6 +8,7 @@ import { isMobile } from "react-device-detect";
 import Log from "./GameLog/Log";
 import Notebook from "./Notebook/Notebook";
 import CharacterSheet from "./CharacterSheet/CharacterSheet";
+import Inspiration from "./Inspiration/Inspiration";
 import Generators from "./Generators";
 import Settings from "./Settings";
 import DialogShortcut from "./common/DialogShortcut";
@@ -54,6 +55,7 @@ const Play = () => {
 
   const notebookHook = useState(notebookInitial);
   const characterHook = useState(false);
+  const inspirationHook = useState(false);
   const generatorsHook = useState(false);
   const settingsHook = useState(false);
 
@@ -84,6 +86,8 @@ const Play = () => {
 
       {characterHook[0] && <CharacterSheet hook={characterHook} />}
 
+      {inspirationHook[0] && <Inspiration hook={inspirationHook} />}
+
       {generatorsHook[0] && <Generators hook={generatorsHook} />}
 
       <Settings settingsOpen={settingsHook[0]} openSettings={settingsHook[1]} />
@@ -101,10 +105,16 @@ const Play = () => {
         position="425px"
       />
       <DialogShortcut
+        title="INSPIRATION"
+        isOpen={inspirationHook[0]}
+        handleToggle={inspirationHook[1]}
+        position="625px"
+      />
+      <DialogShortcut
         title="GENERATORS"
         isOpen={generatorsHook[0]}
         handleToggle={generatorsHook[1]}
-        position="625px"
+        position="825px"
       />
     </Wrapper>
   );
