@@ -41,3 +41,7 @@ export function changeTitle(payload) {
 export function changeCharacters(payload) {
   return { type: "CHANGE_CHARACTERS", payload };
 }
+
+export function changeInspiration(payload) {
+  return { type: "CHANGE_INSPIRATION", payload };
+}

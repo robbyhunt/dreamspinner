@@ -11,6 +11,7 @@ import {
   changeNPCs,
   changeTitle,
   changeCharacters,
+  changeInspiration,
 } from "../../actionCreators";
 import Styled from "@emotion/styled";
 import axios from "axios";
@@ -124,8 +125,17 @@ const SaveModal = ({ setSaveLoadOpen, saveLoadOpen }) => {
   const [clearPayload, setClearPayload] = useState(undefined);
   const [isLoading, setIsLoading] = useState([false, undefined]);
 
-  const { log, user, notes, threads, npcs, title, input, characters } =
-    useSelector((s) => s);
+  const {
+    log,
+    user,
+    notes,
+    threads,
+    npcs,
+    title,
+    input,
+    characters,
+    inspiration,
+  } = useSelector((s) => s);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -159,6 +169,7 @@ const SaveModal = ({ setSaveLoadOpen, saveLoadOpen }) => {
       npcs,
       threads,
       characters,
+      inspiration,
     };
 
     let token;
@@ -218,6 +229,7 @@ const SaveModal = ({ setSaveLoadOpen, saveLoadOpen }) => {
     dispatch(changeNotes(gameData.notes));
     dispatch(changeNPCs(gameData.npcs));
     dispatch(changeCharacters(gameData.characters));
+    dispatch(changeInspiration(gameData.inspiration));
     dispatch(changeInput(""));
     await dispatch(changeLog(gameData.log));
 

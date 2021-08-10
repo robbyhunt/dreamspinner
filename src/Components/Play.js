@@ -55,7 +55,7 @@ const Play = () => {
 
   const notebookHook = useState(notebookInitial);
   const characterHook = useState(false);
-  const inspirationHook = useState(true);
+  const inspirationHook = useState(false);
   const generatorsHook = useState(false);
   const settingsHook = useState(false);
 

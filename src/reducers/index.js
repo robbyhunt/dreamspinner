@@ -8,6 +8,7 @@ import npcs from "./npcs";
 import genre from "./genre";
 import title from "./title";
 import characters from "./characters";
+import inspiration from "./inspiration";
 
 export default combineReducers({
   log,
@@ -19,4 +20,5 @@ export default combineReducers({
   genre,
   title,
   characters,
+  inspiration,
 });
