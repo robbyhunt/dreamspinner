@@ -14,7 +14,7 @@ const Wrapper = Styled("div")`
   max-width: 700px;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 `;
 
 const Container = Styled("div")`
@@ -72,6 +72,7 @@ const Create = Styled("div")`
   width: 100%;
   transition: 200ms;
   margin-top: 5px;
+  display: none;
   
   :hover {
     opacity: 1;
@@ -146,6 +147,8 @@ const Equipment = ({ equipment, sheetIndex }) => {
   };
 
   const handleCreate = () => {
+    setIsEditable(true);
+
     let tempData = [...characters];
     tempData[sheetIndex].equipment.push({ name: "", 2: "", 3: "", notes: "" });
 
@@ -217,7 +220,11 @@ const Equipment = ({ equipment, sheetIndex }) => {
               </Item>
             ))}
             <Create
-              style={{ display: !isEditable && "none" }}
+              style={{
+                display:
+                  (isEditable && "block") ||
+                  (equipment.length === 0 && "block"),
+              }}
               onClick={() => handleCreate()}
             />
           </EquipmentTable>

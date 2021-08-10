@@ -6,6 +6,7 @@ export default function characters(
       resources: [],
       stats: [[], [], []],
       equipment: [],
+      powers: [],
       inventory: [],
     },
   ],

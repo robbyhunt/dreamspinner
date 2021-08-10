@@ -95,6 +95,7 @@ const Create = Styled("div")`
   width: 100%;
   transition: 200ms;
   margin-top: 10px;
+  display: none;
   
   :hover {
     opacity: 1;
@@ -153,13 +154,15 @@ const Delete = Styled(Edit)`
   background-image: url(${DeleteIcon});
 `;
 
-const Resources = ({ resources, hook, sheetIndex }) => {
+const Resources = ({ resources, sheetIndex }) => {
   const [isEditable, setIsEditable] = useState(false);
 
   const { characters } = useSelector((s) => s);
   const dispatch = useDispatch();
 
   const handleCreate = () => {
+    setIsEditable(true);
+
     let tempData = [...characters];
     tempData[sheetIndex].resources.push({
       name: "",
@@ -336,7 +339,10 @@ const Resources = ({ resources, hook, sheetIndex }) => {
       ))}
 
       <Create
-        style={{ display: !isEditable && "none" }}
+        style={{
+          display:
+            (isEditable && "block") || (resources.length === 0 && "block"),
+        }}
         onClick={() => handleCreate()}
       />
     </Wrapper>

@@ -14,33 +14,37 @@ const Wrapper = Styled("div")`
   max-width: 700px;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 50px;
+  margin-bottom: 15px;
 `;
 
-const AttributesContainer = Styled("div")`
+const Container = Styled("div")`
   display: flex;
   flex-direction: column;
   flex-basis: 100%;
 `;
 
-const Attributes = Styled("div")`
+const EquipmentTable = Styled("div")`
   display: flex;
   flex-direction: column;
+  text-align: left;
 `;
 
-const Attribute = Styled("div")`
+const Item = Styled("div")`
   display: flex;
   align-items: center;
   background-color: ${(props) => (props.index % 2 !== 0 ? "#dddddd" : "none")};
-  padding: ${(props) => (props.iseditable ? "0" : "0 10px")};
   width: ${(props) => (props.iseditable ? "100%" : "calc(100% - 20px)")};
   height: 27px;
+  padding: ${(props) => (props.iseditable ? "0" : "0 10px")};
   position: relative;
   
   & > span {
     font-size: 20px;
-    white-space: nowrap;
     overflow: hidden;
+
+    :last-of-type {
+      margin-right: 0;
+    }
   }
 `;
 
@@ -53,7 +57,8 @@ const TitleBar = Styled("div")`
   width: calc(100% - 20px);
   padding: 0 10px;
   max-width: 680px;
-  position: relative
+  display: flex;
+  position: relative;
 `;
 
 const Create = Styled("div")`
@@ -96,15 +101,7 @@ const Edit = Styled("div")`
   }
 `;
 
-const Delete = Styled(Edit)`
-  top: 2px;
-  right: -4px;
-  width: 8px;
-  height: 8px;
-  background-image: url(${DeleteIcon});
-`;
-
-const TextEdit = Styled("textarea")`
+const EquipmentEdit = Styled("textarea")`
   resize: none;
   height: calc(100% - 5px);
   width: 100%;
@@ -119,7 +116,15 @@ const TextEdit = Styled("textarea")`
   }
 `;
 
-const Inventory = ({ inventory, sheetIndex }) => {
+const Delete = Styled(Edit)`
+  top: 2px;
+  right: -4px;
+  width: 8px;
+  height: 8px;
+  background-image: url(${DeleteIcon});
+`;
+
+const Powers = ({ powers, sheetIndex }) => {
   const [isEditable, setIsEditable] = useState(false);
 
   const { characters } = useSelector((s) => s);
@@ -127,7 +132,16 @@ const Inventory = ({ inventory, sheetIndex }) => {
 
   const handleChange = (e, index) => {
     let tempData = [...characters];
-    tempData[sheetIndex].inventory[index] = e.target.value;
+
+    if (e.target.id.includes("name")) {
+      tempData[sheetIndex].powers[index].name = e.target.value;
+    } else if (e.target.id.includes("[2]")) {
+      tempData[sheetIndex].powers[index][2] = e.target.value;
+    } else if (e.target.id.includes("[3]")) {
+      tempData[sheetIndex].powers[index][3] = e.target.value;
+    } else if (e.target.id.includes("notes")) {
+      tempData[sheetIndex].powers[index].notes = e.target.value;
+    }
 
     dispatch(changeCharacters(tempData));
   };
@@ -136,14 +150,14 @@ const Inventory = ({ inventory, sheetIndex }) => {
     setIsEditable(true);
 
     let tempData = [...characters];
-    tempData[sheetIndex].inventory.push("");
+    tempData[sheetIndex].powers.push({ name: "", 2: "", 3: "", notes: "" });
 
     dispatch(changeCharacters(tempData));
   };
 
   const handleDelete = (index) => {
     let tempData = [...characters];
-    tempData[sheetIndex].inventory.splice(index, 1);
+    tempData[sheetIndex].powers.splice(index, 1);
 
     dispatch(changeCharacters(tempData));
   };
@@ -151,19 +165,41 @@ const Inventory = ({ inventory, sheetIndex }) => {
   return (
     <>
       <TitleBar>
-        Inventory:
+        <span style={{ flexBasis: "30%" }}>Powers:</span>
+        <span style={{ flexBasis: "15%" }}>Cost:</span>
+        <span style={{ flexBasis: "15%" }}>Range:</span>
+        <span style={{ flexBasis: "40%" }}>Notes:</span>
         <Edit onClick={() => setIsEditable(!isEditable)} />
       </TitleBar>
       <Wrapper>
-        <AttributesContainer>
-          <Attributes>
-            {inventory.map((item, index) => (
-              <Attribute key={index} index={index} iseditable={isEditable}>
+        <Container>
+          <EquipmentTable>
+            {powers.map((item, index) => (
+              <Item key={index} index={index} iseditable={isEditable}>
                 {isEditable ? (
                   <>
-                    <TextEdit
-                      value={item}
-                      id={`inventory-${index}`}
+                    <EquipmentEdit
+                      style={{ flexBasis: "30%" }}
+                      value={item.name}
+                      id={`power-name-${index}`}
+                      onChange={(e) => handleChange(e, index)}
+                    />
+                    <EquipmentEdit
+                      style={{ flexBasis: "15%" }}
+                      value={item[2]}
+                      id={`power-[2]-${index}`}
+                      onChange={(e) => handleChange(e, index)}
+                    />
+                    <EquipmentEdit
+                      style={{ flexBasis: "15%" }}
+                      value={item[3]}
+                      id={`power-[3]-${index}`}
+                      onChange={(e) => handleChange(e, index)}
+                    />
+                    <EquipmentEdit
+                      style={{ flexBasis: "40%" }}
+                      value={item.notes}
+                      id={`power-notes-${index}`}
                       onChange={(e) => handleChange(e, index)}
                     />
                     <Delete
@@ -172,23 +208,29 @@ const Inventory = ({ inventory, sheetIndex }) => {
                     />
                   </>
                 ) : (
-                  <span>{item}</span>
+                  <>
+                    <span style={{ flexBasis: "40%" }}>{item.name}</span>
+                    <span style={{ flexBasis: "20%" }}>{item[2]}</span>
+                    <span style={{ flexBasis: "10%" }}>{item[3]}</span>
+                    <span style={{ flexBasis: "30%" }}>
+                      <span style={{ whiteSpace: "nowrap" }}>{item.notes}</span>
+                    </span>
+                  </>
                 )}
-              </Attribute>
+              </Item>
             ))}
             <Create
               style={{
                 display:
-                  (isEditable && "block") ||
-                  (inventory.length === 0 && "block"),
+                  (isEditable && "block") || (powers.length === 0 && "block"),
               }}
               onClick={() => handleCreate()}
             />
-          </Attributes>
-        </AttributesContainer>
+          </EquipmentTable>
+        </Container>
       </Wrapper>
     </>
   );
 };
 
-export default Inventory;
+export default Powers;

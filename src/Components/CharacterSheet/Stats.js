@@ -14,7 +14,7 @@ const Wrapper = Styled("div")`
   max-width: 700px;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 `;
 
 const AttributesContainer = Styled("div")`
@@ -72,6 +72,7 @@ const Create = Styled("div")`
   -webkit-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  display: none;
   
   :hover {
     opacity: 1;
@@ -173,6 +174,21 @@ const Stats = ({ stats, sheetIndex }) => {
   };
 
   const handleCreateStat = (statsIndex, type) => {
+    switch (type) {
+      case "attributes":
+        setAttributesEditable(true);
+        break;
+      case "skills":
+        setSkillsEditable(true);
+        break;
+      case "modifiers":
+        setModifiersEditable(true);
+        break;
+
+      default:
+        break;
+    }
+
     let tempData = [...characters];
     tempData[sheetIndex].stats[statsIndex].push({ name: "", value: "", type });
 
@@ -256,7 +272,11 @@ const Stats = ({ stats, sheetIndex }) => {
                 </Attribute>
               ))}
               <Create
-                style={{ display: !hookIndex[statsIndex] && "none" }}
+                style={{
+                  display:
+                    (hookIndex[statsIndex] && "block") ||
+                    (stats[statsIndex].length === 0 && "block"),
+                }}
                 onClick={() => handleCreateStat(statsIndex, type)}
               />
             </Attributes>

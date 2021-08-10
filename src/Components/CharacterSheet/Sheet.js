@@ -6,6 +6,7 @@ import Stats from "./Stats";
 import Equipment from "./Equipment";
 import Inventory from "./Inventory";
 import Avatar from "./Avatar";
+import Powers from "./Powers";
 
 const Wrapper = Styled("div")`
   width: 100%;
@@ -66,6 +67,7 @@ const Sheet = ({ data, sheetIndex }) => {
       <Right>
         <Stats stats={data.stats} sheetIndex={sheetIndex} />
         <Equipment equipment={data.equipment} sheetIndex={sheetIndex} />
+        <Powers powers={data.powers} sheetIndex={sheetIndex} />
         <Inventory inventory={data.inventory} sheetIndex={sheetIndex} />
       </Right>
     </Wrapper>
