@@ -37,7 +37,6 @@ const CloseButton = Styled("div")`
   top: 5px;
   right: 5px;
   padding: 5px;
-  color: #ffffff;
   cursor: pointer;
   opacity: 0.8;
   transition: 200ms;

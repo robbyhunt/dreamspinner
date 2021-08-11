@@ -64,9 +64,6 @@ const Tab = Styled("div")`
 const Inspiration = ({ hook }) => {
   const [activeTab, setActiveTab] = useState(0);
 
-  // const { characters } = useSelector((s) => s);
-  // const dispatch = useDispatch();
-
   const initialLeft =
     document.documentElement.clientWidth > 1000
       ? "calc(80vw - 40vw)"
