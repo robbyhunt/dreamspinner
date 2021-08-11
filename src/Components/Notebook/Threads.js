@@ -116,7 +116,10 @@ const Threads = ({ data, loggingChanges, setLoggingChanges }) => {
         default:
           break;
       }
-      dispatch(addToLog(string));
+      await dispatch(addToLog(string));
+
+      document.getElementById("log").scrollTop =
+        document.getElementById("log").scrollHeight;
     }
 
     setEditingNew(false);
