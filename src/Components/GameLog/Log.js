@@ -163,6 +163,7 @@ const Input = Styled("textarea")`
 `;
 
 const Log = () => {
+  const [wildActive, setWildActive] = useState(false);
   const [isEditActive, setIsEditActive] = useState(false);
   const [clearConfirmOpen, setClearConfirmOpen] = useState(false);
 
@@ -180,7 +181,7 @@ const Log = () => {
         result = Fate(e);
         break;
       case "dice":
-        result = RollDice(e);
+        result = RollDice(e, wildActive);
         break;
 
       default:
@@ -257,7 +258,7 @@ const Log = () => {
         initialPosition={{ top: "10vh", left: initialLeft }}
       >
         <ResizableContainer
-          minSize={{ width: "625px", height: "400px" }}
+          minSize={{ width: "680px", height: "400px" }}
           maxSize={{ width: "95vw", height: "90vh" }}
           initialSize={{ width: "50vw", height: "75vh" }}
         >
@@ -293,6 +294,12 @@ const Log = () => {
               </GeneratorWrapper>
 
               <DiceButtonWrapper>
+                Wild?
+                <input
+                  type="checkbox"
+                  value={wildActive}
+                  onChange={(e) => setWildActive(e.target.value)}
+                />
                 {dice.map((item) => (
                   <Button
                     key={item}
