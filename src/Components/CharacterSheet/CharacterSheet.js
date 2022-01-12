@@ -80,7 +80,7 @@ const CharacterSheet = ({ hook }) => {
       initialPosition={{ top: "15vh", left: initialLeft }}
     >
       <ResizableContainer
-        minSize={{ width: "605px", height: "300px" }}
+        minSize={{ width: "650px", height: "300px" }}
         maxSize={{ width: "1100px", height: "90vh" }}
         initialSize={{ width: "40vw", height: "45vh" }}
       >
