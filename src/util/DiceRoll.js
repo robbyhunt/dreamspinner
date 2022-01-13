@@ -1,17 +1,23 @@
 import DiceSound from "./DiceSound";
 
-function RollDice(event, isWild) {
-  let result;
+function RollDice(event, isExplosive) {
+  let maxValue = parseInt(event.target.id.substring(1, 4));
+  let lastDice = Math.floor(Math.random() * maxValue) + 1;
+  let currentTotal = lastDice;
+  let explosions = 0;
 
-  const diceResult = ` > [${event.target.id}]: ${
-    Math.floor(Math.random() * event.target.id.substring(1, 4)) + 1
-  }`;
-
-  const wildResult = `\n > [Wild]: ${Math.floor(Math.random() * 6 + 1)}`;
-
-  if (isWild) {
-    result = diceResult + wildResult;
+  if (isExplosive) {
+    while (lastDice === maxValue) {
+      explosions++;
+      const newDice = Math.floor(Math.random() * maxValue) + 1;
+      currentTotal += newDice;
+      lastDice = newDice;
+    }
   }
+
+  let explosionText = explosions > 0 ? "(BOOM!)" : "";
+
+  const result = ` > [${event.target.id}]: ${currentTotal}${explosionText}`;
 
   DiceSound();
 

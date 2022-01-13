@@ -163,7 +163,7 @@ const Input = Styled("textarea")`
 `;
 
 const Log = () => {
-  const [wildActive, setWildActive] = useState(false);
+  const [explodingDice, setExplodingDice] = useState(false);
   const [isEditActive, setIsEditActive] = useState(false);
   const [clearConfirmOpen, setClearConfirmOpen] = useState(false);
 
@@ -181,7 +181,7 @@ const Log = () => {
         result = Fate(e);
         break;
       case "dice":
-        result = RollDice(e, wildActive);
+        result = RollDice(e, explodingDice);
         break;
 
       default:
@@ -294,11 +294,11 @@ const Log = () => {
               </GeneratorWrapper>
 
               <DiceButtonWrapper>
-                Wild?
+                Expl
                 <input
                   type="checkbox"
-                  value={wildActive}
-                  onChange={(e) => setWildActive(e.target.value)}
+                  value={explodingDice}
+                  onChange={(e) => setExplodingDice(e.target.value)}
                 />
                 {dice.map((item) => (
                   <Button
