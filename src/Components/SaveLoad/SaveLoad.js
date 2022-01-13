@@ -86,12 +86,7 @@ const SaveLoad = () => {
         </Button>
         <Button onClick={() => setNewGameConfirmation(true)}>New Game</Button>
       </SaveButtonContainer>
-      {user.saves && saveLoadOpen && (
-        <SaveModal
-          saveLoadOpen={saveLoadOpen}
-          setSaveLoadOpen={setSaveLoadOpen}
-        />
-      )}
+      {saveLoadOpen && <SaveModal setSaveLoadOpen={setSaveLoadOpen} />}
 
       {newGameConfirmation && (
         <Confirmation

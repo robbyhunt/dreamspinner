@@ -3,7 +3,7 @@ const FaunaService = require("@brianmmdev/faunaservice");
 exports.handler = async (event, context) => {
   const service = new FaunaService(process.env.FAUNA_SECRET);
 
-  let users = await service.listRecords("Users");
+  const users = await service.listRecords("Users");
   for (let i = 0; i < users.length; i++) {
     if (users[i].subId === context.clientContext.user.sub) {
       return {
@@ -18,7 +18,7 @@ exports.handler = async (event, context) => {
     }
   }
 
-  let createdAccount = await service.createRecord("Users", {
+  const createdAccount = await service.createRecord("Users", {
     username: context.clientContext.user.email,
     subId: context.clientContext.user.sub,
     name: context.clientContext.user.user_metadata.full_name,

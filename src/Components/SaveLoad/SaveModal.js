@@ -115,7 +115,7 @@ const CloseButton = Styled("div")`
   }
 `;
 
-const SaveModal = ({ setSaveLoadOpen, saveLoadOpen }) => {
+const SaveModal = ({ setSaveLoadOpen }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [saveConfirmOpen, setSaveConfirmOpen] = useState(false);
   const [savePayload, setSavePayload] = useState(undefined);
@@ -123,7 +123,7 @@ const SaveModal = ({ setSaveLoadOpen, saveLoadOpen }) => {
   const [loadPayload, setLoadPayload] = useState(undefined);
   const [clearConfirmOpen, setClearConfirmOpen] = useState(false);
   const [clearPayload, setClearPayload] = useState(undefined);
-  const [isLoading, setIsLoading] = useState([false, undefined]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
     log,
@@ -159,7 +159,7 @@ const SaveModal = ({ setSaveLoadOpen, saveLoadOpen }) => {
   };
 
   const Save = async (slot) => {
-    setIsLoading([true, slot]);
+    setIsLoading(true);
 
     let newUserObject = { ...user };
     newUserObject.saves[slot] = {
@@ -184,7 +184,7 @@ const SaveModal = ({ setSaveLoadOpen, saveLoadOpen }) => {
     );
 
     await dispatch(changeUser(newUserObject));
-    setIsLoading([false, undefined]);
+    setIsLoading(false);
   };
 
   const ClearConfirm = (e) => {
@@ -193,7 +193,7 @@ const SaveModal = ({ setSaveLoadOpen, saveLoadOpen }) => {
   };
 
   const Clear = async (slot) => {
-    setIsLoading([true, slot]);
+    setIsLoading(true);
 
     let newUserObject = { ...user };
     newUserObject.saves[slot] = {};
@@ -210,7 +210,7 @@ const SaveModal = ({ setSaveLoadOpen, saveLoadOpen }) => {
     );
 
     await dispatch(changeUser(newUserObject));
-    setIsLoading([false, undefined]);
+    setIsLoading(false);
   };
 
   const LoadConfirm = (e) => {
@@ -274,12 +274,12 @@ const SaveModal = ({ setSaveLoadOpen, saveLoadOpen }) => {
                     id="save"
                     slot={index}
                     onClick={(e) => SaveConfirm(e)}
-                    disabled={isLoading[0]}
+                    disabled={isLoading}
                   >
                     Save
                   </Button>
                   <Button
-                    disabled={item.log === undefined || isLoading[0]}
+                    disabled={item.log === undefined || isLoading}
                     id="load"
                     slot={index}
                     onClick={(e) => LoadConfirm(e)}
@@ -287,7 +287,7 @@ const SaveModal = ({ setSaveLoadOpen, saveLoadOpen }) => {
                     Load
                   </Button>
                   <Button
-                    disabled={item.log === undefined || isLoading[0]}
+                    disabled={item.log === undefined || isLoading}
                     id="clear"
                     slot={index}
                     onClick={(e) => ClearConfirm(e)}
