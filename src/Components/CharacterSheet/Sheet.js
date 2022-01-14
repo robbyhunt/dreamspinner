@@ -72,8 +72,8 @@ const RollSettings = Styled("div")`
 `;
 
 const Sheet = ({ data, sheetIndex }) => {
-  const [isExplosive, setIsExplosive] = useState(false);
-  const [isWild, setIsWild] = useState(false);
+  const [isExplosive, setIsExplosive] = useState(true);
+  const [isWild, setIsWild] = useState(true);
 
   const dispatch = useDispatch();
 
