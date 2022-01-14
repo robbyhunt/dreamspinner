@@ -30,8 +30,6 @@ const Attributes = Styled("div")`
 `;
 
 const Attribute = Styled("div")`
-  display: flex;
-  justify-content: space-between;
   align-items: center;
   padding: ${(props) => (props.iseditable ? "0" : "0 10px")};
   background-color: ${(props) => (props.index % 2 !== 0 ? "#dddddd" : "none")};
@@ -39,11 +37,17 @@ const Attribute = Styled("div")`
   height: 27px;
   position: relative;
 
-  & > span {
-    font-size: 20px;
-    
-    :first-of-type {
-      margin-right: 10px;
+& > div {
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+
+    & > span {
+      font-size: 20px;
+      
+      :first-of-type {
+        margin-right: 10px;
+      }
     }
   }
 `;
@@ -130,7 +134,7 @@ const Delete = Styled(Edit)`
   background-image: url(${DeleteIcon});
 `;
 
-const Stats = ({ stats, sheetIndex }) => {
+const Stats = ({ stats, sheetIndex, rollStat }) => {
   const [attributesEditable, setAttributesEditable] = useState(false);
   const [skillsEditable, setSkillsEditable] = useState(false);
   const [modifiersEditable, setModifiersEditable] = useState(false);
@@ -237,14 +241,16 @@ const Stats = ({ stats, sheetIndex }) => {
                   iseditable={hooks[attribute.type]}
                 >
                   {!hooks[attribute.type] ? (
-                    <>
+                    <div
+                      onClick={() => rollStat(attribute.name, attribute.value)}
+                    >
                       <span style={{ flexBasis: "90%" }}>
                         {attribute.name + ":"}
                       </span>
                       <span style={{ flexBasis: "10%" }}>
                         {attribute.value}
                       </span>
-                    </>
+                    </div>
                   ) : (
                     <>
                       <AttributeEdit

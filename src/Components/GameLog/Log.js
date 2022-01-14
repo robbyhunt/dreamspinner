@@ -9,9 +9,8 @@ import {
   changeInput,
 } from "../../actionCreators";
 
-import { isMobile } from "react-device-detect";
-
 import { Fate, Event, ComplexQuestion } from "../../Generators";
+import ScrollLogToBottom from "../../util/ScrollLogToBottom";
 import RollDice from "../../util/DiceRoll";
 import Dialog from "../common/Dialog";
 import ResizableContainer from "../common/ResizableContainer";
@@ -181,7 +180,7 @@ const Log = () => {
         result = Fate(e);
         break;
       case "dice":
-        result = RollDice(e, explodingDice);
+        result = RollDice(e.target.id, explodingDice);
         break;
 
       default:
@@ -194,11 +193,11 @@ const Log = () => {
         dispatch(changeInput(""));
       }
       await dispatch(addToLog(result[0]));
-      scrollLogToBottom();
+      ScrollLogToBottom();
       const event = Event(result[1]);
       if (event) {
         await dispatch(addToLog(event));
-        scrollLogToBottom();
+        ScrollLogToBottom();
       }
     } else {
       if (input !== "") {
@@ -206,7 +205,7 @@ const Log = () => {
         dispatch(changeInput(""));
       }
       await dispatch(addToLog(result));
-      scrollLogToBottom();
+      ScrollLogToBottom();
     }
   };
 
@@ -216,7 +215,7 @@ const Log = () => {
       event = Event([], true);
     }
     await dispatch(addToLog(event));
-    scrollLogToBottom();
+    ScrollLogToBottom();
   };
 
   const handleSubmit = async (e, isButton = false) => {
@@ -228,17 +227,7 @@ const Log = () => {
         dispatch(changeInput(""));
       }
 
-      scrollLogToBottom();
-    }
-  };
-
-  const scrollLogToBottom = () => {
-    document.getElementById("log").scrollTop =
-      document.getElementById("log").scrollHeight;
-
-    // AUTO FOCUS INPUT TEXT BOX AFTER ANY SUBMISSION TAKES PLACE IF NOT ON MOBILE DEVICE
-    if (!isMobile) {
-      document.getElementById("input").focus();
+      ScrollLogToBottom();
     }
   };
 

@@ -1,5 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import Styled from "@emotion/styled";
+
+import { useDispatch } from "react-redux";
+import { addToLog } from "../../actionCreators";
+
+import RollDice from "../../util/DiceRoll";
+import ScrollLogToBottom from "../../util/ScrollLogToBottom";
 
 import Resources from "./Resources";
 import Stats from "./Stats";
@@ -25,7 +31,7 @@ const Right = Styled("div")`
   align-items: center;
   height: 100%;
   flex-basis: 70%;
-  padding: 20px 20px;
+  padding: 10px 20px 20px;
   overflow-y: scroll;
 
   ::-webkit-scrollbar {
@@ -57,7 +63,26 @@ const Left = Styled("div")`
   }
 `;
 
+const RollSettings = Styled("div")`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 10px;
+`;
+
 const Sheet = ({ data, sheetIndex }) => {
+  const [isExplosive, setIsExplosive] = useState(true);
+  const [isWild, setIsWild] = useState(true);
+
+  const dispatch = useDispatch();
+
+  const rollStat = async (statName, diceValue) => {
+    const result = RollDice(diceValue, isExplosive, isWild, statName);
+    await dispatch(addToLog(result));
+    ScrollLogToBottom();
+  };
+
   return (
     <Wrapper>
       <Left>
@@ -65,7 +90,22 @@ const Sheet = ({ data, sheetIndex }) => {
         <Resources resources={data.resources} sheetIndex={sheetIndex} />
       </Left>
       <Right>
-        <Stats stats={data.stats} sheetIndex={sheetIndex} />
+        <RollSettings>
+          Wild?
+          <input
+            type="checkbox"
+            value={isWild}
+            onChange={(e) => setIsWild(e.target.value)}
+            style={{ marginRight: 20 }}
+          />
+          Exploding?
+          <input
+            type="checkbox"
+            value={isExplosive}
+            onChange={(e) => setIsExplosive(e.target.value)}
+          />
+        </RollSettings>
+        <Stats stats={data.stats} sheetIndex={sheetIndex} rollStat={rollStat} />
         <Equipment equipment={data.equipment} sheetIndex={sheetIndex} />
         <Powers powers={data.powers} sheetIndex={sheetIndex} />
         <Inventory inventory={data.inventory} sheetIndex={sheetIndex} />
