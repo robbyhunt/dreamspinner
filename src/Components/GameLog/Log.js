@@ -286,8 +286,8 @@ const Log = () => {
                 Expl
                 <input
                   type="checkbox"
-                  value={explodingDice}
-                  onChange={(e) => setExplodingDice(e.target.value)}
+                  checked={explodingDice}
+                  onChange={(e) => setExplodingDice(e.target.checked)}
                 />
                 {dice.map((item) => (
                   <Button

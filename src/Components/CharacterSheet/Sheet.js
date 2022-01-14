@@ -72,8 +72,8 @@ const RollSettings = Styled("div")`
 `;
 
 const Sheet = ({ data, sheetIndex }) => {
-  const [isExplosive, setIsExplosive] = useState(true);
-  const [isWild, setIsWild] = useState(true);
+  const [isExplosive, setIsExplosive] = useState(false);
+  const [isWild, setIsWild] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -94,15 +94,15 @@ const Sheet = ({ data, sheetIndex }) => {
           Wild?
           <input
             type="checkbox"
-            value={isWild}
-            onChange={(e) => setIsWild(e.target.value)}
+            checked={isWild}
+            onChange={(e) => setIsWild(e.target.checked)}
             style={{ marginRight: 20 }}
           />
           Exploding?
           <input
             type="checkbox"
-            value={isExplosive}
-            onChange={(e) => setIsExplosive(e.target.value)}
+            checked={isExplosive}
+            onChange={(e) => setIsExplosive(e.target.checked)}
           />
         </RollSettings>
         <Stats stats={data.stats} sheetIndex={sheetIndex} rollStat={rollStat} />
