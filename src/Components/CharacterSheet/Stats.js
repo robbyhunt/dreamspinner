@@ -40,7 +40,6 @@ const Attribute = Styled("div")`
 & > div {
     display: flex;
     justify-content: space-between;
-    cursor: pointer;
 
     & > span {
       font-size: 20px;
@@ -107,7 +106,7 @@ const Edit = Styled("div")`
 
 const AttributeEdit = Styled("textarea")`
   resize: none;
-  width: 80%;
+  width: calc(75% - 10px);
   height: calc(100% - 3px);
   padding: 3px 0 0 5px;
   outline: none;
@@ -122,7 +121,7 @@ const AttributeEdit = Styled("textarea")`
 
 const AttributeValueEdit = Styled(AttributeEdit)`
   text-align: right;
-  width: 20%;
+  width: calc(25% - 10px);
   padding: 3px 5px 0;
 `;
 
@@ -212,6 +211,7 @@ const Stats = ({ stats, sheetIndex, rollStat }) => {
     <Wrapper>
       {stats.map((stat, statsIndex) => {
         let type;
+        let clickable = true;
         switch (statsIndex) {
           case 0:
             type = "attributes";
@@ -221,6 +221,7 @@ const Stats = ({ stats, sheetIndex, rollStat }) => {
             break;
           case 2:
             type = "modifiers";
+            clickable = false;
             break;
 
           default:
@@ -242,7 +243,10 @@ const Stats = ({ stats, sheetIndex, rollStat }) => {
                 >
                   {!hooks[attribute.type] ? (
                     <div
-                      onClick={() => rollStat(attribute.name, attribute.value)}
+                      style={{ cursor: clickable && "pointer" }}
+                      onClick={() => {
+                        clickable && rollStat(attribute.name, attribute.value);
+                      }}
                     >
                       <span style={{ flexBasis: "90%" }}>
                         {attribute.name + ":"}
