@@ -14,7 +14,7 @@ const Wrapper = Styled("div")`
   max-width: 700px;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 50px;
+  margin-bottom: 15px;
 `;
 
 const AttributesContainer = Styled("div")`

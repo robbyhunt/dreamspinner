@@ -66,7 +66,6 @@ const CharacterSheet = ({ hook }) => {
   const activeTab = useState(0);
 
   const { characters } = useSelector((s) => s);
-  // const dispatch = useDispatch();
 
   const initialLeft =
     document.documentElement.clientWidth > 1000
